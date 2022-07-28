@@ -2,7 +2,7 @@
 
 ## Stopping the LSAM/LMAM before an Upgrade
 
-1. Terminate the communications between the OpCon/xps server and the Unisys OS 2200 LSAM. Refer to the [Adjusting Stop/Start Communication with Machines](adjusting-communication) in the Enterprise Manager online help for information to stop communications.
+1. Terminate the communications between the OpCon/xps server and the Unisys OS 2200 LSAM. Refer to the [Adjusting Stop/Start Communication with Machines](https://help.smatechnologies.com/opcon/core/Files/UI/Enterprise-Manager/Adjusting-Stop_Start-Communication) in the Enterprise Manager online help for information to stop communications.
 2. From a DEMAND terminal, with console keyin privileges, or from the system console, issue the command:
 Choose a) or b)
 
@@ -83,10 +83,10 @@ The following example shows cataloging SKDPRG with a minimum file size of 400 tr
 3. Using the INSTALL procedure, enter the LSAM System Parameters, Installation Options, Program Collection Parameters, and File Placement Parameters.
 4. Activate the generated Install runstream created in step 3.
 5. Upon successful completion of the INSTALL procedure, perform the INITIALIZE procedure to generate runstreams, create and initialize the needed files.
-6. After completing the INITIALIZE procedure, create and/or initialize the TIP file (step 22 of the [Installing the LSAM into the Unisys OS 2200 System](installing-the-LSAM-into-system) sub-procedure).
+6. After completing the INITIALIZE procedure, create and/or initialize the TIP file (step 22 of the [Installing the LSAM into the Unisys OS 2200 System](/installation/installation-upgrade#installing-the-lsam-into-the-unisys-os-2200-system) sub-procedure).
 7. After the TIP file initialization, use the LSAMCFG/ECL procedure to define local configuration parameters.
 8. If used, install MAM into each of the BIS Systems where OpCon/xps schedules background runs.
-9. Review the generated runstreams and modify as needed for local site requirements. For more information, refer to [Modify Run Streams](modify-run-streams).
+9. Review the generated runstreams and modify as needed for local site requirements. For more information, refer to [Modify Run Streams](/installation/installation-upgrade#modify-run-streams).
 
 ### Installing Multiple LSAMS within the same OS2200 Image
 
@@ -271,7 +271,7 @@ Absolutes required are "TFUR" and "TREG", or "FREIPS" (when used). The file cont
 Choose a) or b)
 
 a. The recommended response is 022000 indicating an ASCII COBOL Common Banked environment.
-b. If the site does not use 022000 as the normal starting address for program I-Banks, respond to this prompt with 01000 forcing Non-Common Banked program collections to be performed. This requires additional information regarding run-time relocatable libraries, but resolves any addressing conflicts. Refer to [Non-common Banked Program Collection](non-common-banked).
+b. If the site does not use 022000 as the normal starting address for program I-Banks, respond to this prompt with 01000 forcing Non-Common Banked program collections to be performed. This requires additional information regarding run-time relocatable libraries, but resolves any addressing conflicts. Refer to [Non-common Banked Program Collection](/installation/installation-upgrade#non-common-banked-program-collection).
 
 6. At the Enter ACOB DML Library file name ```<SYS$LIB$*ACOB-DML>``` prompt, enter the file name containing the ASCII COBOL DML banks for program collections.
 
@@ -605,7 +605,7 @@ Enter Device Pack-ID for TIP COMM File
 
 :::info Note
 
-When LMAM and MAM are not installed, go to Step 1 in [Modify Run Streams](modify-run-streams).
+When LMAM and MAM are not installed, go to Step 1 in [Modify Run Streams](/installation/installation-upgrade#modify-run-streams).
 
 :::
 
@@ -673,7 +673,7 @@ Sites using multiple MAMs must perform this procedure, beginning at Step 23, for
 
     a. Modify the START-UP/ECL runstream. The START-UP/ECL is an easy method of starting LSAM, LMAM, and XFRTCP.
         
-        * The installed runstream for only an LSAM installation contains:
+    * The installed runstream for only an LSAM installation contains:
 
 ```
 
@@ -683,7 +683,7 @@ Sites using multiple MAMs must perform this procedure, beginning at Step 23, for
 
 ```
 
-        * For an installation of both LSAM and LMAM, the runstream contains:
+* For an installation of both LSAM and LMAM, the runstream contains:
 
 ```
 @RUN STLSAM,acct/user,projid @ QUAL LSAM @START *SKDPRG.LSAM-RUN/ECL @START *SKDPRG.XFRTCP/ECL @START *SKDPRG.LMAM-RUN/ECL
@@ -692,7 +692,7 @@ Sites using multiple MAMs must perform this procedure, beginning at Step 23, for
 
 ```
 
-        * For an installation of only an LMAM, the runstream contains:
+* For an installation of only an LMAM, the runstream contains:
 
 ```
 @RUN STLSAM,acct/user,projid @ QUAL LSAM @START *SKDPRG.XFRTCP/ECL @START *SKDPRG.LMAM-RUN/ECL
@@ -700,11 +700,11 @@ Sites using multiple MAMs must perform this procedure, beginning at Step 23, for
 @ FIN
 ```
 
-        * Copy the START-UP/ECL element to the SYS$LIB$*RUN$ file with a name easy to use (e.g., "LSAM"). This allows starting all runs with a single console ST command (e.g., "ST LSAM").
+* Copy the START-UP/ECL element to the SYS$LIB$*RUN$ file with a name easy to use (e.g., "LSAM"). This allows starting all runs with a single console ST command (e.g., "ST LSAM").
 
     b. Modify the XFRTCP/ECL runstream.
 
-        * When Real Time is not to be used, remove the "R" option from the @XQT,R XFRTCP statement. The resulting statement is @XQT XFRTCP.
+    * When Real Time is not to be used, remove the "R" option from the @XQT,R XFRTCP statement. The resulting statement is @XQT XFRTCP.
 
 2. When the Real Time priority level is not 35, modify the TIPFILE ```<TIP file number> ```35 parameter statement immediately after the @XQT,R XFRTCP statement: TIPFILE ```<TIP file number><Real Time priority>```
 
@@ -762,11 +762,11 @@ Console commands of "ST SMAJOR" may now be used to start the JORS batch run.
 
 :::
 
-8. Configure the LSAM using the procedures for configuration. Refer to [LSAM and LMAM Configuration](lsam-and-lmam-configuration).
+8. Configure the LSAM using the procedures for configuration. Refer to [LSAM and LMAM Configuration](/configuration/configuration-introduction#lsam-and-lmam-configuration).
 
 :::info Note 
 
-Enter configuration information before bringing up the LSAM. To update configuration information: @ADD *SKDPRG.LSAMCFG/ECL. For information on configuration parameters, refer to [LSAM and LMAM Configuration](lsam-and-lmam-configuration).
+Enter configuration information before bringing up the LSAM. To update configuration information: @ADD *SKDPRG.LSAMCFG/ECL. For information on configuration parameters, refer to [LSAM and LMAM Configuration](/configuration/configuration-introduction#lsam-and-lmam-configuration).
 
 :::
 

@@ -72,7 +72,7 @@ Execution privileges are required for the LSAM/LMAM.
 
 :::info Note
 
-The SMOQUE$ privilege and use is required only for the Job Output Retrieval System (JORS). This ER is not used by XFRTCP, the LSAM, or the LMAM. For information on JORS, refer to [Configure Job Output Retrieval System (JORS)](configure-jors).
+The SMOQUE$ privilege and use is required only for the Job Output Retrieval System (JORS). This ER is not used by XFRTCP, the LSAM, or the LMAM. For information on JORS, refer to [Configure Job Output Retrieval System (JORS)](/configuration/configure-jors).
 
 :::
 
