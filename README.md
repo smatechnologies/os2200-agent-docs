@@ -1,6 +1,6 @@
 # SMA OpCon OS2200 Agent Docs
 
-This repository contains the content behind the SMA OpCon MCP Agent documentation hosted at <https://help.smatechnologies.com/opcon/agents/os2200>.
+This repository contains the content behind the SMA OpCon OS2200 Agent documentation hosted at <https://help.smatechnologies.com/opcon/agents/os2200>.
 
 ## Disclaimer
 
