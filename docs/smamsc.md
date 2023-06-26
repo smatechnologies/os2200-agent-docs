@@ -68,7 +68,7 @@ Console commands of "```ST SMAMSC```" may now be used to start the SMAMSC batch 
 
 :::
 
-Configure the LSAM using the procedures for configuration (refer to [LSAM and LMAM Configuration](../../../configuration/page-two-settings#line-9---use-monitor-services-connector-smamsc)) to set the "Use Monitor Services Connector (SMAMSC)", item 9 on the Advanced Options page, to "Y". When multiple LSAMs are in use within the same OS 2200 partition and the "A" ```@XQT``` option is used for SMAMSC, this configuration parameter must be set to "Y" for all of the LSAM installations.
+Configure the LSAM using the procedures for configuration (refer to [LSAM and LMAM Configuration](./configuration/page-two-settings#line-9---use-monitor-services-connector-smamsc)) to set the "Use Monitor Services Connector (SMAMSC)", item 9 on the Advanced Options page, to "Y". When multiple LSAMs are in use within the same OS 2200 partition and the "A" ```@XQT``` option is used for SMAMSC, this configuration parameter must be set to "Y" for all of the LSAM installations.
 
 ## SMA Monitor Services Connector Operation
 
