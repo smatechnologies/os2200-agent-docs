@@ -83,10 +83,10 @@ The following example shows cataloging SKDPRG with a minimum file size of 400 tr
 3. Using the INSTALL procedure, enter the LSAM System Parameters, Installation Options, Program Collection Parameters, and File Placement Parameters.
 4. Activate the generated Install runstream created in step 3.
 5. Upon successful completion of the INSTALL procedure, perform the INITIALIZE procedure to generate runstreams, create and initialize the needed files.
-6. After completing the INITIALIZE procedure, create and/or initialize the TIP file (step 22 of the [Installing the LSAM into the Unisys OS 2200 System](/installation/installation-upgrade#installing-the-lsam-into-the-unisys-os-2200-system) sub-procedure).
+6. After completing the INITIALIZE procedure, create and/or initialize the TIP file (step 22 of the [Installing the LSAM into the Unisys OS 2200 System](../installation/installation-upgrade#installing-the-lsam-into-the-unisys-os-2200-system) sub-procedure).
 7. After the TIP file initialization, use the LSAMCFG/ECL procedure to define local configuration parameters.
 8. If used, install MAM into each of the BIS Systems where OpCon/xps schedules background runs.
-9. Review the generated runstreams and modify as needed for local site requirements. For more information, refer to [Modify Run Streams](/installation/installation-upgrade#modify-run-streams).
+9. Review the generated runstreams and modify as needed for local site requirements. For more information, refer to [Modify Run Streams](../installation/installation-upgrade#modify-run-streams).
 
 ### Installing Multiple LSAMS within the same OS2200 Image
 
@@ -271,7 +271,7 @@ Absolutes required are "TFUR" and "TREG", or "FREIPS" (when used). The file cont
 Choose a) or b)
 
 a. The recommended response is 022000 indicating an ASCII COBOL Common Banked environment.
-b. If the site does not use 022000 as the normal starting address for program I-Banks, respond to this prompt with 01000 forcing Non-Common Banked program collections to be performed. This requires additional information regarding run-time relocatable libraries, but resolves any addressing conflicts. Refer to [Non-common Banked Program Collection](/installation/installation-upgrade#non-common-banked-program-collection).
+b. If the site does not use 022000 as the normal starting address for program I-Banks, respond to this prompt with 01000 forcing Non-Common Banked program collections to be performed. This requires additional information regarding run-time relocatable libraries, but resolves any addressing conflicts. Refer to [Non-common Banked Program Collection](../installation/installation-upgrade#non-common-banked-program-collection).
 
 6. At the Enter ACOB DML Library file name ```<SYS$LIB$*ACOB-DML>``` prompt, enter the file name containing the ASCII COBOL DML banks for program collections.
 
@@ -296,7 +296,7 @@ d. Enter ALL to select the last entered or defaulted device/pack information for
 
 :::info Note
 
-Entering "ALL" applies the device/pack last entered (or defaulted) to all remaining files, and the installation no longer displays prompts for file placement. Regarding the install for the Unisys OS 2200 LSAM, refer to [Preparing for the Installation](/installation/preparing-the-installation).
+Entering "ALL" applies the device/pack last entered (or defaulted) to all remaining files, and the installation no longer displays prompts for file placement. Regarding the install for the Unisys OS 2200 LSAM, refer to [Preparing for the Installation](../installation/preparing-the-installation).
 
 :::
 
@@ -605,7 +605,7 @@ Enter Device Pack-ID for TIP COMM File
 
 :::info Note
 
-When LMAM and MAM are not installed, go to Step 1 in [Modify Run Streams](/installation/installation-upgrade#modify-run-streams).
+When LMAM and MAM are not installed, go to Step 1 in [Modify Run Streams](../installation/installation-upgrade#modify-run-streams).
 
 :::
 
@@ -762,11 +762,11 @@ Console commands of "ST SMAJOR" may now be used to start the JORS batch run.
 
 :::
 
-8. Configure the LSAM using the procedures for configuration. Refer to [LSAM and LMAM Configuration](/configuration/configuration-introduction#lsam-and-lmam-configuration).
+8. Configure the LSAM using the procedures for configuration. Refer to [LSAM and LMAM Configuration](../configuration/configuration-introduction#lsam-and-lmam-configuration).
 
 :::info Note 
 
-Enter configuration information before bringing up the LSAM. To update configuration information: @ADD *SKDPRG.LSAMCFG/ECL. For information on configuration parameters, refer to [LSAM and LMAM Configuration](/configuration/configuration-introduction#lsam-and-lmam-configuration).
+Enter configuration information before bringing up the LSAM. To update configuration information: @ADD *SKDPRG.LSAMCFG/ECL. For information on configuration parameters, refer to [LSAM and LMAM Configuration](../configuration/configuration-introduction#lsam-and-lmam-configuration).
 
 :::
 

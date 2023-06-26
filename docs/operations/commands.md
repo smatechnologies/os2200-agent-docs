@@ -249,7 +249,7 @@ Restore any run RID except RID 13 (the MAMRESTORE RID) and RID 14 (MAMBACKUP), w
 
 ## Starting BIS Run with Specific User-ID
 
-MAM may start BIS runs with a specific BIS User-ID. To utilize this feature, the response to the Installation prompt for "Use different User-IDs to start runs with?" must have been "Y" ("yes"). Refer to [OS 2200 LSAM and BIS LMAM Installation](/installation/preparing-the-installation#account-and-user-ids). 
+MAM may start BIS runs with a specific BIS User-ID. To utilize this feature, the response to the Installation prompt for "Use different User-IDs to start runs with?" must have been "Y" ("yes"). Refer to [OS 2200 LSAM and BIS LMAM Installation](../installation/preparing-the-installation#account-and-user-ids). 
 
 When the MAM Installation has already been completed, and it is desired to activate this feature, MAM's Configuration Report (RID) may be updated directly.
 
