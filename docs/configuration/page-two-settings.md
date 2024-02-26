@@ -128,21 +128,21 @@ Setting this to any other value may cause the LSAM to not recognize current leve
 
 :::
 
-### Line 7 - Program Option 1
+### Line 7 - Use Opcon Job Number for Start File
 
 **Default**
 
-```<Space>```
+No
 
 **Valid Values**
 
-* ```<Space>```
-* B
+No (N)
+Yes (Y)
 
 **Description**
 
-* Set this option to "B" to NOT resolve the "??JOB-ID??" token to the default OpCon/xps job identifier.
-This token may then be defined on the Tokens tab to use alternate data for substitution into the run streams.
+* By default, the agent names temporary ECL files with the OpCon Job-ID (job name).
+* Set this option to "Y" to use the OpCon Job Number to name the temporary ECL files.  This allows more that 32 concurrent jobs with the same Job-ID.  
 
 ### Line 8 - Comma Substitution Character
 
@@ -272,7 +272,7 @@ None
 
 * Select this option to set the file Qualifier for each job's ECL / tracking file. It is recommended this parameter be set to a unique file qualifier to avoid conflicts with local application file naming conventions.
 
-### Line 15 - Configure BIS Machine*
+### Line 15 - Configure Mapper Machine*
 
 **Default**
 
@@ -303,7 +303,7 @@ Any valid IP address
 * The IP address 0.0.0.0 removes an existing address from the list; the LSAM does not use IP address 0.0.0.0 to validate authorized addresses.
 
 
-### Line 17 - Job Output Retrieval System
+### Line 17 - Configure Job Output Retrieval System
 
 **Default**
 
