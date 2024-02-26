@@ -32,7 +32,7 @@ The Windows machine in the example below has a DVD-ROM drive letter of E.
 3. Click the OK button.
 4. Change directory to the DVD-ROM drive of the Windows machine: E:
 5. Change directory on the DVD-ROM drive to the location of the Unisys OS 2200 LSAM file:
-```CD "INSTALL\LSAM\Unisys OS 2200 LSAM\<LSAM VERSION>"```
+```CD "INSTALL\LSAM\Unisys OS 2200 LSAM\<LSAM-VERSION>"```
 6. Enter the FTP command and the TCP/IP address of the Unisys OS 2200 system:
 FTP ```<TCP/IP address>```
 7. Sign on to the Unisys OS 2200 system with a valid userid/password:
@@ -44,7 +44,7 @@ Password: ```<Password>```
 
 :::tip Example
 
-```put lsam lsam*5R1A```
+```put lsam lsam*22R1A```
 
 :::
 
@@ -74,7 +74,7 @@ The following example shows cataloging SKDPRG with a minimum file size of 400 tr
 
 14. Copy the elements from the FTP'd file to the new cycle of the SKDPRG file:
 
-```@COPY,P <lsam qualifier>*5R1A.,<lsam qualifier>*SKDPRG.```
+```@COPY,P <lsam qualifier>*<LSAM-VERSION>.,<lsam qualifier>*SKDPRG.```
 
 ## Installing the LSAM Overview
 
