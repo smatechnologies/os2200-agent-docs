@@ -77,7 +77,7 @@ LSAM
 
 The file qualifier of the SKDPRG file.
 
-### Line 6 - Machine Host Name
+### Line 6 - Host Machine Name
 
 **Default**
 
@@ -220,6 +220,38 @@ N/A
 **Description** 
 
 * Select this option to define ECL lines to be inserted automatically at the end of job runstreams.
+
+### Line 15 - Allow IPv6 network addresses
+
+**Default**
+
+No
+
+**Valid Values**
+
+No (N)
+Yes (Y)
+
+**Description** 
+
+* Select this option to allow the use if IPv6 for network connections.
+
+### Line 16 - Use Network Security (TLS)
+
+**Default**
+
+No
+
+**Valid Values**
+
+No (N)
+Yes (Y)
+
+
+**Description** 
+
+* Select this option to use TLS for network connections.  This can also e controlled through CPCOMM. 
+
 
 :::info Note
 

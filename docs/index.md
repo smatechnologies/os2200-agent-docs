@@ -4,7 +4,7 @@ slug: '/'
 
 # OS2200 Agent
 
-The OS 2200 LSAM and BIS LMAM, Version 15R1A, are OpCon agents that allow OpCon to schedule OS 2200 and BIS jobs within a Unisys environment.
+The OS 2200 LSAM and BIS LMAM, Version 22R1A, are OpCon agents that allow OpCon to schedule OS 2200 and BIS jobs within a Unisys environment.
 
 :::info Note
 
