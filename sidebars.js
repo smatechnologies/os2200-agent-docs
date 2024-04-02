@@ -1,7 +1,7 @@
 module.exports = {
   mySidebar: [
     'index',
-    'release-notes'
+    'release-notes',
     {
       type: 'category', 
       label: 'Installation',
