@@ -1,22 +1,6 @@
-# Preparing for the Installation
+# Prerequisites
 
-The following information helps determine the values that should be placed on the [Installation Parameters Worksheet](installation-parameters-worksheet). Please read thoroughly, and then complete the worksheet. This information is *required* for a successful installation.
-
-## Upgrade Installation
-
-Installation to "upgrade" an existing system to a new release level requires specific attention to the installation parameters. The following steps assist in preparing for an "update":
-
-Review the installation parameters (INSTALL/SGS) for the current installation. Specifically note the option settings and the file placement of the system files.
-
-Entering "@PRT,F" for each of the system files identifies differences between the current file specifications and those used during the previous installation. Specifically note the device types; the new installation should use the specifications of the current files.
-
-The new release may contain additional modules not included in a prior release. These new modules may require additional preparation. Follow any special instructions provided with new releases.
-
-:::info Note
-
-Unisys OS 2200 LMAM version 3R1C requires BIS Level 38 or higher. The BIS Data drawer (Type) must be 132 characters in length.
-
-:::
+Complete these prerequisites before proceeding with either a [New Installation](new-installation) or an [Upgrade](upgrade). Use the [Installation Parameters Worksheet](installation-parameters-worksheet) to record the required values as you work through this page.
 
 ## System Parameters
 
@@ -211,53 +195,6 @@ The LSAM/LMAM requires access to local site libraries and processors. Identify t
 
 The processor call for the Collector, commonly called by @MAP.
 
-### MAM Parameters
-
-MAM must be installed for the LMAM to be able to process BIS jobs. To install the BIS Activity Monitor (MAM), the following steps must be completed:
-
-1. Determine the MODE and TYPES (Cabinets and Drawers) to be used by MAM. The TYPE for runs must have rids 1 through 14 available. The TYPE for data must have rids 1 through 8 available. The Data Type must be 132 characters long. The Run Type can be 80 characters.
-2. Verify that one BIS Batchport is available for *dedicated* use by MAM; obtain the name of the Batchport. *A unique Batchport is required for each MAM that is installed*.
-3. *(Optional)* Identify a BIS terminal that may be used to receive error messages for Batchport errors; obtain the BIS station number for this terminal.
-4. Register a BIS sign-on to be used by MAM to access each department required for starting BIS runs. This sign-on must allow the "RET" and "REP" functions during the installation. Other functions required are "ELT", "COR", "LGL" and "RS". A unique BIS sign-on and department is required for each MAM installed within a BIS System.
-5. Register the following runs for MAM's department.
-
-| Name | Background | User | Rid | I/O | LLP | Modes |
-| ---- | ---------- | ---- | --- | --- | --- | ----- |
-| MAM | N | Unique User per MAM	| 2 | Unlimited | Unlimited | All |
-| MAMSTR | N | Unique User per MAM | 4 | 1000 | 1000 | All |
-| MAMSTP | Y | | 5 | 1000 | 1000 | All |
-| MAMNOT | Y | | 6 | 1000 | 1000 | All |
-| MAMINSTAL | N | Unique User per MAM | 7 | 1000 | 1000 | MAM's mode |
-| MAMMSG | Y | | 8 | 1000 | 1000 | MAM's mode |
-| MAMTEST1 | Y | | 9 | 1000 | 1000 | MAM's mode |
-| MAMTEST2 | Y | | 10 | 1000 | 1000	| MAM's mode | 
-| MAMTEST3 | Y | | 	11 | 1000 | 1000 | MAM's mode |
-| MAMFIN | Y | | 12 | 1000 | 1000 | All | 
-| MAMBACKUP | Y,N* | | 14 | 1000 | 1000 | MAM's mode | 
-| MAMRESTORE | 	N | | 13 | 1000 | 1000 | MAM's mode |
-
-:::info Note
-
-SMA recommends MAMBACKUP be registered as both a Background and Foreground run to allow use from a terminal and allow starting by OpCon/xps for regularly scheduled backups.
-
-:::
-
-#### BIS Run Restrictions
-
-The following restrictions pertain to all BIS runs started by the LMAM:
-
-* The run must be registered as a background run.
-* The run is subject to all of the restrictions of a background run. The Run Designers Reference provides these restrictions.
-* The run cannot use the RUN command to restart itself.
-* The run may use the LNK and RUN commands when the LNK'd to or started RUN is not to be monitored and tracked by MAM, or when the "Track Runs by USER/TERMINAL" option is selected during installation. The USER/TERMINAL run tracking option monitors the terminal (station) the run is started on and maintain the run as "active" as long as the terminal is in continuous use by the same User-ID used to start the run.
-* If the run uses an RER, the RER must put an entry in the Batchport error rid immediately upon branching to the RER routine. Otherwise, the run is considered as a normal termination. Additionally, the entry must be the first thing the RER processes.
-
-:::info Note
-
-When entering error messages in the Error RID, please follow standard BIS conventions and include tab characters between fields. Failing to include tabs in the proper locations results in inaccurate error reporting.
-
-:::
-
 ### Installation Parameters Worksheet
 
-The "Installation Parameters Worksheet" is used to insure all parameters are available for the installation. When applying updates to an existing installation, the parameters used should be the same as for the current system. To view the worksheet, refer to [Installation Parameters Worksheet](installation-parameters-worksheet) in the OS 2200 LSAM online help.
+The [Installation Parameters Worksheet](installation-parameters-worksheet) is used to ensure all parameters are available for the installation. When applying updates to an existing installation, the parameters used should be the same as for the current system.

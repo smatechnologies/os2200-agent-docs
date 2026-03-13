@@ -9,7 +9,10 @@ module.exports = {
       items: [
         'installation/introduction',
         'installation/preparing-the-installation',
-        'installation/installation-upgrade',
+        'installation/new-installation',
+        'installation/upgrade',
+        'installation/bis-mam-installation',
+        'installation/installation-reference',
         'installation/installation-parameters-worksheet',
       ], 
     },
