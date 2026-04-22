@@ -4,7 +4,7 @@ Complete these prerequisites before proceeding with either a [New Installation](
 
 ## System Parameters
 
-### File Qualifer
+### File Qualifier
 
 LSAM files must be referenced with an assigned file qualifier. SMA recommends using the standard qualifier "LSAM".
 

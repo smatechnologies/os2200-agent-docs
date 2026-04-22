@@ -261,7 +261,7 @@ Yes (Y)
 
 ## Configure Console Keyin
 
-Item eight on page one of the configuration contains the console keyins for the LSAM and for XFRTCP (refer to [OS 2200 LSAM and BIS LMAM Configuration](configuration-settings).
+Item eight on page one of the configuration contains the console keyins for the LSAM and for XFRTCP (refer to [OS 2200 LSAM and BIS LMAM Configuration](configuration-settings)).
 
 1. For the Enter new console KEYIN for this LSAM (max 8 chars) prompt, enter the desired keyword for the LSAM.
 

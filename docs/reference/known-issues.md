@@ -1,6 +1,6 @@
 # Known Issues
 
-## Use of @FREEM na @FREEALL in ECL
+## Use of @FREEM and @FREEALL in ECL
 
 The use of @FREEM and @FREEALL is not recommended in LSAM started jobs. These commands release all files from the run, including the tracking file monitored by the LSAM to determine when a job error terminates without executing the LSAM Notification Step. 
 
