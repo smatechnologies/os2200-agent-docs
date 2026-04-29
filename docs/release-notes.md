@@ -21,6 +21,6 @@ with the OpCon JobID, allowing for more than 32 concurrent instances
 - TCP/IP improvements
   - Improved support for IPv6
   - Support for TLS in app, not just through the CPCOMM settings
-  - Fix for MSGPOOL filling up, resulting in last messages
+  - Fix for MSGPOOL filling up, resulting in lost messages
 - Various performance and stability improvements
 
