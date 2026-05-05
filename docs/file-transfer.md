@@ -1,4 +1,12 @@
+---
+sidebar_label: 'File transfer'
+title: File transfer
+description: "OS 2200 LSAM file transfer capabilities: transferring files into and out of the Unisys OS 2200 system using OpCon file transfer jobs."
+---
+
 # File Transfer
+
+## What is it?
 
 The Unisys OS 2200 LSAM supports SMA's File Transfer feature for both inbound and outbound file transfers. This feature consists of a File Transfer Server (FTServer) and a File Transfer Agent (FTAgent). The FTServer processes on the system of the source file (the file to be transferred), and sends file data to the FTAgent on the destination system. The FTAgent is initiated by OpCon/xps sending the LSAM on the file destination system a start command for a File Transfer Job. The LSAM then starts the job, which contacts the specified FTServer to initiate the transfer of the file data.
 
@@ -116,7 +124,7 @@ A valid combination of Source File, Source User, and Destination File consists o
 1. The length of each data item is within the maximum allowed for that item and
 2. The total length of all three items must not exceed the allowed maximum of 105 characters.
 
-:::tip Example:::
+:::tip Example
 
 Transfer file from a Microsoft Windows system to OS 2200:
 
@@ -130,7 +138,7 @@ Destination File: ```qual*file.```          (10 characters)
 
 :::
 
-:::tip Example:::
+:::tip Example
 
 Transfer file from a UNIX system to OS 2200:
 
@@ -144,7 +152,7 @@ Destination File: q```ualifier*filename/read/write.,fmd///10240,rempak```  (49 c
 
 :::
 
-:::tip Example:::
+:::tip Example
 
 Transfer file from an OS 2200 to OS 2200:
 
@@ -196,3 +204,21 @@ Considerations concerning PRINT$ versus Breakpoint files:
 20. When using Breakpoint files, the generated run-id will often be the same as the original run-id, meaning the breakpoint file will be ```*BKSMAFT``` most often. When the run-id duplicates, the file will be ```*BKSMAFTA```, ```*BKSMAFTB```, etc., for example.
 21. Breakpoint files are not viewable from OpCon/xps unless the file is ```@SYMmed``` to a print queue (as released, the runstream does not sym the breakpoint file).
 22. Breakpoint files are easier to transfer electronically than ```PRINT$``` files (although ```PRINT$``` files may be saved after using the OpCon/xps View Job Output capability).
+
+## Frequently Asked Questions
+
+**Does the OS 2200 LSAM support binary file transfers?**
+
+No. Binary file transfers are not supported by either the OS 2200 FTServer (SMAJOR) or the FTAgent (SMAFTA). All files are transferred as ASCII text.
+
+**What file types cannot be used as OS 2200 source files?**
+
+The following file types cannot be used as source files: program files, temporary files, tape files, PRINT$ files, and files with the status of Unloaded, To Be Cataloged, To Be Dropped, File is WRITE ONLY, or File is to be WRITE ONLY.
+
+**What is the maximum record length for transferred files?**
+
+For source files, the maximum allowed record length is 8192 ASCII characters; longer records are truncated. For destination SDF files, the maximum written record length is 8188 ASCII characters. For destination PCIOS files, the maximum written record length is 8192 ASCII characters.
+
+**How do I view file transfer job output in OpCon?**
+
+The FTAgent job output can be viewed in the OpCon Enterprise Manager using the "View Job Output" capability. When the job uses PRINT$ files, the output is directly viewable. When the job uses breakpoint files, the breakpoint file must be `@SYMmed` to a print queue first.

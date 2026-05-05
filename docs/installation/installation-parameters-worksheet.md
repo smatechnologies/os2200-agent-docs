@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Parameters worksheet'
+title: Installation parameters worksheet
+description: "Reference worksheet for recording all required OS 2200 LSAM installation parameters before starting the installation."
+---
+
 # Installation Parameters Worksheet
 
 | | |

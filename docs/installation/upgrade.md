@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Upgrade'
+title: Upgrade
+description: "Step-by-step guide for upgrading an existing OS 2200 LSAM to a new release."
+---
+
 # Upgrade
 
 This guide walks through upgrading an existing OS 2200 LSAM to a new release. If you are installing the LSAM for the first time, refer to the [New Installation](new-installation) guide instead.

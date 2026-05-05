@@ -1,8 +1,12 @@
-# Configuration Settings (Page 2)
+---
+sidebar_label: 'Page two settings'
+title: Configuration settings — page two
+description: "Reference for all LSAM configuration parameters on page two of LSAMCFG: job start commands, debug mode, authorized IPs, JORS, and more."
+---
 
-Selecting option 12 on page one of the configuration screen displays page two.
+# Configuration Settings — Page 2
 
-## Settings Page Two
+Select option 12 on page one of LSAMCFG to display page two. Select a line number to change that value.
 
 ### Line 1 - Display start command used
 
@@ -22,7 +26,7 @@ N
     * If Y, the LSAM displays start commands.
     * If N, the LSAM does not display start commands.
 
-### Line 2 -Utilize CONS commands
+### Line 2 - Utilize CONS commands
 
 **Default**
 
@@ -142,7 +146,7 @@ Yes (Y)
 **Description**
 
 * By default, the agent names temporary ECL files with the OpCon Job-ID (job name).
-* Set this option to "Y" to use the OpCon Job Number to name the temporary ECL files.  This allows more that 32 concurrent jobs with the same Job-ID.  
+* Set this option to "Y" to use the OpCon Job Number to name the temporary ECL files.  This allows more than 32 concurrent jobs with the same Job-ID.  
 
 ### Line 8 - Comma Substitution Character
 
@@ -311,7 +315,7 @@ None
 
 **Valid Values**
 
-Refer to [Configure Job Output Retrieval System (JORS)(configure-jors)].
+Refer to [Configure Job Output Retrieval System (JORS)](configure-jors).
 
 **Description**
 
@@ -331,7 +335,7 @@ Any valid Unisys OS 2200 DEMAND User-ID
 **Description**
 
 * Define the list to identify the Unisys Exec DEMAND user-ids authorized to use LSAMCFG/ECL to view and modify configuration parameters.
-* Refer to A[uthorized Users(authorized-users)] for more details.
+* Refer to [Authorized Users](additional-settings#authorized-users) for more details.
 
 ### Line 19 - Maximum inactivity time in minutes
 

@@ -1,11 +1,15 @@
+---
+sidebar_label: 'Console message display level'
+title: Console message display level
+description: "Configure what job lifecycle messages appear on the OS 2200 system console: ECL location, FIN messages, and error messages."
+---
+
 # Console Message Display Level
 
-Item 5 on Page 2 of the Configuration Settings, **Console Message Display Level**, may be used to display:
+Item 5 on Page 2 of the Configuration Settings controls which job lifecycle messages appear on the system console. It can display:
 
-## Overview
-
-1. The job's ECL location on the system console as each job is started - and/or -
-2. A job FIN message on the system console as each job terminates.
+- The job's ECL location when each job starts
+- A FIN message when each job terminates
 
 The format of the ECL location message is:
 
@@ -37,7 +41,7 @@ Note the different formats used for:
 
 ## Examples
 
-:::tip Example::: 
+:::tip Example
 
 Console Message Display Level is set to 1 (ECL location) and "Display ECL location on console when job errors" is set to "Y":
 

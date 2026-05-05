@@ -1,4 +1,12 @@
+---
+sidebar_label: 'SMAMSC'
+title: SMA Monitor Services Connector (SMAMSC)
+description: "Configure and use the SMA Monitor Services Connector (SMAMSC) with the OS 2200 LSAM for enhanced monitoring capabilities."
+---
+
 # SMA Monitor Services Connector (SMAMSC)
+
+## What is it?
 
 The SMA Monitor Services Connector (SMAMSC) is an optional component that can be used to provide additional information about jobs started by the OS 2200 LSAM. The Connector registers with the Unisys Monitor Services background run (MSCP) to receive started run information. The run events are processed to provide status about executing programs within the runs and run termination information, in addition to the standard job information provided by other LSAM components.
 

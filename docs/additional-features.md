@@ -1,4 +1,14 @@
+---
+sidebar_label: 'Additional features'
+title: Additional features
+description: "OS 2200 LSAM supplemental utilities: configuration parameter backup and restore, GENERICP test runstream, SAMS NOTICE events, and Fundamental Security Officer job support."
+---
+
 # Additional Features
+
+## What is it?
+
+The OS 2200 LSAM includes several supplemental utilities and ECL-based features beyond core job scheduling. These tools cover configuration parameter management, testing runstreams, event notification, and support for Fundamental Security Officer jobs.
 
 ## Configuration Parameters Administration
 
@@ -65,22 +75,6 @@ SEND <Event String>
 * **UserName** is an OpCon/xps user with privileges to perform the action in the event.
 
 * **EventPassword** is the external event password for the OpCon/xps UserName. This is not the same password the user enters to log in to the Enterprise Manager.
-
-:::tip Example
-
-The following example shows how SAMS-NOTICE/ECL is used to send an event to OpCon/xps:
-
-```
-
-@ADD LSAM*SKDPRG.SAMS-NOTICE/ECL
-
-SEND $CONSOLE:DISPLAY,This is a message for the SAM.log
-
-ExternalUser,ExtPassword
-
-```
-
-:::
 
 :::tip Example
 

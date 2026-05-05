@@ -1,3 +1,9 @@
+---
+sidebar_label: 'New installation'
+title: New installation
+description: "Step-by-step guide for a first-time installation of the OS 2200 LSAM: uploading files, running INSTALL, initializing, registering TIP, and configuring."
+---
+
 # New Installation
 
 This guide walks through a first-time installation of the OS 2200 LSAM. If you are upgrading an existing LSAM, refer to the [Upgrade](upgrade) guide instead.
@@ -175,7 +181,7 @@ Run the configuration procedure to set runtime parameters (machine name, port nu
 @ADD *SKDPRG.LSAMCFG/ECL
 ```
 
-For details on each configuration parameter, refer to [LSAM and LMAM Configuration](../configuration/configuration-introduction#lsam-and-lmam-configuration).
+For details on each configuration parameter, refer to [Configuration Overview](../configuration/overview.md).
 
 :::caution
 

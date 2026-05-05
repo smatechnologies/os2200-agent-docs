@@ -1,8 +1,28 @@
+---
+sidebar_label: 'Commands'
+title: Commands
+description: "Console commands for OS 2200 LSAM components: XFRTCP, JORS, communication file utilities, Common Data Bank, and BIS MAM."
+---
+
 # Commands
+
+Console commands can be issued to each LSAM component using either the component's reserved keyin or the `II` (Interactivity Interrupt) command. Both forms are equivalent:
+
+| Method | Example |
+| ------ | ------- |
+| Reserved keyin | `*XFRTCP STATUS` |
+| II keyin | `II XFRTCP STATUS` |
+
+The reserved keyins are configured in LSAMCFG. The defaults are `*LSAM`, `*LMAM`, `*XFRTCP`, and `*JORS`.
 
 ## XFRTCP Commands
 
-The XFRTCP console keyword command supports the following commands:
+| Command | Effect |
+| ------- | ------ |
+| `TERM` | Terminates XFRTCP and the associated LSAM, LMAM, and SMAJOR runs |
+| `STOP` | Terminates XFRTCP and SMAJOR only — does not notify LSAM or LMAM to terminate |
+| `STATUS` | Displays current network status |
+| `BRKPT` | Cycles the XFRTCP breakpoint log file |
 
 ### TERM
 
@@ -10,118 +30,121 @@ Terminates XFRTCP and the associated LSAM, LMAM, and SMAJOR runs.
 
 ### STOP
 
-Terminates only the XFRTCP and SMAJOR runs, and does not notify the LSAM or the LMAM to terminate.
+Terminates XFRTCP and SMAJOR only. The LSAM and LMAM continue running but lose their network connection.
 
 ### STATUS
 
-* Displays the current network status information.
-* The *XFRTCP STATUS command displays the following:
+Displays current network status. Output format:
 
 ```
-
 HOST: <OS 2200 host name> PORT: 9999
-
 HOST: <BIS host name> PORT: 999
-
 CURRENT CONNECTION: 001.002.003.004: 8888
-
 LAST MSG RECVD: yymmdd, hhmmsstt
-
 MSGS RCVD: 99,999 ACKS SENT: 99,999
-
 MSGS SENT: 99,999 ACKS RCVD: 99,999
-
 MSGS TO SEND: 0
-
 SMAJOR IS ACTIVE AS RUNID SMAJOR
-
 RELEASE LEVEL: xxxxx PROGRAM: XFRTCP/xxxxxx
-
 COMMUNICATIONS INTERFACE: XFERIFxx/xxxxx
-
 ```
 
 ### BRKPT
 
-* Closes the current cycle of the ```BKXFRTCP``` file and opens a new cycle of the breakpoint file.
-* Once this command completes, the ```BKXFRTCP(-1) ```file is the one just closed and may be viewed or printed; the ```BKXFRTCP(-0)``` file is the current breakpoint file.
+Closes the current cycle of the `BKXFRTCP` breakpoint file and opens a new cycle. After the command completes:
+
+- `BKXFRTCP(-1)` — the just-closed cycle, available for viewing or printing
+- `BKXFRTCP(-0)` — the new current breakpoint file
 
 :::tip Example
 
-```*XFRTCP BRKPT``` closes the current cycle of the ```<LSAM qualifier>*BKXFRTCP``` file and creates and opens a new cycle of the file in use.
+`*XFRTCP BRKPT` closes the current cycle of `<qualifier>*BKXFRTCP` and opens a new cycle.
 
 :::
 
 ## JORS Commands
 
-### TERM
+| Command | Effect |
+| ------- | ------ |
+| `TERM` | Terminates SMAJOR |
+| `STOP` | Terminates SMAJOR |
+| `STATUS` | Displays current JORS status |
+| `BRKPT` | Cycles the JORS breakpoint log file |
 
-Terminates SMAJOR only.
+:::info Note
 
-### STOP
+For JORS, `TERM` and `STOP` have the same effect — both terminate only the SMAJOR run.
 
-Terminates SMAJOR only.
+:::
 
 ### STATUS
 
-* Displays the current JORS status information.
-* The *JORS STATUS command displays the following:
+Displays current JORS status. Output format:
 
 ```
-
 MSGS RCVD: 999
-
 MSGS SENT: 999 ACKS RCVD: 999
-
 MSGS TO SEND: 0
-
 RELEASE LEVEL: xxxxx PROGRAM: SMAJOR/xxxxxx
-
 COMMUNICATIONS INTERFACE: XFERIFCx/xxxxx
-
 ```
 
 ### BRKPT
 
-Closes the current cycle of the ```BKSMAJOR``` file and opens a new cycle of the breakpoint file.
-Once this command completes, the ```BKSMAJOR(-1)``` file is available for viewing and/or printing. The ```BKSMAJOR(-0)``` file is the current breakpoint file in use.
-For example:
+Closes the current cycle of the `BKSMAJOR` breakpoint file and opens a new cycle. After the command completes:
 
-```*JORS BRKPT``` closes the current cycle of the ```<LSAM qualifier>*BKSMAJOR``` file and creates and opens a new cycle of the file.
+- `BKSMAJOR(-1)` — the just-closed cycle, available for viewing or printing
+- `BKSMAJOR(-0)` — the new current breakpoint file
+
+:::tip Example
+
+`*JORS BRKPT` closes the current cycle of `<qualifier>*BKSMAJOR` and opens a new cycle.
+
+:::
 
 ## Communications File Commands
 
-The communication file requires no maintenance by the user but does have two programs which may be used: XFRINI and XFRPRT.
+The communication file requires no routine maintenance, but two utility programs are available.
 
-## XFRINI
+### XFRINI
 
-Initializes the job data portion of the file.
+Initializes the job data portion of the communication file.
 
-## ```@ADD <LSAM qualifier>*SKDPRG.XFRPRT/ECL```
+```
+@ADD <LSAM qualifier>*SKDPRG.XFRINI/ECL
+```
+
+### XFRPRT
+
+Prints the contents of the communication file.
+
+```
+@ADD <LSAM qualifier>*SKDPRG.XFRPRT/ECL
+```
 
 #### Remove Octal Format from the XFRPRT Report
 
-The octal format may be removed from the report by modifying XFRPRT/ECL as follows:
+By default, the report includes data in octal format. To remove it:
 
-1. Locate the ```@XQT XFRPRT``` statement in the ECL.
-2. Immediately after the @XQT is a parameter statement:
+1. Locate the `@XQT XFRPRT` statement in the ECL.
+2. Find the parameter statement immediately after it:
 
-```
-TIPFILE nnnn O
-```
+   ```
+   TIPFILE nnnn O
+   ```
 
-* nnnn is the local TIP file number.
-* "O" is the Octal report option.
+   - `nnnn` — the local TIP file number
+   - `O` — the octal report option flag
 
-Remove the O from the statement resulting in:
+3. Remove the `O` flag:
 
-```
-TIPFILE nnnn
-```
+   ```
+   TIPFILE nnnn
+   ```
 
-:::info Note 
+:::info Note
 
-To reactivate the Octal report option, replace the "O" on the parameter statement.
+To reactivate the octal report, add the `O` flag back to the parameter statement.
 
 :::
 
@@ -129,24 +152,25 @@ To reactivate the Octal report option, replace the "O" on the parameter statemen
 
 ### DUMPCDB
 
-Prints the contents of the Non-configured Common Data Bank. SMA support uses this report to assist in resolving reported problems. The file ```<LSAM qualifier>*DUMPCDB-PRT``` contains the report.
+Prints the contents of the Non-configured Common Data Bank to `<qualifier>*DUMPCDB-PRT`. SMA Support uses this report when diagnosing reported problems.
 
 ### LOADCDB
 
-Loads the Non-configured Common Data Bank into memory and initializes the bank for use by other LSAM modules. This procedure is automatically executed each time the XFRTCP run is started. Do not manually execute this run unless directed by SMA support.
+Loads the Non-configured Common Data Bank into memory and initializes it for use by other LSAM modules. This runs automatically each time XFRTCP starts.
 
 :::warning
 
-The use of the LOADCDB command while XFRTCP and/or JORS is processing causes those programs to error terminate.
+Do not run LOADCDB manually unless directed by SMA Support. Running it while XFRTCP or JORS is active causes those programs to error terminate.
 
 :::
 
-### ```@ADD <LSAM qualifier>*SKDPRG.LOADCDB/ECL```
-
+```
+@ADD <LSAM qualifier>*SKDPRG.LOADCDB/ECL
+```
 
 :::info Note
 
-The user executing this command must have "Reload Common Bank" privilege (SSRLODCB).
+The user running this command requires the "Reload Common Bank" privilege (`SSRLODCB`).
 
 :::
 
@@ -154,176 +178,159 @@ The user executing this command must have "Reload Common Bank" privilege (SSRLOD
 
 ### MAMMSG
 
-A BIS background run reminding the console operator to start MAM (UPMAMx command to the LMAM) each time BIS is started. This run should be scheduled in BIS to execute each time BIS is initialized.
+A BIS background run that reminds the console operator to start MAM (via the `UPMAMx` keyin to LMAM) each time BIS starts. Schedule this run in BIS to execute at each BIS initialization.
 
 ### MAMNOT
 
-MAMNOT is a callable BIS routine which may be used to send events to OpCon/xps. Any valid OpCon/xps event may be sent using MAMNOT. 
+A callable BIS routine that sends events to OpCon. Any valid OpCon external event can be sent using MAMNOT.
 
-To use MAMNOT, in the run sending the event, include the following instructions:
+Include the following in the run that will send the event:
 
-```@LDV <event-to-send>S80='<event syntax>' ```
+```
+@LDV <event-to-send>S80='<event syntax>'
+@CALL,<c>,<d>,6 1 <event-to-send>
+```
 
-```@CALL,<c>,<d>,6 1 <event-to-send>```
+| Parameter | Description |
+| --------- | ----------- |
+| `<event-to-send>` | String variable (max 80 characters) containing the event to send |
+| `<event syntax>` | Any valid OpCon event. Use `&` in place of commas due to BIS restrictions — for example, `$JOB:HOLD&<schedule name>&<schedule date>&<job name>` instead of `$JOB:HOLD,<schedule name>,<schedule date>,<job name>` |
+| `<c>` | Cabinet (Mode) where MAM modules are installed and registered |
+| `<d>` | Run Drawer (Type) where MAM runs are installed and registered |
 
-```<event-to-send>``` is a string variable, no more than 80 characters, containing the event to be sent to OpCon/xps.
+The OpCon user-ID and password used by MAMNOT are stored in the MAM Configuration Report (RID 3, variable V074). Update this variable whenever credentials change.
 
-```<event syntax>``` is the event to send. Due to BIS restrictions concerning the use of commas (,) in passing data, the ampersand (&) character should be used where the event syntax requires commas. For example, to place a job in a "HOLD" condition, the event syntax is:
-
-```$JOB:HOLD,<schedule name>,<schedule date>,<job name>```
-
-This syntax should be passed to MAMNOT as:
-
-```$JOB:HOLD&<schedule name>&<schedule date>&<job name>```
-
-```<c> ```is the Cabinet (Mode) where MAM modules are installed and registered.
-
-```<d>``` is the Run Drawer (Type) where MAM runs are installed and registered.
-
-Refer to [Introduction](https://help.smatechnologies.com/opcon/core/events/introduction) in the OpCon Events online help for information regarding events and event syntax.
-
-Also, review the OpCon/xps security requirements for sending events. The OpCon/xps User-ID and password used by MAMNOT to send events is stored in the MAM Configuration Report (RID 3 of MAM's Run Type, variable V074). This Configuration variable must be updated with the OpCon/xps User and password, whenever either changes, to successfully send events to OpCon/xps.
+Refer to [Introduction](https://help.smatechnologies.com/opcon/core/events/introduction) in the OpCon Events online help for valid event syntax.
 
 ### MAMFIN
 
-* A callable BIS routine providing run termination status to MAM.
-* When MAMFIN is called, an entry is placed in the MAMFIN Log Report located in MAM's Data Drawer (RID 8).
-* Based on a configuration setting selected at installation, MAM searches the entries in this report for entries by runs no longer active. When the run entry is found, MAM identifies the run (or job) as "terminated normally". When the run entry is not found, MAM, based on the configuration setting, either identifies the run as "terminated in error" or searches the BIS Accounting Log (@LGL) and Background Error Report to identify the run's termination status.
+A callable BIS routine that reports run termination status to MAM. When called, MAMFIN logs an entry in the MAMFIN Log Report (MAM's Data Drawer, RID 8). MAM uses this log to determine whether a run ended normally or in error.
 
-#### Option One Syntax
+There are two ways to call MAMFIN:
 
-To use MAMFIN in an executing run immediately prior to run termination, include the following statement:
+#### Option 1: @CALL
 
-```@CALL,<c>,<d>,12 1```
+Include this statement immediately before run termination:
+
+```
+@CALL,<c>,<d>,12 1
+```
+
+| Parameter | Description |
+| --------- | ----------- |
+| `<c>` | Cabinet (Mode) where MAM modules are installed |
+| `<d>` | Drawer (Type) where MAM runs are installed |
 
 :::tip Example
 
-The following example is a statement included in an executing run:
-
 ```
-
 @CALL,8,I,12 1
-
 ```
 
 :::
 
-* ```<c>```: the cabinet (Mode) where MAM modules are installed and registered.
+#### Option 2: @LNK
 
-* ```<d>```: the drawer (Type) where MAM runs are installed and registered.
-
-#### Option Two Syntax
-
-The MAMFIN module may also be LNKed to with the following instruction:
-
-```@LNK,<errlbl> MAMFIN```
-
-* ```<errlbl>```: the run's label to execute in the event MAMFIN cannot be LNKed to.
-* When LNKing to MAMFIN, MAMFIN registers an error routine (RER) and then clears the registration upon successful execution and return to the linking run. Should MAMFIN error, the RER returns status values of:
+The MAMFIN module can also be called with a link instruction:
 
 ```
+@LNK,<errlbl> MAMFIN
+```
 
+| Parameter | Description |
+| --------- | ----------- |
+| `<errlbl>` | Run label to execute if MAMFIN cannot be linked to |
+
+If MAMFIN errors during an `@LNK` call, the error routine (RER) returns:
+
+```
 STAT1$ = 1
-
 STAT2$ = the contents of XERR$ at the time of the error
-
 STAT3$ = the contents of XLINE$ where the error occurred
-
 ```
 
-Also, when using LNK to execute MAMFIN, the installation configuration option to track runs by "User/Terminal" should be selected. When MAM is tracking runs using "User/Run Name/Terminal", a LNK to MAMFIN appears to MAM that the run has terminated and it may be considered a "termination in error", depending on the MAMFIN configuration setting.
+:::info Note
+
+When using `@LNK`, the MAM installation configuration should track runs by **User/Terminal**. If MAM is configured to track by **User/Run Name/Terminal**, the `@LNK` call may appear to MAM as a run termination and could be reported as an error.
+
+:::
 
 ### MAMBACKUP
 
-A BIS module that saves the MAM BIS RIDs to an EXEC file. SMA recommends MAM's data RID 5 (Job/User RID) is saved after modifications, when this functionality is used.
+A BIS module that saves all MAM BIS RIDs to an EXEC file. SMA recommends saving RID 5 (Job/User RID) after any modifications.
 
-MAMBACKUP saves all run RIDs except RID 14, the MAMBACKUP run control RID (BIS prevents the saving of a RID containing an active run). This RID may be saved manually with the "ELT" command, but is always contained in the *SKDPRG file and may be retrieved whenever necessary.
+MAMBACKUP saves all run RIDs except RID 14 (the MAMBACKUP run control RID — BIS cannot save a RID containing an active run). RID 14 can be retrieved manually with the `ELT` command, or from the `*SKDPRG` file.
 
-SMA recommends the MAMBACKUP run be registered as both a Background and a Foreground run. This allows the run to be used either manually by a terminal user, and automatically started by MAM for scheduled backups of the RIDs.
+SMA recommends registering MAMBACKUP as both a Background and Foreground run so it can be used manually or scheduled automatically.
 
 ### MAMRESTORE
 
 A BIS run that restores MAM RIDs from the EXEC file created by MAMBACKUP.
 
-Restore any run RID except RID 13 (the MAMRESTORE RID) and RID 14 (MAMBACKUP), which may be manually retrieved from either the *MAM-x-BACKUP.R13 element, or from *SKDPRG.MAMRESTORE (or MAMBACKUP) element whenever needed.
+Do not restore RID 13 (MAMRESTORE) or RID 14 (MAMBACKUP) — both can be retrieved manually from `*MAM-x-BACKUP.R13` or from `*SKDPRG.MAMRESTORE` (or `MAMBACKUP`) as needed.
 
-## Starting BIS Run with Specific User-ID
+## Starting BIS Runs with a Specific User-ID
 
-MAM may start BIS runs with a specific BIS User-ID. To utilize this feature, the response to the Installation prompt for "Use different User-IDs to start runs with?" must have been "Y" ("yes"). Refer to [OS 2200 LSAM and BIS LMAM Installation](../installation/preparing-the-installation#account-and-user-ids). 
+MAM can start BIS runs using a specific BIS User-ID rather than MAM's own user-ID. This feature must have been enabled during installation by responding **Y** to the prompt "Use different User-IDs to start runs with?". See [Prerequisites](../installation/preparing-the-installation#account-and-user-ids).
 
-When the MAM Installation has already been completed, and it is desired to activate this feature, MAM's Configuration Report (RID) may be updated directly.
+If MAM is already installed and you want to enable this feature, update MAM's Configuration Report (RID) directly.
 
-#### Update MAM's RID to Enable Using Different User-IDs to Start Runs
+### Enable Job-Specific User-IDs After Installation
 
-1. To Activate the BIS User-ID AFTER MAM is installed, Modify MAM's Configuration Report (RID 3) in MAM's Run Drawer (Type) to change the variable V072 to a value of "5", update the RID.
+1. In MAM's Run Drawer (Type), modify RID 3 to change variable V072 from `0` to `5`:
 
+   :::tip Example
 
-:::tip Example 
+   Assuming MAM's Run Drawer is `C`, modify report `3C`:
 
-The following example shows how to change the variable V072:
+   Before:
+   ```
+   @LDV,P  V072I5=0 . - RID FOR USERID/PASSWORD INFO (VER 8.00)
+   ```
 
-Assuming MAM's Run Drawer is "C", modify report 3C as follows:
+   After:
+   ```
+   @LDV,P  V072I5=5 . - RID FOR USERID/PASSWORD INFO (VER 8.00)
+   ```
 
-Old Report Line:
+   :::
 
-```
+2. In MAM's Data Drawer (Type), update RID 5 (User-ID/Password report) to list the BIS User-IDs and passwords for each OpCon job that needs a specific user:
 
-@LDV,P  V072I5=0 . - RID FOR USERID/PASSWORD INFO (VER 8.00)
+   ```
+   *JOBNAME            USER-ID     PASSWORD    RESERVED FOR FUTURE USE
+   *===============    ========    ==========  ======================================
+   >>OpConJob-ID       >>BISUser   >>passwd    >>
+   ```
 
-``` 
+   | Field | Description |
+   | ----- | ----------- |
+   | `OpConJob-ID` | 12-character OpCon job identifier (must be sorted alphabetically) |
+   | `BISUser` | BIS User-ID to use when starting the run (max 10 characters) |
+   | `passwd` | Password for the BIS User-ID (max 6 characters) |
+   | `>>` | Represents a tab character |
 
-New Report Line:
+   :::tip Example
 
-```
+   ```
+   *JOBNAME            USER-ID     PASSWORD    RESERVED FOR FUTURE USE
+   *===============    ========    ==========  ======================================
+   >>ANALYSIS-A        >>BILLW     >>XYYZ1     >>
+   >>BIG-REPORT        >>SALLY     >>SIMPLE    >>
+   >>HOLIDAY           >>JOESMITH  >>JSTWO     >>
+   >>JOB01             >>BATCHUSER >>BATCH     >>
+   ```
 
-@LDV,P  V072I5=5 . - RID FOR USERID/PASSWORD INFO (VER 8.00)
+   :::
 
-```
+   :::info Note
 
-:::
+   This report must be kept in sorted order by Job Name. MAM searches it alphabetically when looking up a job-ID.
 
-2. To define the BIS User-IDs to use, update MAM's User-ID/Password report (RID 5) in MAM's Data Drawer (Type) to contain the BIS User-IDs and passwords to be used for specific OpCon/xps jobs.
+   :::
 
-The following is an example that lists the passwords to be used for specific OpCon/xps jobs:
+### Considerations
 
-```
-
-*JOBNAME            USER-ID	    PASSWORD	RESERVED FOR FUTURE USE
-*===============	========	==========	======================================
->>OpConJob-ID	    >>BISUser	>>passwd	>>
- 
-```
-
-* JOB NAME (OpConJob-ID) is the 12 character OpCon/xps job identifier of the job requiring a specific BIS User-ID.
-* USER-ID (BISUser) is the BIS User-ID to be used when starting the BIS run (restricted to 10 characters).
-* PASSWORD (passwd) is the password associated with the BIS User-ID (restricted to 6 characters).
-* \>> represents a tab character.
-
-Update this report to contain the OpCon/xps jobs requiring specific BIS User-IDs for starting. Include the User-ID to be used and the corresponding password.
-
-:::info Note
-
-This report must be maintained in sorted order by Job Name.
-
-:::
-
-After updating the RID, it would look something like:
-
-```
-
-*JOBNAME            USER-ID	    PASSWORD	RESERVED FOR FUTURE USE
-*===============	========	==========	======================================
->>ANALYSIS-A	    >>BILLW	    >>XYYZ1	    >>
->>BIG-REPORT	    >>SALLY	    >>SIMPLE	>>
->>HOLIDAY	        >>JOESMITH	>>JSTWO	    >>
->>JOB01	            >>BATCHUSER	>>BATCH	    >>
-
-```
-
-When MAM detects the UserID/Password Configuration parameter setting (RID 3C in the above example, variable V072), this report (RID 5) is searched for the OpCon/xps job-id. When the job-id is found, MAM then uses the BIS User-ID and password to start the run. When the OpCon/xps job-id is not found in this report (or when the configuration variable V072 in RID 3 is zero), MAM starts the job using MAM's user-id.
-
-#### Considerations when Using Job-specific User-IDs
-
-* This report contains both User-IDs and passwords and should be protected as any report containing sensitive information would be. MAM's user-id must be allowed access.
-* It is the responsibility of local site personnel to properly maintain this report, including the sorted order and updating User-IDs and passwords when they change.
-* When updates are applied to this RID, it is a good idea to perform a backup of it in the event the latest information is required to be recovered. The runs MAMBACKUP and MAMRESTORE may be used for this purpose, or local site procedures may be applied. Manual ELT and RET procedures may be appropriate. To insure consistent backup of MAM's RIDs, it is recommended to schedule the MAMBACKUP run regularly using OpCon/xps.
+- This report contains passwords and must be protected accordingly. MAM's user-ID must have access.
+- Local site personnel are responsible for maintaining sorted order and updating credentials when they change.
+- Back up RID 5 after any updates using MAMBACKUP, local procedures, or manual ELT/RET. SMA recommends scheduling MAMBACKUP regularly with OpCon.

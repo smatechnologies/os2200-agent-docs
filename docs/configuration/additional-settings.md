@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Additional settings'
+title: Additional settings
+description: "Additional LSAM configuration settings: authorized users, communication protocol switching, and SMA_SETSMAPROTOCOL stored procedure."
+---
+
 # Additional Settings
 
 ## Authorized Users
@@ -50,24 +56,18 @@ The following list describes the parameters for the stored procedure:
 
 Complete the following procedure on a machine with the Microsoft SQL Server Administrative tools:
 
-1. On the OpCon/xps Database Server, log in as a local administrative user.
+1. On the OpCon Database Server, log in as a local administrative user.
 2. Use menu path: Start > All Programs > Microsoft SQL Server > SQL Server Management Studio.
 3. In the Server type list box, select Database Engine in the Connect to Server window.
-4. In the Server name list box, select the OpConxps Desired Database Server.
+4. In the Server name list box, select the desired OpCon Database Server.
 
-5. In the Authentication list box, select:
-    
-    a. Windows Authentication to log in with the current Windows User with local administrative authority - or -
-    
-    b. SQL Server Authentication and supply the following information:
-
-    * In the Login text box, enter sa.
-
-    * In the Password text box, enter sa's password.
+5. In the Authentication list box, select one of the following:
+    - **Windows Authentication** — log in with the current Windows user with local administrative authority
+    - **SQL Server Authentication** — enter `sa` in the Login text box and sa's password in the Password text box.
 
 6. Click the Connect button.
 7. Expand (+) the Databases folder in the Microsoft SQL Server Management Studio window.
-8. Click the OpCon/xps database.
+8. Click the OpCon database.
 9. Click the New Query button on the Standard Toolbar.
 10. Enter the command for the EXEC SMA_SETSMAPROTOCOL stored procedure.
 
@@ -85,22 +85,17 @@ The command for the EXEC SMA_SETSMAPROTOCOL stored procedure:
 
 Complete the following procedure on a machine with the Microsoft SQL Server Administrative tools:
 
-1. On the OpCon/xps Database Server, log in as a local administrative user.
+1. On the OpCon Database Server, log in as a local administrative user.
 2. Use menu path: Start > All Programs > Microsoft SQL Server > SQL Server Management Studio.
 3. In the Server type list box, select Database Engine in the Connect to Server window.
-4. In the Server name list box, select the OpConxps Desired Database Server.
-5. In the Authentication list box, select:
-    
-    a. Windows Authentication to log in with the current Windows User with local administrative authority - or -
-    
-    b. SQL Server Authentication and supply the following information:
-        
-    * In the Login text box, enter sa.
-    * In the Password text box, enter sa's password.
+4. In the Server name list box, select the desired OpCon Database Server.
+5. In the Authentication list box, select one of the following:
+    - **Windows Authentication** — log in with the current Windows user with local administrative authority
+    - **SQL Server Authentication** — enter `sa` in the Login text box and sa's password in the Password text box.
 
 6. Click the Connect button.
 7. Expand (+) the Databases folder in the Microsoft SQL Server Management Studio window.
-8. Click the OpCon/xps database.
+8. Click the OpCon database.
 9. Click the New Query button on the Standard Toolbar.
 10. Enter the command for the EXEC SMA_SETSMAPROTOCOL stored procedure.
 

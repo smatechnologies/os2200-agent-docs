@@ -1,4 +1,12 @@
+---
+sidebar_label: 'FTPAPI'
+title: File Transfer Protocol Interface (FTPAPI)
+description: "Use the FTPAPI program to transfer files to and from the OS 2200 system using FTP commands within OpCon job ECL."
+---
+
 # File Transfer Protocol Interface (FTPAPI)
+
+## What is it?
 
 The SMA File Transfer Protocol Interface (FTPAPI) uses the Unisys OS 2200 Communications Platform File Transfer Protocol Services (CpFTP) to transfer files between hosts utilizing the capabilities of the Unisys CpFTP software.
 

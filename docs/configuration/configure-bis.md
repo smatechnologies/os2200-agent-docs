@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Configure BIS'
+title: Configure BIS
+description: "Configure BIS/MAM settings in the OS 2200 LSAM: LMAM console keyin, MAM site definitions, and authorized IP addresses."
+---
+
 # Configure BIS
 
 ## BIS Configuration
@@ -18,48 +24,44 @@ Do you wish to change this KEYIN? (Y/<N>)
 
 The displayed KEYIN is the reserved keyword for console commands to LMAM.
 
-a. Responding "Y" (Yes) to the question presents the following prompt:
+- If you enter **Y**, you will be prompted to enter a new KEYIN:
 
-```
+  ```Enter new console KEYIN for this LMAM (max 8 chars)```
 
-Enter new console KEYIN for this LMAM (max 8 chars)
+  Enter the keyword for LMAM console commands. The default is `*LMAM`, but it may be changed to any unique keyword up to 8 characters.
 
-```
+  :::info Note
 
-Enter the keyword to use for entering console commands for the LMAM. The installation default is "*LMAM", but may be changed to any unique keyword up to 8 characters in length.
+  Unisys recommends keywords start with an asterisk (`*`) to avoid conflicts with Unisys software keywords.
 
-:::info Note
+  :::
 
-Unisys recommends such keywords should start with an asterisk (*) to avoid conflicts with keywords utilized by Unisys software.
+- After entering the keyword, the following prompt is presented:
 
-:::
+  ```
 
-b. Upon entering the desired keyword, the following prompt is presented:
+  Current LMAM CONS level required for keyin is (CONSOLE ONLY)
 
-```
+  Do you wish to change this required level? (Y/<N>)
 
-Current LMAM CONS level required for keyin is (CONSOLE ONLY)
+  ```
 
-Do you wish to change this required level? (Y/<N>)
+  If you enter **Y**, select the @@CONS level required of users to issue keyins to LMAM:
 
-```
+  ```
 
-When you wish to change the @@CONS level required of users to issue keyins to LMAM, respond with "Y" (Yes). The following prompt is displayed:
+  Enter user CONS level required for keyin:
 
-```
+  Console Only = 0
+  BASIC = 1
+  LIMITED = 2
+  FULL = 3
+  DISPLAY = 4
+  RESPONSE = 5
 
-Enter user CONS level required for keyin:
+  ```
 
-Console Only = 0
-BASIC = 1
-LIMITED = 2
-FULL = 3
-DISPLAY = 4
-RESPONSE = 5
-
-```
-
-Respond with the number corresponding to the @@CONS capability of users allowed to use the reserved keyword to issue commands to LMAM.
+  Enter the number corresponding to the @@CONS capability required.
 
 2. After responding to the console keyin prompt(s), the BIS machine name information is presented. This must be a different name than was used for the Batch job machine. For example, if the Batch job machine name is "U2200", use "U2200M" for the BIS machine. The following is displayed:
 

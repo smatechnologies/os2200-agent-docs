@@ -1,4 +1,14 @@
+---
+sidebar_label: 'Components'
+title: LSAM/LMAM components
+description: "Complete list of all OS 2200 LSAM and LMAM modules, their functions, and the files they use."
+---
+
 # LSAM/LMAM Components
+
+## What is it?
+
+The OS 2200 LSAM suite consists of multiple OS 2200 and BIS modules. The table below describes each component, its platform, and its function.
 
 | Component | Description | Function |
 | --------- | ----------- | -------- |

@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Installation reference'
+title: Installation reference
+description: "Reference information for OS 2200 LSAM installation: system files, multiple LSAM support, non-common-banked collections, and INSTALL/SGS customization."
+---
+
 # Installation Reference
 
 This page provides detailed reference information shared by both the [New Installation](new-installation) and [Upgrade](upgrade) procedures.

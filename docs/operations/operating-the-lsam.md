@@ -1,53 +1,52 @@
-# Operating the LSAM 
+---
+sidebar_label: 'Operating the LSAM'
+title: Operating the LSAM
+description: "Day-to-day OS 2200 LSAM operations: starting and stopping components, checking status, controlling BIS MAM sites, and cycling breakpoint logs."
+---
+
+# Operating the LSAM
+
+## What is it?
+
+This page covers the day-to-day operations of the OS 2200 LSAM: starting and stopping components, checking status, controlling BIS MAM sites, and cycling breakpoint log files.
 
 ## Starting the LSAM/LMAM
 
 ### Start the LSAM/LMAM
 
-1. If the ```*SKDPRG.START-UP/ECL element was copied to SYS$LIB$*RUN$``` during the installation, the LSAM and/or LMAM can be started with the console command:
-```ST< START-UP/ECL element in RUN$>```
+Use one of the following methods to start the LSAM and/or LMAM:
 
-:::tip Example 
+1. If `*SKDPRG.START-UP/ECL` was copied to `SYS$LIB$*RUN$` during installation, start all components with a single console command:
 
-ST LSAM
-
-:::
-
-- or -
+   ```ST LSAM```
 
 2. A DEMAND user with adequate privileges can enter:
 
-```@ADD LSAM*SKDPRG.START-UP/ECL```
+   ```@ADD LSAM*SKDPRG.START-UP/ECL```
 
-:::info note 
+   :::info Note
 
-Due to specific Account/User requirements, the user starting these runs from DEMAND must have the equivalent Account/User privileges.
+   Due to specific Account/User requirements, the user starting these runs from DEMAND must have equivalent Account/User privileges.
 
-:::
+   :::
 
-- or -
+3. Start each component individually from the console or via an @@CONS ST command:
 
-3. SMA recommends these runs be started from the console, or via an @@CONS ST command, as follows:
+   ```ST LSAM*SKDPRG.XFRTCP/ECL,,,<acct/user>```
 
-a. ```ST LSAM*SKDPRG.XFRTCP/ECL,,,<acct/user>```
+   ```ST LSAM*SKDPRG.LSAM-RUN/ECL,,,<acct/user>```
 
-b. ```ST LSAM*SKDPRG.LSAM-RUN/ECL,,,<acct/user>```
-* ```ST LSAM*SKDPRG.LMAM-RUN/ECL,,,<acct/user>```
+   ```ST LSAM*SKDPRG.LMAM-RUN/ECL,,,<acct/user>```
 
 ### Start JORS
 
-If the ```*SKDPRG.STSMAJOR/ECL``` element was copied to ```SYS$LIB$*RUN$ ```during the installation, JORS can be started with the console command:
-```ST < STSMAJOR/ECL``` element in ```RUN$>```
+Use one of the following methods to start JORS:
 
-:::tip Example 
+1. If `*SKDPRG.STSMAJOR/ECL` was copied to `SYS$LIB$*RUN$` during installation:
 
-ST JORS
+   ```ST JORS```
 
-:::
-
-- or -
-
-The run can be started from the console, or via an @@CONS ST command, as follows:
+2. Start the run directly from the console or via an @@CONS ST command:
 
 ```
 
@@ -69,42 +68,36 @@ JORS can be restarted after XFRTCP has initialized the LSAM Common Data Bank.
 
 ## Controlling MAM Status
 
-Control MAM Status
-
 ### Bring Up a BIS Site
 
-1. ```Enter II LMAM UPMAM<site id>``` 
+Enter one of the following:
 
-- or -
-
-2. With the ```*LMAM``` console keyin, enter the command ```*LMAM UPMAM<site id>```.
+- `II LMAM UPMAM<site id>`
+- `*LMAM UPMAM<site id>` (using the `*LMAM` console keyin)
 
 ### Bring Down a BIS Site
 
-1. ```Enter II LMAM DNMAM<site id>``` 
+Enter one of the following:
 
-- or -
-
-2. With the ```*LMAM``` console keyin, enter the command ```*LMAM DNMAM<site id>```.
+- `II LMAM DNMAM<site id>`
+- `*LMAM DNMAM<site id>` (using the `*LMAM` console keyin)
 
 
 ## Checking LSAM/LMAM Status
 
 ### Check LSAM Status
 
-1. Enter ```II LSAM STATUS``` to list the status of the LSAM and the version numbers of the LSAM and XFRTCP 
+Enter one of the following:
 
-- or -
-
-2. Using the console keyword defined in the configuration, enter ```*LSAM STATUS```.
+- `II LSAM STATUS` — lists LSAM status and version numbers for LSAM and XFRTCP
+- `*LSAM STATUS` — using the console keyword defined in configuration
 
 ### Check LMAM Status
 
-1. Enter ```II LMAM STATUS``` to list the status of the LMAM and the version numbers of the LMAM and XFRTCP 
+Enter one of the following:
 
-- or -
-
-2. Using the console keyword defined in the configuration, enter *LMAM STATUS.
+- `II LMAM STATUS` — lists LMAM status and version numbers for LMAM and XFRTCP
+- `*LMAM STATUS` — using the console keyword defined in configuration
 
 ## Stopping the LSAM/LMAM
 
@@ -114,31 +107,24 @@ SMA suggests processes **not** be stopped unless all OpCon/xps schedules requiri
 
 ### Stop an Individual LSAM
 
-1. Issue the console keyin II LSAM STOP 
+Enter one of the following:
 
-- or -
-
-2. Issue the console keyin *LSAM STOP.
+- `II LSAM STOP`
+- `*LSAM STOP`
 
 ### Stop an Individual LMAM
 
-When an LMAM is stopped, all associated MAMs are also stopped.
+When an LMAM is stopped, all associated MAMs are also stopped. Enter one of the following:
 
-1. Issue the console keyin II LMAM STOP 
-
-- or -
-
-2. Issue the console keyin ```*LMAM STOP```.
+- `II LMAM STOP`
+- `*LMAM STOP`
 
 ## Terminating an LSAM/LMAM
 
-Terminating All LSAM/LMAM Runs
+Enter one of the following to terminate all LSAM/LMAM runs:
 
-1. Use the console command II ```<run-id>``` TERM 
-
-- or -
-
-2. Use the console ```<keyword> TERM``` (e.g., ```*LSAM TERM``` or ```*LMAM TERM```) command.
+- `II <run-id> TERM`
+- `*LSAM TERM` or `*LMAM TERM` (using the configured console keyword)
 
 This terminates LMAM, LSAM, XFRTCP, SMAJOR, and MAM. When either LSAM/LMAM or XFRTCP or SMAJOR does not terminate, an "E" command may be used. Once all have terminated, the above start statements may be used to restart the runs.
 

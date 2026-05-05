@@ -1,6 +1,14 @@
+---
+sidebar_label: 'Support data collector'
+title: Support data collector
+description: "Use the OS 2200 LSAM support data collector to gather diagnostic information for SMA Support."
+---
+
 # Support Data Collector
 
-The Support Data Collector procedure collects OS 2200 LSAM data related to an incident reported to SMA Support. The Data Collector creates a text data file containing:
+## What is it?
+
+The Support Data Collector is an LSAM procedure that gathers OS 2200 diagnostic data for incidents reported to SMA Support. The Data Collector creates a text data file containing:
 
 * Log files
 * Installation parameters
@@ -95,3 +103,21 @@ Following the data collection process, send the data file (```*SUPPyyyymmdd```) 
 If necessary, contact SMA Support for assistance with this procedure.
 
 :::
+
+## Frequently Asked Questions
+
+**How long does the data collection take?**
+
+The Data Collector procedure may require up to 20 minutes to create the data file.
+
+**What data does the Support Data Collector gather?**
+
+The collector creates a text file containing log files, installation parameters, program versions, TIP file contents, operating system information, installed program information, and a table of contents of the primary LSAM files.
+
+**What format should I use when sending the data file to SMA?**
+
+Always transfer or send the data file in ASCII format. For large files, compressing the file before sending is recommended.
+
+**What if one of the LSAM modules (XFRTCP, LSAM, LMAM, JORS) is not in use at my site?**
+
+Skip the BRKPT command for any module that is not in use. Only issue BRKPT for the modules that are actively running at your site.

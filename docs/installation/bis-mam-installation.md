@@ -1,3 +1,9 @@
+---
+sidebar_label: 'BIS/MAM installation'
+title: BIS/MAM installation
+description: "Installation guide for the optional BIS Activity Monitor (MAM) and Local MAM (LMAM) components for BIS job scheduling with OpCon."
+---
+
 # BIS/MAM Installation
 
 The BIS Activity Monitor (MAM) and Local MAM (LMAM) enable OpCon to schedule and monitor BIS background runs. This is an optional component — install it only if your site uses BIS and needs OpCon to manage BIS jobs.

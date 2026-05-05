@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Prerequisites'
+title: Prerequisites
+description: "Prerequisites for OS 2200 LSAM installation: accounts, user-IDs, RSI requirements, CMS/CpComm PROCESS setup, and TIP file parameters."
+---
+
 # Prerequisites
 
 Complete these prerequisites before proceeding with either a [New Installation](new-installation) or an [Upgrade](upgrade). Use the [Installation Parameters Worksheet](installation-parameters-worksheet) to record the required values as you work through this page.
@@ -65,26 +71,26 @@ These are the Executive Requests utilized by the LSAM.
 | Executive Request | Description |
 | ----------------- | ----------- |
 | ACT$ | Activity activation |
-| BANK$	| Program bank manipulation |
+| BANK$ | Program bank manipulation |
 | COM$ | Console output |
-| COND$	| Condition Word retrieval |
-| DACT$	| Activity deactivation |
-| FORK$	| Program activity initiation |
-| EABT$	| Error/Abort activity |
+| COND$ | Condition Word retrieval |
+| DACT$ | Activity deactivation |
+| FORK$ | Program activity initiation |
+| EABT$ | Error/Abort activity |
 | ERACSF$ | Control Statement Submission (via COBOL) |
 | EXIT$ | Activity exit |
 | FITEM$ | File/Facility information retrieval |
 | IALL$ | Program contingency registration |
 | II$ | Interactivity Interrupt processing (II keyins) |
-KEYIN$ | Console keyin registration and retrieval |
+| KEYIN$ | Console keyin registration and retrieval |
 | MCT$ | Configured device data |
 | MSCON$ | MFD data retrieval |
-| NAME$	| Activity naming |
+| NAME$ | Activity naming |
 | OPT$ | XQT options retrieval |
 | RSI$ | Generic DEMAND terminal interface |
 | RT$ | Real-time priority switching |
 | SDFI$ | SDF file element retrieval |
-|SDFO$ | SDF file creation |
+| SDFO$ | SDF file creation |
 | SMOQUE$ | Symbiont Queue retrieval (only for the Job Output Retrieval System [JORS]) |
 | TEST&SET | ERs required for Test & Set Queuing |
 | TWAIT$ | Timed wait | 

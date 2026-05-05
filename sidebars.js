@@ -1,27 +1,33 @@
 module.exports = {
   mySidebar: [
-    'index',
+    'overview',
     'release-notes',
     {
-      type: 'category', 
+      type: 'category',
       label: 'Installation',
+      link: {
+        type: 'doc',
+        id: 'installation/overview',
+      },
       collapsed: true,
       items: [
-        'installation/introduction',
         'installation/preparing-the-installation',
         'installation/new-installation',
         'installation/upgrade',
         'installation/bis-mam-installation',
         'installation/installation-reference',
         'installation/installation-parameters-worksheet',
-      ], 
+      ],
     },
     {
-      type: 'category', 
+      type: 'category',
       label: 'Configuration',
+      link: {
+        type: 'doc',
+        id: 'configuration/overview',
+      },
       collapsed: true,
       items: [
-        'configuration/configuration-introduction',
         'configuration/configuration-settings',
         'configuration/page-one-settings',
         'configuration/page-two-settings',
@@ -29,17 +35,21 @@ module.exports = {
         'configuration/configure-bis',
         'configuration/configure-jors',
         'configuration/additional-settings',
-      ], 
+      ],
     },
     {
-      type: 'category', 
+      type: 'category',
       label: 'Operations',
+      link: {
+        type: 'doc',
+        id: 'operations/overview',
+      },
       collapsed: true,
       items: [
         'operations/components',
         'operations/operating-the-lsam',
         'operations/commands',
-      ], 
+      ],
     },
       'additional-features',
       'file-transfer',
@@ -47,8 +57,12 @@ module.exports = {
       'smamsc',
       'ftpapi',
       {
-        type: 'category', 
+        type: 'category',
         label: 'Reference',
+        link: {
+          type: 'doc',
+          id: 'reference/overview',
+        },
         collapsed: true,
         items: [
           'reference/lsam-job-messages',
@@ -60,7 +74,7 @@ module.exports = {
           'reference/file-transfer-server-messages',
           'reference/file-transfer-agent-messages',
           'reference/known-issues',
-        ], 
+        ],
       },
   ],
 };

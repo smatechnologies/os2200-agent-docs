@@ -1,3 +1,9 @@
+---
+sidebar_label: 'Configure JORS'
+title: Configure Job Output Retrieval System (JORS)
+description: "Configure JORS port, console keyin, privilege level, and file transfer security settings for the OS 2200 LSAM."
+---
+
 # Configure Job Output Retrieval System (JORS)
 
 Item 17 on page two of the configuration contains parameters for the Job Output Retrieval System (JORS) and File Transfer capabilities. The configurable parameters are:
@@ -6,13 +12,7 @@ Item 17 on page two of the configuration contains parameters for the Job Output 
 
 :::info Note
 
-Modifying this parameter requires the XFRTCP program to be STOPped and restarted to activate the new value.
-
-:::
-
-:::info Note
-
-The JORS Port Number needs to be set in both the LSAM Configuration and the advanced machine setting in the UI. For more information on modifying the JORS port number, refer to the [Configuring Advanced Machine Parameters and Properties](https://help.smatechnologies.com/opcon/core/Files/UI/Enterprise-Manager/Configuring-Advanced-Machine-Properties) within the Enterprise Manager online help.
+The JORS Port Number must be set in both the LSAM Configuration and the advanced machine setting in the UI. Modifying this parameter requires XFRTCP to be stopped and restarted. For more information, refer to [Configuring Advanced Machine Parameters and Properties](https://help.smatechnologies.com/opcon/core/Files/UI/Enterprise-Manager/Configuring-Advanced-Machine-Properties) in the Enterprise Manager online help.
 
 :::
 

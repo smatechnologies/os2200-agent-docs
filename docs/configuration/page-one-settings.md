@@ -1,8 +1,12 @@
-# Configuration Settings (Page 1)
+---
+sidebar_label: 'Page one settings'
+title: Configuration settings — page one
+description: "Reference for all LSAM configuration parameters on page one of LSAMCFG: RSI user-ID, machine name, port, console keyins, and more."
+---
 
-The LSAMCFG/ECL program displays page one of the configurations.
+# Configuration Settings — Page 1
 
-## Settings Page One
+Page one of LSAMCFG/ECL contains the primary LSAM settings. Select a line number to change that value.
  
 ### Line 1 - RSI Userid*
 
@@ -250,7 +254,7 @@ Yes (Y)
 
 **Description** 
 
-* Select this option to use TLS for network connections.  This can also e controlled through CPCOMM. 
+* Select this option to use TLS for network connections. This can also be controlled through CpComm.
 
 
 :::info Note
@@ -285,17 +289,11 @@ RESPONSE = 5
 3. Enter the number corresponding to the @@CONS capability of users allowed to use the reserved keyword to issue commands to the LSAM.
 
 
-:::tip Example 
+:::tip Example
 
-Enter **0** (zero) to allow commands to be entered from the system console only.
-
-- or -
-
-Enter **1** (one) to allow all users with the @@ CONS BASIC or greater capability to enter LSAM commands (all users with any @@CONS caopability).
-
-- or -
-
-Enter **4** (four) to allow only those users with DISPLAY or RESPONSE @@CONS capabilities to issue commands to the LSAM.
+- Enter **0** to allow commands from the system console only.
+- Enter **1** to allow any user with BASIC or higher @@CONS capability to enter LSAM commands.
+- Enter **4** to allow only users with DISPLAY or RESPONSE @@CONS capability.
 
 :::
 
@@ -318,14 +316,8 @@ RESPONSE = 5
 
 :::tip Example
 
-Enter **0** (zero) to allow commands to be entered from the system console only.
-
-- or -
-
-Enter **1** (one) to allow all users with the @@ CONS BASIC or greater capability to enter XFRTCP commands (all users with any @@ CONS capability).
-
-- or -
-
-Enter **4** (four) to allow only those users with DISPLAY or RESPONSE @@CONS capabilities to issue commands to XFRTCP.
+- Enter **0** to allow commands from the system console only.
+- Enter **1** to allow any user with BASIC or higher @@CONS capability to enter XFRTCP commands.
+- Enter **4** to allow only users with DISPLAY or RESPONSE @@CONS capability.
 
 :::
