@@ -145,8 +145,8 @@ Yes (Y)
 
 **Description**
 
-* By default, the agent names temporary ECL files with the OpCon Job-ID (job name).
-* Set this option to "Y" to use the OpCon Job Number to name the temporary ECL files.  This allows more than 32 concurrent jobs with the same Job-ID.  
+* By default, the agent names temporary ECL files with the OpCon Job-ID (job name). Each concurrent instance of the same job name is tracked as a new F-cycle on that file. OS 2200 limits a file to 32 simultaneous F-cycles, so at most 32 concurrent jobs sharing the same name can run at one time.
+* Set this option to "Y" to use the unique OpCon Job Number as the tracking file name instead. Because each job number is unique, the F-cycle constraint no longer applies and any number of concurrent jobs with the same name can run simultaneously.
 
 ### Line 8 - Comma Substitution Character
 
