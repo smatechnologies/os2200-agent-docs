@@ -2,6 +2,10 @@
 sidebar_label: 'Page two settings'
 title: Configuration settings — page two
 description: "Reference for all LSAM configuration parameters on page two of LSAMCFG: job start commands, debug mode, authorized IPs, JORS, and more."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Configuration Settings — Page 2
@@ -82,11 +86,12 @@ It is recommended this option be enabled to allow the LSAM to detect and respond
 
 **Valid Values**
 
-10 - 900
+10 - 900 (recommended)
 
 **Description**
 
 * Select this option to define the number of seconds to wait between checking on active jobs with the @@CONS RC command.
+* The field accepts any three-digit value from `000` to `999`. The configuration program does not check the recommended range.
 
 ### Line 5 - CONSOLE Message display level
 
@@ -223,7 +228,7 @@ N
 **Description**
 
 * Select this option to set the amount of debug information.
-* When debugging is activated, the files *BKLSAM, *BKXFRTCP, and *BKSMAJOR contain additional debug information.
+* When debugging is activated, the files *BKLSAM, *BKXFRTCP, *BKSMAJOR, and *BKLMAM contain additional debug information.
 * The following values indicate the debug information level.
     * 0=OFF
     * 1=Verbose Logging 
@@ -298,7 +303,7 @@ N/A
 
 **Valid Values**
 
-Any valid IP address
+Any valid IPv4 address. IPv6 addresses are accepted only when **15 - Allow IPv6 network addresses** on page one is set to Yes.
 
 **Description**
 
@@ -315,7 +320,7 @@ None
 
 **Valid Values**
 
-Refer to [Configure Job Output Retrieval System (JORS)](configure-jors).
+Refer to [Configure Job Output Retrieval System (JORS)](configure-jors.md).
 
 **Description**
 
@@ -335,7 +340,7 @@ Any valid Unisys OS 2200 DEMAND User-ID
 **Description**
 
 * Define the list to identify the Unisys Exec DEMAND user-ids authorized to use LSAMCFG/ECL to view and modify configuration parameters.
-* Refer to [Authorized Users](additional-settings#authorized-users) for more details.
+* Refer to [Authorized Users](additional-settings.md#authorized-users) for more details.
 
 ### Line 19 - Maximum inactivity time in minutes
 

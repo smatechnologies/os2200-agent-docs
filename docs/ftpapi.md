@@ -2,6 +2,10 @@
 sidebar_label: 'FTPAPI'
 title: File Transfer Protocol Interface (FTPAPI)
 description: "Use the FTPAPI program to transfer files to and from the OS 2200 system using FTP commands within OpCon job ECL."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # File Transfer Protocol Interface (FTPAPI)
@@ -21,7 +25,7 @@ The Interface recognizes the following commands, as supported by the CpFTP Appli
 * Remote file: file name
 * Local file: file name
 * Transfer mode: ASCII or Binary
-* Direction: get or put
+* Direction: get, put, or app (append)
 
 ## Additional Commands
 
@@ -31,9 +35,8 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
     * Syntax: AFMT
     * Example: AFMT
 
-* Append: Appends the Local File to the Remote File.
-    * Syntax: APPEND
-    * Example: APPEND
+* Append: To append the Local File to the Remote File, set the transfer direction to `APP` (`??DIR??=APP`) instead of using a command. `APPEND` is not an FTPAPI command; if you specify it as a command, FTPAPI reports error 09 (`Unsupported FTP command`) and skips the remaining commands.
+    * FTPAPI accepts the `APP` direction only when at least one CMD, BCMD, or ACMD command is also present; otherwise it reports error 07 (`Transfer direction is not GET or PUT`).
 
 * CD: Change Directory to another directory.
     * Syntax: CD {directory}
@@ -75,14 +78,14 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
     * Syntax: ```DIR {directory},{list-to}```
         * ```{directory}``` is the directory to be listed - defaults to current working directory.
         * ```{list-to}``` specifies where to place the list - accepted values are:
-            * Spaces - do not list contents
-            * List contents to current PRINT$ file
+            * `_` - list contents to the current PRINT$ file
+            * Spaces - list contents to the current PRINT$ file (FTPAPI replaces a blank list-to value with `_`)
             * ```{Qual*File.[element]} - list contents to Qual*File```, optionally to [element] name
     * Example:
         * DIR ,_ = list the contents of the current remote directory to PRINT$
         * DIR DirY,MY*DIRY-FILE. = list the contents of remote directory DirY to local data file MY*DIRY-FILE
         * DIR DirX,MY*DIR-FILE.DIRX = list the contents of remote directory DirX
-        * DIR , = do not list the contents of the current remote directory
+        * DIR , = list the contents of the current remote directory to PRINT$
 
 * FTYPE: Sets the Program File element type to be sent to the Remote Host.
     * Syntax: FType {element-type}
@@ -94,7 +97,7 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
             * OMN - send an Omnibus
             * FIL - send the entire Program File
 
-* IDLE: Set the Server Timeout value in seconds - allowed values are 30 to 7200, inclusive.
+* IDLE: Set the Server Timeout value in seconds. The Unisys FTP Services User Guide lists allowed values of 30 to 7200, inclusive; FTPAPI passes the value to CpFTP without checking this range. If you omit the value or specify `0`, FTPAPI uses `30`.
     * Syntax: Idle {seconds}
     * Example: Idle 60
 
@@ -107,13 +110,14 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
     * Example: mkdir my-temp-dir
 
 * PASV: Determines the use of the FTP PASV or PORT commands.
-    * Syntax: PASV {on|off}
+    * Syntax: PASV [parameter]
     * Example: pasv on
-        * Allowed values are:
-            * ON - use PASV and initiate the file transfer session from the FTP Client
-            * OFF - use PORT and initiate the file transfer session from the FTP Server
+        * FTPAPI checks only whether a parameter is present:
+            * Any non-blank parameter (for example, `on`) - use PASV and initiate the file transfer session from the FTP Client
+            * No parameter (`PASV` alone) - use PORT and initiate the file transfer session from the FTP Server
+        * Because any non-blank parameter turns passive mode on, `pasv off` also uses PASV. To use PORT, specify `PASV` with no parameter.
 
-* PCIOSFMT: Set the transfer subtype to PCIOS-Format and specify the file record size in words; allowed record sizes are zero through 2047.
+* PCIOSFMT: Set the transfer subtype to PCIOS-Format and specify the file record size in words. The Unisys FTP Services User Guide lists allowed record sizes of zero through 2047; FTPAPI passes the value to CpFTP without checking this range.
     * Syntax: PCIOSFMT {record-size-in-words}
     * Example: pciosfmt 256
 
@@ -150,7 +154,7 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
     * Example: rmdir DirX
         * rmdir MY*OLD-FILE.
 
-* SDFFMT: Set transfer subtype to System Data Format (SDF) and specify the file record size in words; allowed record sizes are zero through 2047.
+* SDFFMT: Set transfer subtype to System Data Format (SDF) and specify the file record size in words; allowed record sizes are zero through 2047. If you specify a value greater than 2047, FTPAPI uses 2047.
     * Syntax: SDFFMT {record-size-in-words}
     * Example: sdffmt 33
 
@@ -189,13 +193,15 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
 
     * PUT - sends local file name to remote file name on Remote Host
 
-    g. FTP commands that are to be executed prior to the file transfer
+    * APP - appends local file name to remote file name on Remote Host
 
-    h. FTP commands that are to be executed after the file transfer
+    g. FTP commands to run before the file transfer (CMD and BCMD commands)
+
+    h. FTP commands to run after the file transfer (ACMD commands)
 
 2. Define an OpCon OS 2200 Job with the following values:
 
-    . Start Command Qualifier: the LSAM file qualifier - typically LSAM
+    a. Start Command Qualifier: the LSAM file qualifier - typically LSAM
 
     b. Start Command File: SKDPRG
 
@@ -219,9 +225,9 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
 
     d. ??LFIL??=Local File Name
 
-    e. ??TYPE??=transfer type
+    e. ??TYPE??=transfer type (`ASCII` or `BINARY`)
 
-    f. ??DIR??=direction
+    f. ??DIR??=direction (`GET`, `PUT`, or `APP`)
 
     g. ??CMD1??=1st command before transfer
 
@@ -229,21 +235,33 @@ Additional commands accepted by SMA's FTPAPI; refer to the Unisys FTP Services U
 
     i. ??CMD3??=3rd command before transfer
 
-    j. -- continue with other commands to be processed before the transfer --
+    j. -- continue with other commands to be processed before the transfer, up to ??CMD10?? --
 
-    k. ??ACMD1??=1st command after transfer
+    k. ??BCMD1??=1st command after the CMD commands and before the transfer
 
-    l. ??ACMD2??=2nd command after transfer
+    l. -- continue with other BCMD commands, up to ??BCMD10?? --
 
-    m. ??ACMD3??=3rd command after transfer
+    m. ??ACMD1??=1st command after transfer
 
-    n. -- continue with other commands to be processed after the transfer --
+    n. ??ACMD2??=2nd command after transfer
+
+    o. ??ACMD3??=3rd command after transfer
+
+    p. -- continue with other commands to be processed after the transfer, up to ??ACMD10?? --
+
+:::info Note
+
+* The FTPAPI run stream provides tokens for up to 10 commands of each kind: ??CMD1?? through ??CMD10??, ??BCMD1?? through ??BCMD10??, and ??ACMD1?? through ??ACMD10??. To use more commands, place them in a file as described in [SMA File Transfer Protocol Interface Alternate Run Streams](#sma-file-transfer-protocol-interface-alternate-run-streams).
+* FTPAPI uses only the first four characters of the ??TYPE?? value, and they must be all uppercase (`ASCI`, `BINA`) or all lowercase (`asci`, `bina`). A mixed-case value such as `Ascii` sets no transfer type. If you omit ??TYPE??, FTPAPI does not send a transfer type command.
+* FTPAPI processes commands in this order: CMD commands, then BCMD commands, then the file transfer, then ACMD commands. If a CMD or BCMD command fails, FTPAPI skips the remaining commands, closes the session, and does not transfer the file. FTPAPI runs ACMD commands only after a successful transfer; if an ACMD command fails, FTPAPI skips the remaining ACMD commands.
+
+:::
 
 :::tip Example
  
 ```
 
-??REMOTE-SYSTEM??=there,??USER??=anonymous^me@here,??RFILE??
+??REMOTE-SYSTEM??=there,??USER??=anonymous^me@here,??RFIL??
 
 =that\there\file.txt,??LFIL??=MY*FILE,??TYPE??=ASCII,??DIR??=get,??CMD1??=cd top,??
 
@@ -251,7 +269,7 @@ CMD2??=dir ^_,
 
 ```
 
-This example will retrieve (get) the file (RFILE) "```that\there\file.txt```" from the Remote System
+This example retrieves (get) the file (RFIL) "```that\there\file.txt```" from the Remote System
 
 "there" in ASCII format (TYPE) using a sign-on (USER) of "anonymous,me@here" and store it on the local system in file (LFIL) "MY*FILE".
 
@@ -269,9 +287,11 @@ Alternate run streams should be placed in a file different from the ```*SKDPRG``
  
 :::
 
-User credentials for transferring files may also be placed in a separate file (or program file element) to facilitate security and easy updating. To do this, replace the "```??USER??```" token contained in the FTPAPI run stream with "```FILE,{qualifier*file-name[,element-name]}```". Each time the run stream is executed, the user credentials will be taken from this location.
+User credentials for transferring files may also be placed in a separate file (or program file element) to facilitate security and easy updating. To do this, replace the "```??USER??```" token contained in the FTPAPI run stream with "```FILE,{qualifier*file-name[,element-name]}```". Each time the run stream runs, FTPAPI takes the user credentials from this location.
 
-When a common set of commands is used for multiple file transfers, or when the commands exceed the token limits for job definitions, the commands may also be placed in a file (or program file element). To do this, replace the "??CMD1??" and/or the "```??ACMD1??```" tokens in the FTPAPI run stream with "```FILE,{qualifier*file-name[,element-name]}```". Each time the run stream is executed, the "before transfer" and/or the "after transfer" commands will be taken from this location.
+When a common set of commands is used for multiple file transfers, or when the commands exceed the token limits for job definitions, the commands may also be placed in a file (or program file element). To do this, replace the "??CMD1??" and/or the "```??ACMD1??```" tokens in the FTPAPI run stream with "```FILE,{qualifier*file-name[,element-name]}```". Each time the run stream runs, FTPAPI takes the "before transfer" and/or the "after transfer" commands from this location.
+
+In a command file, each line is one statement: place the statement name (`CMD`, `BCMD`, or `ACMD`) in columns 1-4, leave column 5 blank, and start the FTP command in column 6. Because `CMD` is three characters, follow it with two spaces (for example, `CMD  cd files`).
 
 The following examples assume the FTPAPI/ECL element has been copied from the``` LSAM*SKDPRG``` file and placed in elements in a separate program file (e.g., ```LSAM*FTP-JOBS```). This file name and the relative element name are used as the job start data in the job definition. Unused parameters have been removed from the examples, and unused parameters may be removed from production run streams.
 
@@ -328,9 +348,9 @@ The contents of ```LSAM*FTP-JOBS.BEFORE/CMDS``` are:
 
 ``` 
 
-CMD cd files
+CMD  cd files
 
-CMD dir ,_
+CMD  dir ,_
 
 ``` 
 
@@ -350,7 +370,7 @@ This example will transfer a specific file from a specific system with the user 
 
 The file is always transferred in ASCII format to a specific local file. 
 
-A DIR command is executed before the file transfer occurs. There are no Token values supplied by the job definition.
+A DIR command runs before the file transfer occurs. There are no Token values supplied by the job definition.
 
 ``` 
 

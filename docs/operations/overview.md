@@ -2,6 +2,11 @@
 sidebar_label: 'Overview'
 title: Operations overview
 description: "Overview of day-to-day OS 2200 LSAM operations: starting, stopping, status checking, and log management."
+tags:
+  - Conceptual
+  - System Administrator
+  - Operations Staff
+  - Agents
 ---
 
 # Operations Overview
@@ -42,7 +47,7 @@ Each LSAM component writes to a breakpoint file that cycles nightly at midnight.
 
 **What happens to running jobs when the LSAM is stopped?**
 
-Jobs that are already executing on the OS 2200 continue to run. When the LSAM is restarted, it reports the final status of those jobs back to OpCon. To avoid jobs being left in a "running" state in OpCon, SMA recommends that all LSAM-started jobs be allowed to complete before stopping the LSAM.
+Jobs that are already running on the OS 2200 continue to run. When the LSAM is restarted, it reports the final status of those jobs back to OpCon. To avoid jobs being left in a "running" state in OpCon, SMA recommends that all LSAM-started jobs be allowed to complete before stopping the LSAM.
 
 **In what order should the LSAM components be started?**
 

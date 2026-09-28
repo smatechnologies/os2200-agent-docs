@@ -1,3 +1,13 @@
+---
+title: File Transfer Server Messages
+description: "Messages from the OS 2200 LSAM file transfer server and what each one means."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # File Transfer Server Messages
 
 OS 2200 File Transfer Messages sent to File Transfer Agents may be displayed in OpCon Enterprise Manager Operation.
@@ -44,7 +54,7 @@ The inquiry to the Master File Directory (MFD) for the source file details resul
 
 The requested source file is in an unloaded status. Unloaded files are not supported.
 
-### File to be Cataloged
+### File to be Catalogued
 
 **Description**
 
@@ -115,6 +125,12 @@ An attempt to open the file for reading failed due to a file assignment error; t
 **Description**
 
 An attempt to open the file for reading failed. The xx contains the error identifier; the error message text contains a brief description of the error. The SMAJOR log file will contain additional error information.
+
+### File Open Error: mismatched file names (```<requested-qual*file>```. VS ```<returned-qual*file>```.)
+
+**Description**
+
+After opening the source file, the name the EXEC SDF services module returned does not match the file that was requested, so the transfer is stopped. The SMAJOR log file shows the requested file and the file SDFIO returned.
 
 ### FILE READ ERROR (CST: xx, CSST: xx ) error message text
 

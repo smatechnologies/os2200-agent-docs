@@ -2,13 +2,17 @@
 sidebar_label: 'SMAMSC'
 title: SMA Monitor Services Connector (SMAMSC)
 description: "Configure and use the SMA Monitor Services Connector (SMAMSC) with the OS 2200 LSAM for enhanced monitoring capabilities."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # SMA Monitor Services Connector (SMAMSC)
 
 ## What is it?
 
-The SMA Monitor Services Connector (SMAMSC) is an optional component that can be used to provide additional information about jobs started by the OS 2200 LSAM. The Connector registers with the Unisys Monitor Services background run (MSCP) to receive started run information. The run events are processed to provide status about executing programs within the runs and run termination information, in addition to the standard job information provided by other LSAM components.
+The SMA Monitor Services Connector (SMAMSC) is an optional component that can be used to provide additional information about jobs started by the OS 2200 LSAM. The Connector registers with the Unisys Monitor Services background run (MSCP) to receive started run information. The run events are processed to provide status about programs running within the runs and run termination information, in addition to the standard job information provided by other LSAM components.
 
 ## SMA Monitor Services Connector Installation
 
@@ -36,9 +40,15 @@ b. Modify the ```*SKDPRG.SMAMSC/ECL``` element ```@XQT``` statement for the SMAM
 
 * ```A``` = Process log entries for All LSAMS. Sites using multiple LSAMs within the same OS 2200 partition may have one SMAMSC process run log entries for all of the LSAMs with this option.
 
-* ```P``` = Do not process Program executions for each run. Sites processing many simultaneous jobs may not wish to have the network overhead of SMAMSC messages for the programs executed by each job.
+* ```P``` = Do not process the programs run by each run. Sites processing many simultaneous jobs may not wish to have the network overhead of SMAMSC messages for the programs run by each job.
 
-c. Modify the ```*SKDPRG.SMAMSC/ECL``` element to alter the execution parameters for SMAMSC. The parameters statement immediately follows the ```@XQT``` SMAMSC statement. This parameters statement contains the following parameters:
+* ```E``` = Verbose messages in the log file. Use with ```M``` (```EM```) for both verbose and trace messages. The program's printed option list describes ```E``` as trace messages, but the ```E``` option turns on verbose mode.
+
+* ```M``` = Trace messages in the log file. The program's printed option list describes ```M``` as verbose messages, but the ```M``` option turns on trace mode.
+
+* ```V``` = Display the program version and the allowed ```@XQT``` options only, then stop.
+
+c. Modify the ```*SKDPRG.SMAMSC/ECL``` element to alter the run parameters for SMAMSC. The parameters statement immediately follows the ```@XQT``` SMAMSC statement. This parameters statement contains the following parameters:
 
 * Program Name in columns 1 – 6; required to be SMAMSC.
 * TIP File Number (right justified, zero filled) in columns 8 – 11.
@@ -52,6 +62,7 @@ c. Modify the ```*SKDPRG.SMAMSC/ECL``` element to alter the execution parameters
         * ```D``` – user must have at least Display Console ability
         * ```R``` – user must have at least Response Console ability
         * ```C``` – system console only; SMAMSC console commands are not accepted from Demand users
+        * A blank or any other value is treated as ```D```.
     * The SMAMSC/ECL is installed with the following default values:
         * Program Name: ```SMAMSC```
         * TIP File Number: ```defined during installation```
@@ -76,7 +87,7 @@ Console commands of "```ST SMAMSC```" may now be used to start the SMAMSC batch 
 
 :::
 
-Configure the LSAM using the procedures for configuration (refer to [LSAM and LMAM Configuration](./configuration/page-two-settings#line-9---use-monitor-services-connector-smamsc)) to set the "Use Monitor Services Connector (SMAMSC)", item 9 on the Advanced Options page, to "Y". When multiple LSAMs are in use within the same OS 2200 partition and the "A" ```@XQT``` option is used for SMAMSC, this configuration parameter must be set to "Y" for all of the LSAM installations.
+Configure the LSAM using the procedures for configuration (refer to [LSAM and LMAM Configuration](./configuration/page-two-settings.md#line-9---use-monitor-services-connector-smamsc)) to set the "Use Monitor Services Connector (SMAMSC)", item 9 on the **LSAM EXEC Parameters** Page 2 screen, to "Y". When multiple LSAMs are in use within the same OS 2200 partition and the "A" ```@XQT``` option is used for SMAMSC, this configuration parameter must be set to "Y" for all of the LSAM installations.
 
 ## SMA Monitor Services Connector Operation
 
@@ -166,6 +177,11 @@ SINCE THAT TIME, THERE HAVE BEEN
 
 ```
 
+When they apply, STATUS also displays the following lines:
+
+* ```999 COMMANDS WERE INVALID``` – displayed when at least one command was invalid.
+* ```999 PROGRAM ACTIVITY RESTARTS``` – displayed when at least one SMAMSC program activity has been restarted.
+
 ### BRKPT  
 
 * Cycles the breakpointed PRINT$ file used by SMAMSC for logging; response to the BRKPT command is:
@@ -214,7 +230,7 @@ SMAMSC ABORT FIN
 
 ```
 
-## SMASC registered keyin Commands
+## SMAMSC registered keyin Commands
 
 When the SMAMSC registered keyin is used, the following additional commands are accepted:
 
@@ -228,11 +244,13 @@ When the SMAMSC registered keyin is used, the following additional commands are 
 
 ### VERBOSE ON|OFF  
 
-* Turns ON or OFF verbose messages in the log file; may be requested by SMA support while resolving a reported support issue.
+* Turns ON or OFF verbose messages in the log file; may be requested by SMA support while resolving a reported support issue. ```VERB``` is accepted as an abbreviation for ```VERBOSE```. Any value other than ```ON``` turns verbose messages off.
 
 ### TRACE ON|OFF 
 
-* Turns ON or OFF program trace messages in the log file; may be requested by SMA support while resolving a reported support issue.
+* Turns ON or OFF program trace messages in the log file; may be requested by SMA support while resolving a reported support issue. Any value other than ```ON``` turns trace messages off.
+
+* ```SET CONFIG``` and ```SET RUNS``` produce the same displays as ```LIST CONFIG``` and ```LIST RUNS```.
 
 ### LIST {parameters} 
 
@@ -244,29 +262,41 @@ When the SMAMSC registered keyin is used, the following additional commands are 
 
 ### RUNS 
 
-* Displays the runs currently monitored by SMAMSC.
+* Displays the runs currently monitored by SMAMSC. ```RUN``` is also accepted.
+
+### VERBOSE 
+
+* Displays whether verbose messages are on: ```VERBOSE MODE: ON``` or ```VERBOSE MODE: OFF```. ```VERB``` is also accepted.
+
+### TRACE 
+
+* Displays whether trace messages are on: ```TRACE MODE: ON``` or ```TRACE MODE: OFF```.
+
+### TLC 
+
+* Reconnects SMAMSC with the LSAM TIP file and rereads the LSAM configuration parameters and control record. The response is ```TLC COMPLETED```.
 
 ## SMA Monitor Services Connector Console Messages
 
 The following messages may be displayed on the system console while SMAMSC is processing:
 
-### FATAL ERROR – ABORTING – 
+### \*\* FATAL ERROR - ABORTING
 
 * Indicates a fatal error detected during program processing; other messages indicating the error may be displayed prior to this one.
 
-### INVALID REALTIME PRIORITY: 
+### \* INVALID REALTIME PRIORITY: 
 
 * {nn}
 
-###  ASSUMING REALTIME PRIORITY 35 
+### \* ASSUMING REALTIME PRIORITY 35 
 
 * An invalid value for the Real Time Priority is contained on the parameters statement; the Real Time Priority of 35 is assumed.
 
-### REALTIME OPTION SELECTED, BUT NON-NUMERIC LEVEL: 
+### \* REALTIME OPTION SELECTED, BUT NON-NUMERIC LEVEL: 
 
 * {xx}
 
-### ASSUMING REALTIME PRIORITY 35  
+### \* ASSUMING REALTIME PRIORITY 35  
 
 * The Real Time ```@XQT``` option is present, but the priority contained on the parameters statement is not numeric; the Real Time Priority of 35 is assumed.
 
@@ -274,28 +304,28 @@ The following messages may be displayed on the system console while SMAMSC is pr
 
 * The LSAM is not configured to use SMAMSC; use the ```LSAMCFG/ECL``` to configure SMAMSC use.
 
-### REG KEYIN ERROR, STATUS={nn}  
+### \*\* REG KEYIN ERROR, STATUS= {nn}  
 
 * An error occurred while attempting to register the KEYIN$ console key word. The Status code can be interpreted with the use of the Unisys Exec Systems Software Executive Requests Programming Reference Manual (7830 7899-xxx) in the KEYIN$ section.
 
 ### MONITOR SERVICES NOT TURNED ON (0555), WAITING...  
 
-* Indicates the Monitor Services background run (MSCP) is not currently running. SMAMSC will wait for the MSCP run to be started and will attempt to connect with it. This message may be repeated periodically until the MSCP run becomes active. 
+* Indicates the Monitor Services background run (MSCP) is not currently running. SMAMSC will wait for the MSCP run to be started and will attempt to connect with it. SMAMSC tries to connect again about every 60 seconds, and this message may be repeated until the MSCP run becomes active. 
 
 Once an error-free connection is established, the following message is displayed:
 
 ```THANK YOU, FOR THE MONITOR SERVICES RUN.```
 
 
-### LSAM-PARAMS RECORD LOCKED 
+### \*\* LSAM-PARAMS RECORD LOCKED 
 
-* Indicates the LSAM Configuration Parameters record in the TIP File is unattainable.
+* Indicates the LSAM Configuration Parameters record in the TIP File is unattainable. SMAMSC displays this message after it retries the read at half-second intervals without success.
 
-### LSAM CONTROL RECORD LOCKED 
+### \*\* LSAM CONTROL RECORD LOCKED 
 
-* Indicates the LSAM Control record in the TIP File is unattainable.
+* Indicates the LSAM Control record in the TIP File is unattainable. SMAMSC displays this message after it retries the read at half-second intervals without success.
 
-### UNAUTHORIZED @@CONS KEYIN:
+### \* UNAUTHORIZED @@CONS KEYIN:
 
 * ```{keyin text received}```
 

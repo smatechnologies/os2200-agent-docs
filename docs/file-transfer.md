@@ -2,6 +2,10 @@
 sidebar_label: 'File transfer'
 title: File transfer
 description: "OS 2200 LSAM file transfer capabilities: transferring files into and out of the Unisys OS 2200 system using OpCon file transfer jobs."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # File Transfer
@@ -93,6 +97,7 @@ File fcycle is NOT allowed; the file is always created +1. Be careful about defi
 
 * SMAFT-options = file creation and processing options for the destination file on the OS 2200; these options must be separated from the device-specification by a semi-colon (;). Allowed options are:
     * PCIOS – to format the destination file as a PCIOS file allowing record lengths up to 8192 characters. The absence of the PCIOS keyword formats the destination file as SDF with a maximum record length of 8188 characters.
+        * You can specify the PCIOS record size in characters after the keyword, in the form `;PCIOS nnnn` (up to four digits). When you omit the record size, the default is 8192 characters.
 
 :::tip Example
 
@@ -106,23 +111,16 @@ Creates a PCIOS file with a maximum of 10240 tracks; the maximum record length f
 
 :::
 
-The length of the source file name is limited in the OS 2200 FTAgent. This limitation may be evident when transferring files from operating systems that allow long path and file names. This limitation affects the transfer of the file by:
+The OS 2200 FTAgent accepts a Source File Name of up to 1024 characters, so long path and file names on the source system can be used. Consider the following limits when defining the File Transfer job:
 
-1. The FTAgent job will error terminate with an indication the source file does not exist for the truncated file name; - or -
-2. The truncated file name is a valid file name on the source system, and results in the wrong file being transferred.
+* Source User ID: 44 characters (for source machines requiring user ID)
+* Destination File Name: 66 characters
 
-To avoid this situation, the following restrictions must be considered when defining the File Transfer job:
+The File Handling option of the File Transfer job determines what the FTAgent does when the destination file already exists:
 
-* The maximum length for the combined Source User ID, Source File Name, and Destination File Name is 105 characters.
-* The absolute maximum length allowed for each of the data items is:
-    * Source User ID : 44 characters (for source machines requiring user ID)
-    * Source File Name: 96 characters
-    * Destination File Name: 66 characters
-
-A valid combination of Source File, Source User, and Destination File consists of both:
-
-1. The length of each data item is within the maximum allowed for that item and
-2. The total length of all three items must not exceed the allowed maximum of 105 characters.
+* Overwrite
+* Do Not Overwrite - the FTAgent job error terminates with error 42 when the destination file already exists
+* Backup then Overwrite - the default when no File Handling option is supplied
 
 :::tip Example
 
@@ -133,8 +131,6 @@ Source File: ```c:\dir1\subdir1\file.txt``` (24 characters)
 Source User: ```Use Service Account|```     (20 characters)
 
 Destination File: ```qual*file.```          (10 characters)
-
-*Total of 54 characters*
 
 :::
 
@@ -148,8 +144,6 @@ Source User: ```0/0```                                                      (3 c
 
 Destination File: q```ualifier*filename/read/write.,fmd///10240,rempak```  (49 characters)
 
-*Total of 90 characters*
-
 :::
 
 :::tip Example
@@ -162,15 +156,13 @@ Source User: ```not used```                                                     
 
 Destination File: ```my-qualifier*my-file-name/readky/writek.,fmd/10/pos/1024,rempak``` (63 characters)
 
-*Total of 97 characters*
-
 :::
 
 ## The File Transfer Runstream
 
-The OS 2200 FTAgent program is executed from the runstream located in \*SKDPRG.SMAFTA/ECL. As released, this runstream produces a breakpoint file containing the PRINT$ images. The name of the breakpoint file is ```[LSAMqualifier]*BK[generated-run-id]```. The runstream also deletes current parts of PRINT$ files, resulting in no residual run-id files; unless multiple SMAFT runs are processing concurrently, there should not be any run-id duplication. The SMAFTA log file will most often be found in a cycle of the ```[LSAMqualifier]*BKSMAFT``` file.
+The OS 2200 FTAgent program runs from the runstream located in \*SKDPRG.SMAFTA/ECL. As released, the BRKPT parameter in this runstream is deactivated (the line reads ```". <==BRKPT . TO BRKPT PRINT$"```), so the runstream does not breakpoint PRINT$. When the BRKPT parameter is active, the runstream produces a breakpoint file containing the PRINT$ images. The name of the breakpoint file is ```[LSAMqualifier]*BK[generated-run-id]```. In this mode, the runstream also deletes current parts of PRINT$ files, resulting in no residual run-id files; unless multiple SMAFT runs are processing concurrently, there should not be any run-id duplication. The SMAFTA log file is then most often found in a cycle of the ```[LSAMqualifier]*BKSMAFTA``` file.
 
-There may be times when it is necessary to generate PRINT$ output. To do this, modify the runstream to "deactivate" the BRKPT parameter, as follows:
+If the BRKPT parameter has been activated and you need PRINT$ output, modify the runstream to "deactivate" the BRKPT parameter, as follows:
 
 1. ```@QUAL [LSAMqualifier]```
 2. ```@ED,U *SKDPRG.SMAFTA/ECL```
@@ -201,7 +193,7 @@ Considerations concerning PRINT$ versus Breakpoint files:
 17. ```PRINT$``` files may be printed unnecessarily.
 18. ```PRINT$``` files are easy for OpCon/xps users to view with the View Job Output capability (however, when a FT job aborts, the ```PRINT$``` will contain a program dump ```[@PMD]``` which can make the file rather large [60 pages or more]).
 19. Breakpoint files are cycled, providing up to 32 run logs of history per generated run-id.
-20. When using Breakpoint files, the generated run-id will often be the same as the original run-id, meaning the breakpoint file will be ```*BKSMAFT``` most often. When the run-id duplicates, the file will be ```*BKSMAFTA```, ```*BKSMAFTB```, etc., for example.
+20. When using Breakpoint files, the generated run-id will often be the same as the original run-id, meaning the breakpoint file will be ```*BKSMAFTA``` most often. When the run-id duplicates, the breakpoint file name follows the generated run-id (```*BK[generated-run-id]```).
 21. Breakpoint files are not viewable from OpCon/xps unless the file is ```@SYMmed``` to a print queue (as released, the runstream does not sym the breakpoint file).
 22. Breakpoint files are easier to transfer electronically than ```PRINT$``` files (although ```PRINT$``` files may be saved after using the OpCon/xps View Job Output capability).
 

@@ -2,13 +2,17 @@
 sidebar_label: 'Additional settings'
 title: Additional settings
 description: "Additional LSAM configuration settings: authorized users, communication protocol switching, and SMA_SETSMAPROTOCOL stored procedure."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Additional Settings
 
 ## Authorized Users
 
-Item 18 on page two of the configuration restricts the use of LSAMCFG to specific OS 2200 DEMAND users. This option displays users authorized to view and modify LSAM configuration parameters (LSAMCFG). Define a maximum of 10 DEMAND user-IDs. Enter "any user" or "any" to bypass user validation, thus allowing any DEMAND user to view and modify configuration parameters.
+Item 18 on page two of the configuration restricts the use of LSAMCFG to specific OS 2200 DEMAND users. This option displays users authorized to view and modify LSAM configuration parameters (LSAMCFG). Define a maximum of 10 DEMAND user-IDs. To bypass user validation and allow any DEMAND user to view and modify configuration parameters, add a user entry of `ANY` or `ANY USER` in uppercase; lowercase entries are not recognized. Adding `ANY` or `ANY USER` as a new user clears all other entries from the list. To remove a user, select the user's number and enter `DELETE` at the **Enter new User-ID to change, or DELETE to delete this User-ID:** prompt.
 
 :::warning
 
@@ -63,12 +67,12 @@ Complete the following procedure on a machine with the Microsoft SQL Server Admi
 
 5. In the Authentication list box, select one of the following:
     - **Windows Authentication** — log in with the current Windows user with local administrative authority
-    - **SQL Server Authentication** — enter `sa` in the Login text box and sa's password in the Password text box.
+    - **SQL Server Authentication** — sign in with an account that can update the OpCon database (for example, `sa`) by entering the login in the **Login** field and its password in the **Password** field.
 
-6. Click the Connect button.
+6. Select **Connect**.
 7. Expand (+) the Databases folder in the Microsoft SQL Server Management Studio window.
-8. Click the OpCon database.
-9. Click the New Query button on the Standard Toolbar.
+8. Select the OpCon database.
+9. Select **New Query** on the Standard Toolbar.
 10. Enter the command for the EXEC SMA_SETSMAPROTOCOL stored procedure.
 
 :::tip Example
@@ -79,7 +83,7 @@ The command for the EXEC SMA_SETSMAPROTOCOL stored procedure:
 
 :::
 
-11. In the toolbar, click the Execute button or press F5 to execute the query.
+11. In the toolbar, select **Execute** or press F5 to run the query.
 
 ## Switch the Communication Protocol for a Machine Group
 
@@ -91,12 +95,12 @@ Complete the following procedure on a machine with the Microsoft SQL Server Admi
 4. In the Server name list box, select the desired OpCon Database Server.
 5. In the Authentication list box, select one of the following:
     - **Windows Authentication** — log in with the current Windows user with local administrative authority
-    - **SQL Server Authentication** — enter `sa` in the Login text box and sa's password in the Password text box.
+    - **SQL Server Authentication** — sign in with an account that can update the OpCon database (for example, `sa`) by entering the login in the **Login** field and its password in the **Password** field.
 
-6. Click the Connect button.
+6. Select **Connect**.
 7. Expand (+) the Databases folder in the Microsoft SQL Server Management Studio window.
-8. Click the OpCon database.
-9. Click the New Query button on the Standard Toolbar.
+8. Select the OpCon database.
+9. Select **New Query** on the Standard Toolbar.
 10. Enter the command for the EXEC SMA_SETSMAPROTOCOL stored procedure.
 
 :::tip Example
@@ -107,4 +111,4 @@ The command for the EXEC SMA_SETSMAPROTOCOL stored procedure:
 
 :::
 
-11. In the toolbar, click the Execute button or press F5 to execute the query.
+11. In the toolbar, select **Execute** or press F5 to run the query.

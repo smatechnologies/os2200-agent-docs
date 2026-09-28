@@ -2,6 +2,10 @@
 sidebar_label: 'Page one settings'
 title: Configuration settings — page one
 description: "Reference for all LSAM configuration parameters on page one of LSAMCFG: RSI user-ID, machine name, port, console keyins, and more."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Configuration Settings — Page 1
@@ -26,7 +30,7 @@ Any Valid RSI user-id with the specified attributes
 
 :::info Note
 
-The RSI password is not displayed and is encrypted when stored in the configuration file.
+The RSI password is not displayed. It is stored in the configuration file in an obscured form (each character is shifted), not encrypted.
 
 :::
 
@@ -59,7 +63,7 @@ None
 
 **Default**
 
-None
+Process name `LSAM`, password `LSAMPWD`
 
 **Description**
 
@@ -67,7 +71,7 @@ None
 
 :::info Note 
 
-The TSU process password is not displayed and is encrypted when stored in the configuration file.
+The TSU process password is not displayed. It is stored in the configuration file in an obscured form (each character is shifted), not encrypted.
 
 :::
 
@@ -75,7 +79,7 @@ The TSU process password is not displayed and is encrypted when stored in the co
 
 **Default**
 
-LSAM
+The qualifier you enter during installation
 
 **Description**
 
@@ -85,7 +89,7 @@ The file qualifier of the SKDPRG file.
 
 **Default**
 
-None
+`U2200`
 
 **Valid Values**
 
@@ -101,11 +105,11 @@ Any valid hostname
 
 **Default**
 
-10
+50
 
 **Valid Values**
 
-1 – 500
+1 – 500 (recommended). The configuration program does not check the range.
 
 **Description**
 
@@ -142,7 +146,7 @@ Unisys recommends such keywords should start with an asterisk (*) to avoid confl
 
 **Valid Values**
 
-1025 – 65535
+1025 – 65535 (recommended). The configuration program does not check the range.
 
 **Description**
 
@@ -211,7 +215,7 @@ N/A
 * Select this option to configure the Media Allocation Subsystem parameters.
 * The Media Allocation SubSystem is available only to sites licensed for its use; refer to the OS 2200 Media Allocation SubSystem documentation for configuration details.
 
-### Line 14 - Modify ECL executed at End-Of-Job
+### Line 14 - Modify ECL run at End-Of-Job
 
 **Default**
 
@@ -224,6 +228,9 @@ N/A
 **Description** 
 
 * Select this option to define ECL lines to be inserted automatically at the end of job runstreams.
+* You can define two lines: **1. ECL Line Before SAMS-NOTICE** and **2. ECL Line After SAMS-NOTICE**.
+* Each line accepts up to 72 characters. Type `#` in place of an `@` sign in the first character; the configuration program converts it to `@`.
+* To remove a line, enter `^`. To leave a line unchanged, press **Transmit** without entering a value.
 
 ### Line 15 - Allow IPv6 network addresses
 
@@ -265,7 +272,7 @@ Yes (Y)
 
 ## Configure Console Keyin
 
-Item eight on page one of the configuration contains the console keyins for the LSAM and for XFRTCP (refer to [OS 2200 LSAM and BIS LMAM Configuration](configuration-settings)).
+Item eight on page one of the configuration contains the console keyins for the LSAM and for XFRTCP (refer to [OS 2200 LSAM and BIS LMAM Configuration](configuration-settings.md)).
 
 1. For the Enter new console KEYIN for this LSAM (max 8 chars) prompt, enter the desired keyword for the LSAM.
 

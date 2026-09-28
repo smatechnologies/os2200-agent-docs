@@ -2,15 +2,19 @@
 sidebar_label: 'New installation'
 title: New installation
 description: "Step-by-step guide for a first-time installation of the OS 2200 LSAM: uploading files, running INSTALL, initializing, registering TIP, and configuring."
+tags:
+  - Procedural
+  - System Administrator
+  - Agents
 ---
 
 # New Installation
 
-This guide walks through a first-time installation of the OS 2200 LSAM. If you are upgrading an existing LSAM, refer to the [Upgrade](upgrade) guide instead.
+This guide walks through a first-time installation of the OS 2200 LSAM. If you are upgrading an existing LSAM, refer to the [Upgrade](upgrade.md) guide instead.
 
 ## Before You Begin
 
-1. Complete all [Prerequisites](preparing-the-installation) and fill out the [Installation Parameters Worksheet](installation-parameters-worksheet).
+1. Complete all [Prerequisites](preparing-the-installation.md) and fill out the [Installation Parameters Worksheet](installation-parameters-worksheet.md).
 2. Ensure the CMS or CpComm PROCESS for the LSAM has been defined and activated.
 3. Confirm the TIP file number has been designated for LSAM use.
 
@@ -66,7 +70,7 @@ From a DEMAND terminal on the OS 2200 system:
 
 ## Step 3: Run the INSTALL Procedure
 
-Set the LSAM qualifier and launch the interactive installation:
+Set the LSAM qualifier and start the interactive installation:
 
 ```
 @QUAL <qualifier>
@@ -85,16 +89,19 @@ The procedure prompts for parameters in four groups. Respond to each prompt or p
 
 | Prompt | Description |
 | ------ | ----------- |
-| `Enter account/Userid to use for LSAM runs` | Account code and userid for LSAM batch runs |
-| `Enter Project ID to be used for LSAM runs` | Project identifier for LSAM runstreams |
+| `Enter account/userid to use for LSAM runs` | Account code and userid for LSAM batch runs |
+| `Enter Project Id to use for LSAM runs` | Project identifier stored in `INSTALL/SGS` (default: `LSAM`). The generated runstreams use the LSAM qualifier as the project ID on their `@RUN` statements. |
 
 ### Installation Options
 
 | Prompt | Description |
 | ------ | ----------- |
-| `Do you want to install LSAM? (Y,N)` | **Y** to install the new release. N to recompile only. |
-| `Do you want to install the LSAM BIS feature (LMAM)? (Y,N)` | Y to generate LMAM/MAM modules. N to skip BIS support. |
-| `Enter the LSAM TIP communication file number (4 digits)` | Local TIP file number dedicated to LSAM (default: 0021) |
+| `Do you want to install LSAM? (Y,N) <Y>` | **Y** to install the new release. N to recompile only. |
+| `Do you want to install the Auto-Action Message System (AMS)? (Y/N)` | Y to install AMS. The default is N. |
+| `Do you want to install the Standard AMS or IRS AMS? (STD,IRS)` | Displayed only when you install AMS. Enter STD for the standard AMS or IRS for the IRS AMS. The default is STD. |
+| `Do you want to install the Media Allocation Subsystem? (Y,N)` | Y to install the Media Allocation Subsystem (MASS). The default is N. |
+| `Do you want to install the LSAM Mapper feature? (Y,N)` | Y to generate LMAM/MAM modules. N to skip BIS support. |
+| `Enter LSAM TIP file number (4 digits)` | Local TIP file number dedicated to LSAM (default: 0021). The value must be 4 digits and greater than 0; otherwise the installer displays `LSAM TIP file number MUST BE 4 DIGITS & > 0` and prompts again. |
 | `Enter the local name for the LSAM NCCB data bank` | Name for the non-configured common bank (default: `<qualifier>CDB`) |
 | `Enter the local NCCB file for the LSAM data bank` | Exec file (without qualifier) containing the NCCB template |
 
@@ -103,34 +110,36 @@ The procedure prompts for parameters in four groups. Respond to each prompt or p
 | Prompt | Description |
 | ------ | ----------- |
 | `Are you using the Flagging COBOL compiler? (Y,N)` | Y for Flagging compiler with standard ANSI conventions |
-| `Is the LSAM communications PROCESS defined in CMS?` | Y for CMS, N for CpComm. Follow-up prompts request the library file name. |
+| `Is the LSAM communications PROCESS defined in CMS? (Y/<N>)` | Y for CMS, N for CpComm. The default is N. If you enter Y, the installer asks `Use Default CMS Library? (Y/N) <Y>`; enter N to supply a CMS library file name. If you enter N, the installer requests the CpComm library file name. |
 | `Enter file name containing TIP relocatable library` | File with TIP relocatables (default: `TIP$*TIPLIB$`) |
 | `Enter file name containing TIP absolutes` | File with TFUR/TREG absolutes (default: `TIP$*TIPRUN$`) |
-| `Enter COBOL I-Bank start address at your site` | Use `022000` for common-banked (recommended) or `01000` for non-common-banked. See [Non-Common Banked Program Collection](installation-reference#non-common-banked-program-collection) for details on 01000. |
-| `Enter ACOB DML Library file name` | File with CBEP$$ACOB element (default: `SYS$LIB$*ACOB-DML`) |
+| `Enter COBOL I-Bank start address at your site` | Use `022000` for common-banked (recommended) or `01000` for non-common-banked. See [Non-Common Banked Program Collection](installation-reference.md#non-common-banked-program-collection) for details on 01000. |
+| `Enter ACOB DML Library file name` | File with CBEP$$ACOB element (default: `SYS$LIB$*ACOB-DML`). Displayed only when the I-Bank start address is not `01000`. |
 
 ### File Placement Parameters
 
 For each system file, the installer prompts:
 
 ```
-Enter the device, type pack for the <file-name> file: <F,FIX>
+Enter the device type,pack for the <file-name> file: <type,pack>
 ```
+
+The displayed default is the file's device type and pack, for example `<F,FIX>` or `<FMD,FIX>`. In the pack field, `FIX` means that no pack-ID is used when the file is cataloged.
 
 Respond with:
 - A device type and Pack-ID (e.g., `FMD,PACK01`)
-- `FIX` for fixed mass storage
+- A device type and `FIX` (e.g., `F,FIX`) to catalog the file without a pack
 - Press Enter to accept the displayed default
 - `ALL` to apply the last entered device/pack to all remaining files
 
-For a description of each file, refer to the [Installation Reference](installation-reference#lsam-system-files).
+For a description of each file, refer to the [Installation Reference](installation-reference.md#lsam-system-files).
 
-## Step 4: Execute the Installation
+## Step 4: Run the Installation
 
-Run the generated installation runstream:
+When the setup completes, the installer displays the command to run. Run the generated installation runstream from a DEMAND terminal:
 
 ```
-@ADD *SKDPRG.INSTALL/ECL
+@ADD,L *SKDPRG.INSTALL/ECL
 ```
 
 Review the LSAM-PRINT file for any errors. If errors occur, correct the issue and re-run the procedure.
@@ -202,7 +211,7 @@ The START-UP/ECL runstream provides a convenient way to start all LSAM component
 
 For an LSAM-only installation:
 ```
-@RUN STLSAM,acct/user,projid
+@RUN STLSAM,acct/user,<qualifier>
 @QUAL <qualifier>
 @START *SKDPRG.LSAM-RUN/ECL
 @START *SKDPRG.XFRTCP/ECL
@@ -211,7 +220,7 @@ For an LSAM-only installation:
 
 For an LSAM + LMAM installation:
 ```
-@RUN STLSAM,acct/user,projid
+@RUN STLSAM,acct/user,<qualifier>
 @QUAL <qualifier>
 @START *SKDPRG.LSAM-RUN/ECL
 @START *SKDPRG.XFRTCP/ECL
@@ -223,12 +232,13 @@ Copy the START-UP/ECL element to `SYS$LIB$*RUN$` with a short name (e.g., `LSAM`
 
 ### XFRTCP/ECL
 
-- To disable Real-Time, remove the `R` option from `@XQT,R XFRTCP` (resulting in `@XQT XFRTCP`).
+- To disable Real-Time, remove the `R` option from `@XQT,CHR XFRTCP` (resulting in `@XQT,CH XFRTCP`).
 - To change the Real-Time priority, modify the `TIPFILE <TIP-file-number> 35` parameter to use the desired priority (valid values: 02-35).
 
-### LSAM-RUN/ECL
+### LSAM-RUN/ECL and LMAM-RUN/ECL
 
-- Same Real-Time modifications as XFRTCP/ECL apply to `@XQT,R LSAM` and its TIPFILE parameter.
+- To disable Real-Time, remove the `R` option from `@XQT,R LSAM` (or `@XQT,R LMAM`).
+- To change the Real-Time priority, modify the parameter line that follows the `@XQT` statement. In these runstreams, the line contains the TIP file number and the priority, with no `TIPFILE` keyword (for example, `<TIP-file-number> 35`).
 
 ### STSMAJOR/ECL (JORS)
 
@@ -248,7 +258,7 @@ The JORS batch account requires the SSSMOQUE security attribute.
 
 ## Step 9: Install BIS/MAM (Optional)
 
-If you need BIS job scheduling support, proceed to [BIS/MAM Installation](bis-mam-installation).
+If you need BIS job scheduling support, proceed to [BIS/MAM Installation](bis-mam-installation.md).
 
 ## Step 10: Start the LSAM
 
@@ -260,4 +270,4 @@ ST LSAM
 
 Or start each component individually using the `@START` commands listed in your START-UP/ECL.
 
-Verify the LSAM connects to OpCon by checking the console messages and enabling communications in the OpCon Enterprise Manager. Refer to [Operating the LSAM](../operations/operating-the-lsam) for ongoing operations guidance.
+Verify the LSAM connects to OpCon by checking the console messages and enabling communications in the OpCon Enterprise Manager. Refer to [Operating the LSAM](../operations/operating-the-lsam.md) for ongoing operations guidance.

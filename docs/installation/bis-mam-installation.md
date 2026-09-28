@@ -2,6 +2,10 @@
 sidebar_label: 'BIS/MAM installation'
 title: BIS/MAM installation
 description: "Installation guide for the optional BIS Activity Monitor (MAM) and Local MAM (LMAM) components for BIS job scheduling with OpCon."
+tags:
+  - Procedural
+  - System Administrator
+  - Agents
 ---
 
 # BIS/MAM Installation
@@ -16,7 +20,7 @@ Unisys OS 2200 LMAM version 3R1C requires BIS Level 38 or higher. The BIS Data d
 
 ## Prerequisites
 
-Before installing BIS/MAM, you must have already installed the LSAM (see [New Installation](new-installation) or [Upgrade](upgrade)) with the LMAM option set to **Y** during the INSTALL procedure.
+Before installing BIS/MAM, you must have already installed the LSAM (see [New Installation](new-installation.md) or [Upgrade](upgrade.md)) with the LMAM option set to **Y** during the INSTALL procedure.
 
 Additionally, complete the following BIS preparation:
 
@@ -84,15 +88,15 @@ The procedure prompts for the following information:
 Enter SITE-ID for this MAM <x>:
 ```
 
-Each MAM must have a unique SITE-ID. This is a single character: 0-9 or A-Z (except T and U). The SITE-ID identifies which MAM BIS jobs are distributed to.
+Each MAM must have a unique SITE-ID. Use a single character: 0-9 or A-Z (except T and U). MAM/GEN does not check the value you enter, so follow these guidelines. The SITE-ID identifies which MAM BIS jobs are distributed to. The default is `1`.
 
 ### BIS Data Drawer
 
 ```
-Enter BIS Drawer for MAM data <x>:
+Enter MAPPER Drawer for MAM data <x>:
 ```
 
-Enter the Drawer (Type) letter for MAM's Data Drawer. Valid values: B, C, D, E, F, G, H, or I.
+Enter the Drawer (Type) letter for MAM's Data Drawer. Use B, C, D, E, F, G, H, or I. MAM/GEN does not check the value you enter.
 
 ### User-ID Options
 
@@ -131,7 +135,7 @@ Use only MAMFIN to determine termination status <N>?
 After completion, the following message is displayed:
 
 ```
-MAM x IS NOW READY TO BE INSTALLED IN BIS
+MAM x IS NOW READY TO BE INSTALLED IN MAPPER
 ```
 
 ## Step 2: Install MAM in BIS

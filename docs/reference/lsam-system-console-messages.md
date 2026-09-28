@@ -1,3 +1,13 @@
+---
+title: LSAM System Console Messages
+description: "Messages the OS 2200 LSAM displays on the system console and what each one means."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # LSAM System Console Messages
 
 The following messages are displayed by the LSAM at the Unisys OS 2200 system console:
@@ -27,19 +37,22 @@ The LSAM is unable to start a DEMAND run due QUOTA restrictions.
 
 The LSAM is unable to start a DEMAND run due to lack of system resources (i.e., exceeds the number of DEMAND runs allowed).
 
-### * INVALID REALTIME PRIORITY: RAISED TO REALTIME LVL 35
+### * INVALID REALTIME PRIORITY: ```<param-RT-level>```
+
+and
+
+### * ASSUMING REALTIME PRIORITY 35
 
 **Description**
 
 * The RealTime option has been activated on the program's XQT statement, but the priority provided is not valid (not between 02 and 35, inclusive).
+* The ```<param-RT-level>``` field displays the invalid priority provided.
 * The program assumes the priority of 35.
+* The LSAM also writes ```RAISED TO REALTIME LVL 35``` to its print file. This line does not appear on the console.
 
-### * INVALID REALTIME PRIORITY: RAISED TO REALTIME LVL: ```<param-RT-level>```
-
-**Description**
-
-* The RealTime option has been activated on the program's XQT statement, but the priority provided is not valid (not between 02 and 35, inclusive).
-* The program assumes the priority of 35.
+:::note
+When the priority is valid, the LSAM uses it and writes ```RAISED TO REALTIME LVL: <param-RT-level>``` to its print file only. No console message is displayed.
+:::
 
 ### * REALTIME OPTION SELECTED, BUT NON-NUMERIC LEVEL: ```<xx>```
 
@@ -51,7 +64,7 @@ The LSAM is unable to start a DEMAND run due to lack of system resources (i.e., 
 * The program assumes the priority of 35.
 * The ```<xx>``` field displays the invalid priority provided.
 
-### LSAM INITIALIZATION COMPLETE
+### == LSAM INITIALIZATION COMPLETE ==
 
 **Description**
 
@@ -117,6 +130,7 @@ and
 
 * The LSAM encountered an error while attempting to write job data to the TIP file.
 * The breakpoint file of the run contains additional error information.
+* Most likely a problem with the TIP file definition.
 
 ### LSAM ARRAY RECORD READ FAILURE
 
@@ -124,6 +138,7 @@ and
 
 * The LSAM encountered an error while attempting to read pointer array data from the TIP file.
 * The breakpoint file of the run contains additional error information.
+* Most likely TIP file corruption, a failure to properly initialize the TIP file, or a problem with the TIP file definition.
 
 ### LSAM ARRAY RECORD WRITE FAILURE
 
@@ -189,24 +204,11 @@ The OpCon/xps job with Exec-Run-ID errored at time date.
 
 The LSAM is unable to lock a job record in the TIP file for exclusive use.
 
-### LSAM JOB RECORD WRITE FAILURE
-
-**Description**
-
-* The LSAM attempted to write job information in the TIP file, but the write failed.
-* Most likely a problem with the TIP file definition.
-
-### LSAM ARRAY RECORD READ FAILURE
-
-**Description**
-
-* The LSAM attempted to read a pointer array record from the TIP file, but the read failed.
-* Most likely TIP file corruption, a failure to properly initialize the TIP file, or a problem with the TIP file definition.
-
 ### LSAM POST RUN JOBID NOT FOUND ```<OpCon/xps-Job-ID>```	
 
 **Description**
 
+* The SAMNOT program displays this message, not the LSAM run itself.
 * The OpCon/xps job related to a pre-run job cannot be found in the TIP file.
 * Most likely a TIP file corruption.
 
@@ -297,14 +299,11 @@ The LSAM has received a start command from OpCon/xps for a job without ECL locat
 
 ### ECL IS EXCL ASGED BY ANOTHER RUN
 
-and 
-
-### RETRYING START OF ```<OpConxps-Job-ID>```
-
 **Description**
 
 * The ECL file for OpCon/xps job is exclusively assigned to another run.
 * The LSAM continues attempting to assign the ECL file.
+* Earlier releases followed this message with ```RETRYING START OF <OpConxps-Job-ID>```. Current releases no longer display that line.
 
 ### *START FAIL:```<OpCon/xps-Job-ID>``` ERR=```<xx>``` STAT=```<start-error-message>```
 
@@ -328,9 +327,100 @@ and
 * The EXEC SDF services module returned an error while attempting to assign an ECL file.
 * The facility-status contains the FAC error code.
 
+### ```********* CRITICAL SDFIO ERROR *********```
+
+and
+
+### ** WHILE PROCESSING ```<OpCon/xps-Job-ID>```
+
+and
+
+### \*SDFIO.....FUNC=```<f>``` CST=```<c>``` CSST=```<s>``` CCSF=```<facility-status>```
+
+**Description**
+
+* The EXEC SDF services module returned an error that the LSAM does not otherwise report while reading the ECL file for the OpCon/xps job.
+* The ```FUNC```, ```CST```, and ```CSST``` fields contain the SDF function and status codes. The ```CCSF``` field contains the facility status.
+
+### I/O ERR ON FILE..... ```<file-data>```
+
+**Description**
+
+The EXEC SDF services module returned an I/O error while the LSAM was reading the ECL file for the job.
+
+### FILE NOT PROGRAM FILE:```<file-data>```
+
+**Description**
+
+The ECL file identified for the job is not a program file.
+
+### ```<OpCon/xps-Job-ID>``` HAS INVALID RUN-ID: ```<run-id>```
+
+**Description**
+
+* The run-id for the OpCon/xps job failed the LSAM's run-id validation, so the job is not started.
+* The job status reports ```BAD RUN-ID: <run-id>```.
+
 ### LSAM IS UNABLE TO SIGN ON THE SYSTEM
 
 **Description**
 
 * The LSAM is unable to sign-on a DEMAND run.
 * May be due to improper privileges for the LSAM, or system resources are not available.
+
+### \*\*=== ```<lsam-qualifier>``` HOLDING ===\*\*
+
+**Description**
+
+* The LSAM is holding and does not start new jobs.
+* The LSAM repeats this message about every five minutes until you release it.
+
+### == ```<lsam-qualifier>``` HOLDING
+
+**Description**
+
+The LSAM has accepted a HOLD keyin and is now holding.
+
+### ** ```<lsam-qualifier>``` ALREADY HOLDING
+
+**Description**
+
+The LSAM received a HOLD keyin while it was already holding. No action is taken.
+
+### ** @CAT OF LSAM-HOLDING FAILED
+
+**Description**
+
+* The LSAM received a HOLD keyin but could not catalog its holding file.
+* The LSAM does not hold.
+
+### ** @ASG,AX OF LSAM-HOLDING FAILED
+
+**Description**
+
+* The LSAM received a HOLD keyin but could not assign its holding file exclusively.
+* The LSAM does not hold.
+
+### == ```<lsam-qualifier>``` RELEASED
+
+**Description**
+
+The LSAM has accepted a REL keyin and is no longer holding.
+
+### ** ```<lsam-qualifier>``` ALREADY RELEASED
+
+**Description**
+
+The LSAM received a REL keyin while it was not holding. No action is taken.
+
+### INVALID COMMAND
+
+**Description**
+
+The LSAM received a keyin command it does not recognize. The recognized commands are HOLD, REL, TERM, STOP, STATUS, and BRKPT.
+
+### UNKNOWN LSAM-START-STEP ```<Exec-Run-ID>``` ```<start-step>```
+
+**Description**
+
+The job record in the TIP file contains a start step value that the LSAM does not recognize.

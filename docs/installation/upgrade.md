@@ -2,18 +2,22 @@
 sidebar_label: 'Upgrade'
 title: Upgrade
 description: "Step-by-step guide for upgrading an existing OS 2200 LSAM to a new release."
+tags:
+  - Procedural
+  - System Administrator
+  - Agents
 ---
 
 # Upgrade
 
-This guide walks through upgrading an existing OS 2200 LSAM to a new release. If you are installing the LSAM for the first time, refer to the [New Installation](new-installation) guide instead.
+This guide walks through upgrading an existing OS 2200 LSAM to a new release. If you are installing the LSAM for the first time, refer to the [New Installation](new-installation.md) guide instead.
 
 ## Before You Begin
 
 1. Review the installation parameters (`INSTALL/SGS`) for your current installation. Note the option settings and file placement of all system files.
 2. Enter `@PRT,F` for each system file to identify the current file specifications (especially device types). The new installation should match these specifications.
 3. Review any special instructions provided with the new release. New modules may require additional preparation.
-4. Complete the [Installation Parameters Worksheet](installation-parameters-worksheet) with your current values and any planned changes.
+4. Complete the [Installation Parameters Worksheet](installation-parameters-worksheet.md) with your current values and any planned changes.
 
 ## Step 1: Stop the LSAM/LMAM
 
@@ -89,7 +93,7 @@ The device specifications **must match** the existing SKDPRG file specifications
 
 ## Step 4: Run the INSTALL Procedure
 
-Set the LSAM qualifier and launch the interactive installation:
+Set the LSAM qualifier and start the interactive installation:
 
 ```
 @QUAL <qualifier>
@@ -111,14 +115,14 @@ To abort the installation at any prompt, enter `@EOF`.
 
 :::
 
-The procedure prompts for the same four parameter groups as a new installation (system parameters, installation options, compile/collection parameters, and file placement). For details on each prompt, refer to [New Installation - Step 3](new-installation#step-3-run-the-install-procedure).
+The procedure prompts for the same four parameter groups as a new installation (system parameters, installation options, compile/collection parameters, and file placement). For details on each prompt, refer to [New Installation - Step 3](new-installation.md#step-3-run-the-install-procedure).
 
-## Step 5: Execute the Installation
+## Step 5: Run the Installation
 
-Run the generated installation runstream:
+When the setup completes, the installer displays the command to run. Run the generated installation runstream from a DEMAND terminal:
 
 ```
-@ADD *SKDPRG.INSTALL/ECL
+@ADD,L *SKDPRG.INSTALL/ECL
 ```
 
 Review the LSAM-PRINT file for any errors. If errors occur, correct the issue and re-run the procedure.
@@ -151,11 +155,11 @@ Only use `TIPREG/ECL` (or `FTIPREG/ECL`) if you are changing the file placement 
 
 Review the generated runstreams (START-UP/ECL, XFRTCP/ECL, LSAM-RUN/ECL) and verify they still reflect your site requirements. If a new release introduces changes to the runstream templates, you may need to re-apply any local customizations.
 
-For details on runstream modifications, refer to [New Installation - Step 8](new-installation#step-8-modify-runstreams).
+For details on runstream modifications, refer to [New Installation - Step 8](new-installation.md#step-8-modify-runstreams).
 
 ## Step 9: Update BIS/MAM (Optional)
 
-If you use BIS/MAM and the new release includes MAM updates, refer to [BIS/MAM Installation](bis-mam-installation) to regenerate and reinstall the MAM modules.
+If you use BIS/MAM and the new release includes MAM updates, refer to [BIS/MAM Installation](bis-mam-installation.md) to regenerate and reinstall the MAM modules.
 
 ## Step 10: Restart the LSAM
 
@@ -166,3 +170,48 @@ ST LSAM
 ```
 
 Re-enable communications between the OpCon server and the OS 2200 LSAM in the Enterprise Manager. Verify the LSAM connects successfully by checking the console messages.
+
+## Install a patch
+
+A patch updates specific components of an installed release without a full upgrade. The following steps use 22R1A Patch 1 as an example. The patch package (`LSAM22R1A-Patch1.zip`) contains the patch file (`LSAM22R1A-Patch1.bin`) and a text file (`Purpose.22r1a-1.txt`) that describes the patch and its installation steps.
+
+To install a patch, complete the following steps:
+
+1. Transfer the patch `.bin` file to the OS 2200 system with binary FTP, entering `quote site tasc` before the transfer. Name the target file `LSAM-RELEASE*22R1A-PATCH1`.
+2. From a DEMAND session on the OS 2200 system, set the LSAM qualifier:
+
+```
+@QUAL <LSAM-qualifier>
+```
+
+3. Install the new components:
+
+```
+@ADD LSAM-RELEASE*22R1A-PATCH1.INSTALL/22R1A-1
+```
+
+4. Confirm there are no `@MAP` errors. The `END MAP` line is displayed on the terminal.
+5. Enter `@*SKDPRG.BK2,E` to view any `@MAP` errors, or enter `@*SKDPRG.BK2,D` to delete the breakpoint file.
+
+The next time the patched program runs, it uses the updated version. For 22R1A Patch 1, the SAMNOT program uses version 05.04D.
+
+### Remove a patch
+
+To remove a patch and restore the previous components, complete the following steps:
+
+1. From a DEMAND session on the OS 2200 system, set the LSAM qualifier:
+
+```
+@QUAL <LSAM-qualifier>
+```
+
+2. Remove the new components and restore the previous components:
+
+```
+@ADD *SKDPRG.REMOVE/22R1A-1
+```
+
+3. Confirm there are no `@MAP` errors. The `END MAP` line is displayed on the terminal.
+4. Enter `@*SKDPRG.BK2,E` to view any `@MAP` errors, or enter `@*SKDPRG.BK2,D` to delete the breakpoint file.
+
+The next time the program runs, it uses the prior version.

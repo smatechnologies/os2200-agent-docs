@@ -10,6 +10,11 @@ tags:
 
 # OS 2200 Agent release notes
 
+This page lists changes for each OS 2200 Agent release. Each entry is prefixed with one of the following indicators:
+
+- :eight_spoked_asterisk: — New feature or enhancement
+- :white_check_mark: — Bug fix
+
 ## 22
 
 ### 22R1A
@@ -19,6 +24,14 @@ tags:
 ### What's new
 
 :eight_spoked_asterisk: Support for TDATE$ changes.
+
+### 22R1A Patch 1
+
+2024 May
+
+### Fixes
+
+:white_check_mark: Restored the SEND command to the events displayed on the system console when the SAMNOT program runs with the XQT option E. Patch element: SAMNOT/05.04D. To install the patch, refer to [Install a patch](installation/upgrade.md#install-a-patch).
 
 ## 19
 

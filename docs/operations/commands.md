@@ -2,16 +2,23 @@
 sidebar_label: 'Commands'
 title: Commands
 description: "Console commands for OS 2200 LSAM components: XFRTCP, JORS, communication file utilities, Common Data Bank, and BIS MAM."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
 ---
 
 # Commands
 
-Console commands can be issued to each LSAM component using either the component's reserved keyin or the `II` (Interactivity Interrupt) command. Both forms are equivalent:
+Console commands can be issued to LSAM components using the component's reserved keyin. The LSAM, LMAM, and SMAMSC runs (and the Media Allocation Subsystem OPCTMS run, when installed) also accept the `II` (Interactivity Interrupt) command, in the form `II <run-id> <command>`. XFRTCP and JORS accept only their reserved keyin.
 
 | Method | Example |
 | ------ | ------- |
 | Reserved keyin | `*XFRTCP STATUS` |
-| II keyin | `II XFRTCP STATUS` |
+| II keyin (LSAM, LMAM, and SMAMSC only) | `II LSAM STATUS` |
+
+The `II` command passes only the first six characters of the command to the run.
 
 The reserved keyins are configured in LSAMCFG. The defaults are `*LSAM`, `*LMAM`, `*XFRTCP`, and `*JORS`.
 
@@ -23,6 +30,9 @@ The reserved keyins are configured in LSAMCFG. The defaults are `*LSAM`, `*LMAM`
 | `STOP` | Terminates XFRTCP and SMAJOR only — does not notify LSAM or LMAM to terminate |
 | `STATUS` | Displays current network status |
 | `BRKPT` | Cycles the XFRTCP breakpoint log file |
+| `HUP` | Detaches XFRTCP from CpComm and attaches it again |
+| `MSG0` – `MSG3` | Sets the XFRTCP debug message level |
+| `MSG?` | Displays the current XFRTCP debug message level |
 
 ### TERM
 
@@ -34,12 +44,12 @@ Terminates XFRTCP and SMAJOR only. The LSAM and LMAM continue running but lose t
 
 ### STATUS
 
-Displays current network status. Output format:
+Displays current network status. The output varies by connection and TLS settings. The following is an example of the output format:
 
 ```
 HOST: <OS 2200 host name> PORT: 9999
 HOST: <BIS host name> PORT: 999
-CURRENT CONNECTION: 001.002.003.004: 8888
+CURRENT CONNECTION: 192.000.002.004: 8888
 LAST MSG RECVD: yymmdd, hhmmsstt
 MSGS RCVD: 99,999 ACKS SENT: 99,999
 MSGS SENT: 99,999 ACKS RCVD: 99,999
@@ -62,6 +72,21 @@ Closes the current cycle of the `BKXFRTCP` breakpoint file and opens a new cycle
 
 :::
 
+### HUP
+
+Detaches XFRTCP from CpComm and then attaches it again. XFRTCP responds with `HUP KEYIN ACCEPTED`.
+
+### MSG0 – MSG3 and MSG?
+
+Sets the debug message level for XFRTCP:
+
+- `MSG0` — off
+- `MSG1` — verbose
+- `MSG2` — trace
+- `MSG3` — verbose and trace
+
+XFRTCP responds with `<command> KEYIN ACCEPTED`. Enter `MSG?` to display the current level in the format `CURRENT MSG LVL IS n`.
+
 ## JORS Commands
 
 | Command | Effect |
@@ -70,6 +95,10 @@ Closes the current cycle of the `BKXFRTCP` breakpoint file and opens a new cycle
 | `STOP` | Terminates SMAJOR |
 | `STATUS` | Displays current JORS status |
 | `BRKPT` | Cycles the JORS breakpoint log file |
+| `NAK` | Turns acknowledgment handling off or on |
+| `MSG0` – `MSG3` | Sets the JORS debug message level |
+| `MSGE` | Turns on the E option for debug messages |
+| `MSG?` | Displays the current JORS debug message level |
 
 :::info Note
 
@@ -101,6 +130,40 @@ Closes the current cycle of the `BKSMAJOR` breakpoint file and opens a new cycle
 `*JORS BRKPT` closes the current cycle of `<qualifier>*BKSMAJOR` and opens a new cycle.
 
 :::
+
+### NAK
+
+Toggles how JORS handles acknowledgments. When NAK is on, JORS ignores the acknowledgments it receives. Each time you enter the command, JORS switches the setting and responds with `NAK IS NOW ON` or `NAK IS NOW OFF`. NAK is off when JORS starts.
+
+### MSG0 – MSG3, MSGE, and MSG?
+
+Sets the debug message level for JORS:
+
+- `MSG0` — off (also turns off the E option)
+- `MSG1` — verbose
+- `MSG2` — trace
+- `MSG3` — verbose and trace
+- `MSGE` — turns on the E option
+
+Enter `MSG?` to display the current level in the format `CURRENT MSG LVL IS n`. When the E option is on, the message ends with `WITH E OPTION`.
+
+## SMAMSC Commands
+
+The SMA Monitor Services Connector (SMAMSC) accepts commands through its reserved keyin (default `*SMAMSC`) and through the `II` command.
+
+| Command | Reserved keyin | II keyin | Effect |
+| ------- | -------------- | -------- | ------ |
+| `HELP` | Yes | Yes | Displays commands and parameters |
+| `STATUS` | Yes | Yes | Provides current program status |
+| `STOP` | Yes | Yes | Terminates the program |
+| `TERM` | Yes | Yes | Terminates the program |
+| `BRKPT` | Yes | Yes | Cycles the breakpoint file |
+| `ABORT` | Yes | Yes | Terminates the run and produces a post mortem dump (PMD), without normal termination procedures |
+| `SET VERBOSE ON`/`OFF`, `SET TRACE ON`/`OFF` | Yes | No | Changes configuration settings |
+| `LIST CONFIG`, `LIST RUNS` | Yes | No | Lists parameter settings or monitored runs |
+| `TLC` | Yes | No | Reconnects SMAMSC with the LSAM TIP file and rereads the LSAM configuration parameters and control record |
+
+For details, refer to [SMA Monitor Services Connector (SMAMSC)](../smamsc.md).
 
 ## Communications File Commands
 
@@ -134,9 +197,9 @@ By default, the report includes data in octal format. To remove it:
    ```
 
    - `nnnn` — the local TIP file number
-   - `O` — the octal report option flag
+   - `O` — the octal report option flag (`B` also includes the octal report)
 
-3. Remove the `O` flag:
+3. Remove the `O` (or `B`) flag:
 
    ```
    TIPFILE nnnn
@@ -178,7 +241,7 @@ The user running this command requires the "Reload Common Bank" privilege (`SSRL
 
 ### MAMMSG
 
-A BIS background run that reminds the console operator to start MAM (via the `UPMAMx` keyin to LMAM) each time BIS starts. Schedule this run in BIS to execute at each BIS initialization.
+A BIS background run that reminds the console operator to start MAM (via the `UPMAMx` keyin to LMAM) each time BIS starts. Schedule this run in BIS to run at each BIS initialization.
 
 ### MAMNOT
 
@@ -239,7 +302,7 @@ The MAMFIN module can also be called with a link instruction:
 
 | Parameter | Description |
 | --------- | ----------- |
-| `<errlbl>` | Run label to execute if MAMFIN cannot be linked to |
+| `<errlbl>` | Run label to go to if MAMFIN cannot be linked to |
 
 If MAMFIN errors during an `@LNK` call, the error routine (RER) returns:
 
@@ -271,7 +334,7 @@ Do not restore RID 13 (MAMRESTORE) or RID 14 (MAMBACKUP) — both can be retriev
 
 ## Starting BIS Runs with a Specific User-ID
 
-MAM can start BIS runs using a specific BIS User-ID rather than MAM's own user-ID. This feature must have been enabled during installation by responding **Y** to the prompt "Use different User-IDs to start runs with?". See [Prerequisites](../installation/preparing-the-installation#account-and-user-ids).
+MAM can start BIS runs using a specific BIS User-ID rather than MAM's own user-ID. This feature must have been enabled during installation by responding **Y** to the prompt "Use different User-IDs to start runs with?". See [Prerequisites](../installation/preparing-the-installation.md#account-and-user-ids).
 
 If MAM is already installed and you want to enable this feature, update MAM's Configuration Report (RID) directly.
 

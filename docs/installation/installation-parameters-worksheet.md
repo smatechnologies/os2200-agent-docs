@@ -2,6 +2,10 @@
 sidebar_label: 'Parameters worksheet'
 title: Installation parameters worksheet
 description: "Reference worksheet for recording all required OS 2200 LSAM installation parameters before starting the installation."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Installation Parameters Worksheet
@@ -12,8 +16,8 @@ description: "Reference worksheet for recording all required OS 2200 LSAM instal
 | SYSTEM PARAMETERS | | 
 | Qualifier: | Account:|
 | User ID: | Password: | 
-| TSU Name: | TSU Password: | 
-| IP Address: | Port Number: |
+| TSU Name (default: `LSAM`): | TSU Password (default: `LSAMPWD`): | 
+| IP Address: | Port Number (default: `3100`): |
 | TIP File Number: | TIP File Name: |
 | NCCB Name: | NCCB File: |
  
@@ -28,6 +32,7 @@ description: "Reference worksheet for recording all required OS 2200 LSAM instal
 | SMAMSC-LOCK | | |
 | XFRTCP-LOCK | | |
 | BKLSAM | | |
+| BKSMAFTA | | |
 | BKSMAJOR | | |
 | BKSMAMSC | | |
 | BKXFRTCP | | |
@@ -45,6 +50,26 @@ description: "Reference worksheet for recording all required OS 2200 LSAM instal
 | MAM-x-LOG |
 | MAM-x-FINLOG |
 | MAM-x-BACKUP |
+
+| Following Files Required Only When the Media Allocation Subsystem (MASS) is Installed: |
+| --- |
+| MFTF-SV |
+| MSCP-SV |
+| TUPS-SV |
+| CONF-SV |
+| OPCTMS-LOCK |
+| OPCRCV-LOCK |
+| OPCTAC-LOCK |
+| BKOPCTMS |
+| BKOPCORG |
+| BKOPCTAC |
+| BKOPCRCV |
+| OPCRCV-PRT |
+| OPCTAPE |
+| OPCMASTER |
+| LOADRM-PRT |
+| LOADTP-PRT |
+| SOLAR-ELTS |
 
 | LIBRARY NAMES | | 
 | ---- | ---- |

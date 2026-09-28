@@ -1,3 +1,13 @@
+---
+title: LSAM Job Messages
+description: "Job status messages the OS 2200 LSAM sends to OpCon and what each one means."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # LSAM Job Messages
 
 The references below present OS 2200 LSAM status messages forwarded to the SAM. The messages are displayed in Operations of the Enterprise Manager following the job status.
@@ -23,7 +33,11 @@ The "ST" failed message returned by the Exec when an "ST" statement is rejected.
 * The "sss" field contains the octal facility status code used to determine the cause of the reject.
 * This message does not stop the processing and may be encountered repeatedly until the file becomes available.
 
-### *ASSUME ABORTED*
+:::note
+Current LSAM releases do not produce this message. It appears only in older releases.
+:::
+
+### `*ASSUME ABORTED*`
 
 **Description**
 
@@ -69,18 +83,27 @@ Displayed when the ECL identified for the job is not found in the ECL file.
 
 Displayed when a job's ECL cannot be read, often due to a corrupted ECL file/element.
 
-### FILE DEPEND NOT MET	
+### ```<qualifier>```* ```<file-name>```.
 
 **Description**
 
-Displayed when one or more file dependencies for the job are not satisfied.
+* Displayed when a file dependency for the job is not satisfied.
+* The status shows the qualifier and file name of the unmet file dependency.
+* Earlier releases displayed ```FILE DEPEND NOT MET``` instead.
 
-### JOB IN BACKLOG
+### HW DEPENDS NOT MET
+
+**Description**
+
+Displayed when one or more hardware dependencies for the job are not satisfied.
+
+### ```<runid>``` IN BACKLOG
 
 **Description**
 
 * The job has been detected in the Exec's backlog.
 * May be due to the Exec's Batch Limit setting, or resources required by the job are not yet available.
+* Earlier releases displayed ```JOB IN BACKLOG``` instead.
 
 ### PRERUN COMPLETED
 
@@ -88,14 +111,14 @@ Displayed when one or more file dependencies for the job are not satisfied.
 
 The job's prerun has completed successfully, the actual job is started next.
 
-### RC= FINNED
+### ```<runid>```:RC=FINNED
 
 **Description**
 
 * Displayed when an "@@CONS RC" command for the job returns a "FINNED" response.
 * Indicates the job terminated without providing status information to LSAM, or when the job fails to start, often due to an invalid account code rejected by the system console operator.
 
-### * RC= NOT FOUND
+### ```<runid>```:RC=NOT FOUND
 
 **Description**
 
@@ -106,7 +129,7 @@ The job's prerun has completed successfully, the actual job is started next.
 
 **Description**
 
-* Displayed when the LSAM RSI (DEMAND) session is not active. This may be due to an invalid userid and password.
+* Current releases no longer display this text. When the LSAM RSI (DEMAND) session is not active, the job status shows the detailed error message instead. This may be due to an invalid userid and password.
 * The LSAM re-queues the job with a later start time.
 * Investigate and correct the RSI issue to re-enable the LSAM to start jobs.
 * The LSAM attempts to use the @START command for jobs with the same ACCT/User-ID as the LSAM.
@@ -129,12 +152,19 @@ Displayed when the "ST" (start) statement has been submitted to the Exec, but th
 
 Displayed when the "@START" command has failed for an unidentifiable reason.
 
-### START FILE PROBLEM
+### CAT START FILE ERROR
 
 **Description**
 
-* Displayed when the LSAM is unable to manipulate the job's tracking file.
-* Additional information is displayed on the system console.
+* Displayed when the LSAM is unable to catalog the job's tracking file.
+* Earlier releases displayed ```START FILE PROBLEM``` instead.
+
+### ASG START FILE ERROR
+
+**Description**
+
+* Displayed when the LSAM is unable to assign the job's tracking file.
+* Earlier releases displayed ```START FILE PROBLEM``` instead.
 
 ### START STMT SUBMITTED
 
@@ -142,9 +172,34 @@ Displayed when the "@START" command has failed for an unidentifiable reason.
 
 Displayed when the "@START" statement has been submitted to the Exec, but the job has not yet become active.
 
-### TRACKING FILE GONE
+### ```<runid>``` FIN w/o notice
 
 **Description**
 
 * Displayed when a job terminates without providing termination status to the LSAM, causing the job's tracking file to be deleted.
 * This indicates a job error termination, or an ECL issue involving the premature releasing of the tracking file.
+* Earlier releases displayed ```TRACKING FILE GONE``` instead.
+
+### ```<runid>```: KILL issued
+
+**Description**
+
+The LSAM has queued the command to end the job (```@@CONS E <runid>```, or ```@@CONS RM <runid>``` when the job is in backlog).
+
+### ```<runid>```: Killed
+
+**Description**
+
+The job ended after the LSAM issued the ```@@CONS E``` command to end it.
+
+### ```<runid>```: cannot Kill
+
+**Description**
+
+The LSAM cannot read its command record in the TIP file, so it cannot issue the command to end the job.
+
+### ```<runid>```: NOT Killed
+
+**Description**
+
+The LSAM command record in the TIP file is full, so the command to end the job is lost.
