@@ -2,6 +2,11 @@
 sidebar_label: 'Operating the LSAM'
 title: Operating the LSAM
 description: "Day-to-day OS 2200 LSAM operations: starting and stopping components, checking status, controlling BIS MAM sites, and cycling breakpoint logs."
+tags:
+  - Procedural
+  - System Administrator
+  - Operations Staff
+  - Agents
 ---
 
 # Operating the LSAM
@@ -99,11 +104,35 @@ Enter one of the following:
 - `II LMAM STATUS` — lists LMAM status and version numbers for LMAM and XFRTCP
 - `*LMAM STATUS` — using the console keyword defined in configuration
 
+## Holding and releasing job starts
+
+You can stop the LSAM from starting new jobs without stopping the LSAM itself. While the LSAM is holding, it continues to run, but it does not start jobs that are waiting to start.
+
+### Hold job starts
+
+Enter one of the following:
+
+- `II LSAM HOLD`
+- `*LSAM HOLD`
+
+The LSAM catalogs the file `*LSAM-HOLDING` and displays `== <LSAM qualifier> HOLDING` on the console. While the LSAM is holding, it displays `**=== <LSAM qualifier> HOLDING ===**` on the console about every five minutes. If the LSAM is already holding, it displays `** <LSAM qualifier> ALREADY HOLDING`.
+
+The hold remains in effect when the LSAM is restarted. At startup, the LSAM finds the `*LSAM-HOLDING` file and records `<LSAM qualifier> LAST TERMINATED ON HOLD` in its breakpoint file.
+
+### Release job starts
+
+Enter one of the following:
+
+- `II LSAM REL`
+- `*LSAM REL`
+
+The LSAM frees and deletes the `*LSAM-HOLDING` file, resumes starting jobs, and displays `== <LSAM qualifier> RELEASED`. If the LSAM is not holding, it displays `** <LSAM qualifier> ALREADY RELEASED`.
+
 ## Stopping the LSAM/LMAM
 
 Stopping an LSAM or an LMAM leaves the communication program (XFRTCP) in contact with the SAM so that the remaining components continue to process.
 
-SMA suggests processes **not** be stopped unless all OpCon/xps schedules requiring these processes are complete, or in a "Held" state. When either component is stopped while jobs are being executed, the jobs remain in a "running" state according to SAM. When the component is brought back up, SAM is notified of the status of the job. This can be avoided by insuring the schedules are complete, or placed in a "HOLD" status, prior to shutting down a component.
+SMA suggests processes **not** be stopped unless all OpCon/xps schedules requiring these processes are complete, or in a "Held" state. When either component is stopped while jobs are running, the jobs remain in a "running" state according to SAM. When the component is brought back up, SAM is notified of the status of the job. This can be avoided by insuring the schedules are complete, or placed in a "HOLD" status, prior to shutting down a component.
 
 ### Stop an Individual LSAM
 
@@ -133,6 +162,8 @@ Each time LSAM/LMAM, XFRTCP, and SMAJOR are started, a new cycle of the breakpoi
 These files are named: ```<LSAM qualifier>*BKLSAM```, ```<LSAM qualifier>*BKLMAM```, ```<LSAM qualifier>*BKXFRTCP```, and ```<LSAM qualifier>*BKSMAJOR``` respectively. 
 
 Also, each night at midnight, the breakpoint files are closed and a new cycle of the files created and opened for use; this allows past days of breakpoint files to be viewed without terminating LSAM or LMAM (refer to the BRKPT command below for viewing current day breakpoint files). 
+
+The breakpoint files are also closed and a new cycle opened when a file reaches its maximum size. When this happens, the message `BRKPT FILE MAXIMUM SIZE REACHED` is recorded in the breakpoint file.
 
 ## Cycling the Breaking Points
 

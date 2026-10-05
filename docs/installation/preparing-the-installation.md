@@ -2,11 +2,15 @@
 sidebar_label: 'Prerequisites'
 title: Prerequisites
 description: "Prerequisites for OS 2200 LSAM installation: accounts, user-IDs, RSI requirements, CMS/CpComm PROCESS setup, and TIP file parameters."
+tags:
+  - Procedural
+  - System Administrator
+  - Agents
 ---
 
 # Prerequisites
 
-Complete these prerequisites before proceeding with either a [New Installation](new-installation) or an [Upgrade](upgrade). Use the [Installation Parameters Worksheet](installation-parameters-worksheet) to record the required values as you work through this page.
+Complete these prerequisites before proceeding with either a [New Installation](new-installation.md) or an [Upgrade](upgrade.md). Use the [Installation Parameters Worksheet](installation-parameters-worksheet.md) to record the required values as you work through this page.
 
 ## System Parameters
 
@@ -62,7 +66,7 @@ Execution privileges are required for the LSAM/LMAM.
 
 :::info Note
 
-The SMOQUE$ privilege and use is required only for the Job Output Retrieval System (JORS). This ER is not used by XFRTCP, the LSAM, or the LMAM. For information on JORS, refer to [Configure Job Output Retrieval System (JORS)](../configuration/configure-jors).
+The SMOQUE$ privilege and use is required only for the Job Output Retrieval System (JORS). This ER is not used by XFRTCP, the LSAM, or the LMAM. For information on JORS, refer to [Configure Job Output Retrieval System (JORS)](../configuration/configure-jors.md).
 
 :::
 
@@ -97,7 +101,7 @@ These are the Executive Requests utilized by the LSAM.
 
 ### CMS and CpComm Requirements
 
-The LSAM uses a separate runstream to manage the TCP/IP communications with OpCon/xps. The program, XFRTCP, is a batch program that executes as a Transport Service User (TSU), and communicates with the Networked Systems. This means of communication requires the user to define a "PROCESS" within CMS or CpComm, which is dedicated to the LSAM.
+The LSAM uses a separate runstream to manage the TCP/IP communications with OpCon/xps. The program, XFRTCP, is a batch program that runs as a Transport Service User (TSU), and communicates with the Networked Systems. This means of communication requires the user to define a "PROCESS" within CMS or CpComm, which is dedicated to the LSAM.
 
 ### CMS
 
@@ -106,7 +110,7 @@ For CMS, this can be done by updating the CMS Configuration file and starting CM
 ```
 0 ADD PROCESS,LSAM TYPE,TSAM ; (the ; is the continuation character)
 
-0 PASSWORD,LSAMPW INTERNET-ADR,IA1
+0 PASSWORD,LSAMPWD INTERNET-ADR,IA1
 ```
 
 Where IA1 names an existing "INTERNET-ADR" entry, (verify the INTERNET-ADR entry first).
@@ -130,12 +134,12 @@ When desired, the PROCESS may be associated with a specific TCP/IP address; on t
 ```
 IP,IP1 LINK,LINK1 IP-INFO,IPPARAM1;
 
-IP-ADDRESS,111.22.33.44,LSAM
+IP-ADDRESS,192.0.2.44,LSAM
 ```
 
 An "IP-ADDRESS" which does not identify one or more PROCESS names may be used by any defined PROCESS (refer to Unisys' current Communications Platform Configuration and Operations Guide, publication 7844 8438-xxx, for more information).
 
-These statements must be defined in the CpComm configuration file, and activated, prior to executing the XFRTCP program.
+These statements must be defined in the CpComm configuration file, and activated, before you run the XFRTCP program.
 
 ### TIP Parameters
 
@@ -168,13 +172,13 @@ Although the file is defined to the Exec on a CBANKF statement, the file may not
 
 The non-configured common bank is required for use of the OS 2200 Job Output Retrieval System (JORS) and OpCon/xps File Transfer capabilities. For sites that do not want to use JORS or File Transfer and do not want the non-configured common bank installed, the following installation steps may be performed:
 
-1. After setting the LSAM Qualifier (step 1 of the "Set LSAM System Parameters" section), but before using the ```@ADD *SKDPRG.INSTALL``` procedure (step 2 of the "Set LSAM System Parameters" section), enter the following copy command:
+1. After setting the LSAM Qualifier (`@QUAL`), but before using the `@ADD *SKDPRG.INSTALL` procedure (refer to [New Installation - Step 3](new-installation.md#step-3-run-the-install-procedure)), enter the following copy command:
 
 ```
 @COPY,S *SKDPRG.COMPILE-SKEL/UPD-NO-CDB,*SKDPRG.COMPILE-SKEL/UPDATES
 ```
 
-2. Continue the installation procedure with the @ADD *SKDPRG.INSTALL (step 2).
+2. Continue the installation procedure with `@ADD *SKDPRG.INSTALL`.
 
 :::info Note
 
@@ -199,8 +203,8 @@ The LSAM/LMAM requires access to local site libraries and processors. Identify t
 
 #### Collector Processor
 
-The processor call for the Collector, commonly called by @MAP.
+The processor call for the Collector, commonly called by @MAP. The installer does not prompt for this value. The generated compile runstream uses the `MAP` label in `INSTALL/SGS` (default: `'MAP'`); to use a different Collector call, edit that label in `INSTALL/SGS`.
 
 ### Installation Parameters Worksheet
 
-The [Installation Parameters Worksheet](installation-parameters-worksheet) is used to ensure all parameters are available for the installation. When applying updates to an existing installation, the parameters used should be the same as for the current system.
+The [Installation Parameters Worksheet](installation-parameters-worksheet.md) is used to ensure all parameters are available for the installation. When applying updates to an existing installation, the parameters used should be the same as for the current system.

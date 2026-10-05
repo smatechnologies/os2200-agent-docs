@@ -2,6 +2,10 @@
 sidebar_label: 'Additional features'
 title: Additional features
 description: "OS 2200 LSAM supplemental utilities: configuration parameter backup and restore, GENERICP test runstream, SAMS NOTICE events, and Fundamental Security Officer job support."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Additional Features
@@ -25,6 +29,8 @@ Initializes the LSAM Configuration Parameters Backup file. The Backup file conta
 Restores the selected LSAM Configuration Parameters to the Configuration Parameters area of the TIP communications file. When the Configuration Parameters are updated with LSAMCFG/ECL, an "after image" of the parameters is stored in the LSAM Configuration Parameters Backup file. The parameters can then be restored with the use of LPARMRES/ECL.
 
 ```@ADD <LSAM qualifier>*SKDPRG.LPARMRES/ECL```
+
+LPARMRES is interactive. It lists up to 10 backup images with the date, time, and user for each, and prompts you to enter the number of the image to restore. Enter `0` to leave the configuration unchanged. After you choose an image, LPARMRES prompts `RESTORE OR CANCEL (RES TO RESTORE,XMIT TO CANCEL)`; enter `RES` to restore the parameters. Any other response leaves the configuration unchanged and LPARMRES displays `Configuration NOT Restored`.
 
 ### LSAMCFG
 
@@ -71,6 +77,9 @@ SEND <Event String>
 ```
 
 * ```<Event String>``` is any valid event in OpCon/xps. For a list of valid OpCon/xps events, refer to Introduction in the OpCon Events online help. The ```<Event String>``` may be continued from one line to the next by placing a semi-colon (;) at the point the following line should begin. The total length of the Event, including the UserName and EventPassword, cannot exceed 888 characters.
+    * SAMS NOTICE reads 71 characters from each line and ignores any text past column 71. On the SEND line, the event text starts in column 6, after the 5-character `SEND ` statement.
+    * SAMS NOTICE ends each line's text at the first two consecutive spaces, so do not use two consecutive spaces inside the event text.
+    * If the SEND line contains no event text, SAMS NOTICE reads the event from the next line.
 
 * **UserName** is an OpCon/xps user with privileges to perform the action in the event.
 
@@ -121,7 +130,13 @@ Events processed by SAMS-NOTICE/ECL may be echoed to the system console by modif
 3. ```C /XQT /XQT,E/```
 4. ```EXIT```
 
-All OpCon events sent by SAMS-NOTICE will be displayed on the system console.
+All OpCon events sent by SAMS-NOTICE are displayed on the system console.
+
+The @XQT SAMNOT statement accepts the following options:
+
+* `E` - echo events sent to the system console
+* `F` - use the Exec to determine the FIN status
+* `V` - display the program version and allowed options only, then stop
 
 ## Fundamental Security Officer Jobs
 
@@ -132,13 +147,13 @@ Security Officer jobs may be scheduled and started by the LSAM in a Fundamental 
 
     a. Immediately after the @RUN statement, insert:
     * @ADD [LSAM-qualifier]*SKDPRG.SAMS-RUN-ID/ECL
-    * –SEC [unique-job-name]
+    * -SEC [unique-job-name]
     * @EOF
     * @EOF
 
     b. Immediately before each and every @FIN statement, insert:
     * @ADD [LSAM-qualifier]*SKDPRG.SAMS-NOTICE/ECL
-    * –SEC [unique-job-name]
+    * -SEC [unique-job-name]
     * @EOF
     * @EOF
 
@@ -150,7 +165,7 @@ Security Officer jobs may be scheduled and started by the LSAM in a Fundamental 
 
     b. The ECL location is the SYS$LIB$*RUN$ file and element/version name.
 
-    c. The Account value (the @RUN override) must be –SECURITY-.
+    c. The **User ID** value must be `-SECURITY-` (with plain hyphens).
 
 
 :::info Note
@@ -161,9 +176,9 @@ When the job is started, the LSAM will issue the following console start command
 
 :::
 
-The inserted ECL steps provide job information to the LSAM. The LSAM monitors the job with periodic @@CONS RC commands. When the response to an @@CONS RC command is "FINNED" or "NOT FOUND", the job is reported as "Failed". This indicates a failure of the job to process the SAMS-NOTICE/ECL step (inserted in Step 2); this is expected when the job aborts. 
+The inserted ECL steps provide job information to the LSAM. The LSAM monitors the job with periodic @@CONS RC commands. When the response to an @@CONS RC command is "FINNED" or "NOT FOUND", the job is reported as "Failed". Until the job's SAMS-RUN-ID/ECL step runs, the LSAM counts these responses and reports the job as "Failed" only after nine of them. This indicates a failure of the job to process the SAMS-NOTICE/ECL step (inserted in Step 2); this is expected when the job aborts. 
 
-When the job terminates normally, but the LSAM reports the job as "Failed", confirm the SAMS-NOTICE/ECL step is properly located before all @FIN statements to insure it is executed prior to executing the @FIN.
+When the job terminates normally, but the LSAM reports the job as "Failed", confirm the SAMS-NOTICE/ECL step is properly located before all @FIN statements to make sure it runs before the @FIN.
 
 :::info Note
 

@@ -2,6 +2,10 @@
 sidebar_label: 'Support data collector'
 title: Support data collector
 description: "Use the OS 2200 LSAM support data collector to gather diagnostic information for SMA Support."
+tags:
+  - Procedural
+  - System Administrator
+  - Agents
 ---
 
 # Support Data Collector
@@ -16,7 +20,8 @@ The Support Data Collector is an LSAM procedure that gathers OS 2200 diagnostic 
 * TIP file contents
 * Operating system information
 * Installed program information
-* Table of contents of the primary LSAM files
+* Current contents of the Common Data Bank (CDB)
+* Tables of contents of the primary LSAM files (`*SKDPRG` and `*ABS`)
 
 After collecting the data, send to SMA Support for further analysis.
 
@@ -25,7 +30,7 @@ After collecting the data, send to SMA Support for further analysis.
 The Support Data Collector procedure requires the following information and capabilities:
 
 * The date of the reported incident.
-    *When the date of the incident is the current day, and the OS 2200 LSAM runs are processing; issue BRKPT commands to each of the runs to cycle the log files.
+    * When the date of the incident is the current day, and the OS 2200 LSAM runs are processing; issue BRKPT commands to each of the runs to cycle the log files.
 
 :::tip Example
 
@@ -37,12 +42,11 @@ The Support Data Collector procedure requires the following information and capa
 
 @@CONS *LMAM BRKPT
 
-@@CONS *JORS BRKPT
-
 ```
 
 :::
 
+* The Data Collector collects the XFRTCP, LSAM, and LMAM log files (`BKXFRTCP`, `BKLSAM`, and `BKLMAM`), plus the MAPPER MAM log files when you choose to include MAM data. Log files of other modules, such as JORS, are not collected.
 * When one or more of the modules are not in use at your site, skip the BRKPT command for that module.
 
 :::info Note
@@ -65,20 +69,28 @@ The console keyin (*module) may be different at your site. Use the appropriate k
 
 3. At the ```Enter date of incident (yyyymmdd) <today>``` prompt, enter the *date of the reported incident*. To accept the displayed default of today's date, simply transmit.
 4. At the ```Enter approximate time of incident (hhmm) <0001>``` prompt, enter the *approximate time of the reported incident*. The procedure selects log files that were active at this time. To accept the displayed default of one minute past midnight, simply Transmit.
+5. When MAPPER MAM is installed, the procedure prompts ```Include MAPPER Mam data? (Y/<N>)```. Enter `Y` to include MAM data, or transmit to accept the default of `N`.
+6. When you enter `Y`, at the ```Enter the Mam Site(s) to include (i.e. 1,2,A,3)``` prompt, enter the MAM sites to include, separated by commas.
+
+:::info Note
+
+To stop the procedure without collecting data, enter `@EOF` in response to any prompt.
+
+:::
 
 ### Review Information
 
 1. The procedure displays helpful information, as well as suggestions for additional information that the Data Collector was unable to retrieve.
 2. The procedure then displays the location of the generated Data Collector runstream (e.g., ```*SKDPRG.SUPP/ECL```).
 3. The procedure provides the ECL statements to either ```@ADD``` or ```@START``` the data collection. It also provides the file name with the collected data.
-4. The procedure displays the file name of the collected data: ```[LSAMqualifier]*SUPPyyyymmdd```.
-5. The procedure finally displays the "END DATA COLLECTOR SETUP" message.
+4. The procedure displays the file name of the collected data: ```[LSAMqualifier]*SUPPyyyymmdd```, where `yyyymmdd` is the date you run the setup procedure (not the incident date).
+5. The procedure finally displays the "END SUPPORT DATA COLLECTOR SETUP." message.
 
 ### Start Data Collection
 
 To collect the LSAM data, issue one of the displayed ECL commands:
 
-1. ```@ADD,L *SKDPRG.SUPP/ECL``` 
+1. ```@ADD *SKDPRG.SUPP/ECL``` 
 
 - or -
 
@@ -112,12 +124,12 @@ The Data Collector procedure may require up to 20 minutes to create the data fil
 
 **What data does the Support Data Collector gather?**
 
-The collector creates a text file containing log files, installation parameters, program versions, TIP file contents, operating system information, installed program information, and a table of contents of the primary LSAM files.
+The collector creates a text file containing log files, installation parameters, program versions, TIP file contents, operating system information, installed program information, the current contents of the CDB, and tables of contents of the `*SKDPRG` and `*ABS` files.
 
 **What format should I use when sending the data file to SMA?**
 
 Always transfer or send the data file in ASCII format. For large files, compressing the file before sending is recommended.
 
-**What if one of the LSAM modules (XFRTCP, LSAM, LMAM, JORS) is not in use at my site?**
+**What if one of the LSAM modules (XFRTCP, LSAM, LMAM) is not in use at my site?**
 
 Skip the BRKPT command for any module that is not in use. Only issue BRKPT for the modules that are actively running at your site.

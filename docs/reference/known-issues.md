@@ -1,3 +1,13 @@
+---
+title: Known Issues
+description: "Known limitations of the OS 2200 LSAM and the recommended recovery or avoidance procedures."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # Known Issues
 
 ## What is it?
@@ -6,7 +16,7 @@ This page documents known limitations and workarounds for the OS 2200 LSAM. Each
 
 ## Use of @FREEM and @FREEALL in ECL
 
-The use of @FREEM and @FREEALL is not recommended in LSAM started jobs. These commands release all files from the run, including the tracking file monitored by the LSAM to determine when a job error terminates without executing the LSAM Notification Step. 
+The use of @FREEM and @FREEALL is not recommended in LSAM started jobs. These commands release all files from the run, including the tracking file monitored by the LSAM to determine when a job error terminates without running the LSAM Notification Step. 
 
 When there are many runs using these commands, an alternative to changing the runs is to use an Alternate Qualifier for LSAM Tracking Files of "SYS$". @FREEM and @FREEALL do not release files qualified with SYS$. 
 
@@ -26,6 +36,8 @@ To avoid this condition, "hold" job starts during the processing of SEC,SAVE key
 
 The OS 2200 LSAM shows 0/0 for the job count. When the XFRTCP detects the LSAM (or the LMAM) is no longer active, the maximum jobs are set to zero to prevent SMANetCom from sending jobs that cannot be processed until the LSAM/LMAM is restarted.
 
+The job count also shows 0/0 while the LSAM (or the LMAM) is holding. The maximum jobs return to the configured value when you release the LSAM/LMAM.
+
 ## Recovery from System Crash
 
 If after a system crash, the LSAM, XFRTCP, or LMAM fails to properly start; perform the following steps for recovery. There is a possibility that the communications (TIP) file used by the LSAM may be corrupt. If the LSAM fails to start:
@@ -33,7 +45,7 @@ If after a system crash, the LSAM, XFRTCP, or LMAM fails to properly start; perf
 1. Check the communications file by starting the communications file print program:
 (```@START <LSAM qualifier>*SKDPRG.XFRPRT/ECL```)
 
-2. Review the output (```<LSAM qualifier>*BKXFRPRT-PRT```).
+2. Review the output files the XFRPRT run creates: the print file ```XFRPRT-PRT``` and the breakpoint file ```*BKXFRPRT```.
 
 3. If read errors are present, the user has two options:
 
@@ -51,11 +63,11 @@ b. Completely rebuild the communications file:
 
 6. Start the LSAM runs.
 
-## Job Identified as Errored while Still Executing
+## Job Identified as Errored while Still Running
 
-When OS 2200 batch jobs are identified by LSAM or by OpCon/xps as "failed" or "errored" while the job is still executing indicates the job has released a file critical to the LSAM monitoring process. Often this occurs when the job releases all assigned files (such as with @FREEM or @FREEALL). 
+When OS 2200 batch jobs are identified by LSAM or by OpCon/xps as "failed" or "errored" while the job is still running indicates the job has released a file critical to the LSAM monitoring process. Often this occurs when the job releases all assigned files (such as with @FREEM or @FREEALL). 
 
-This situation can also generate console messages of "JOB-ID NOT FOUND" by the running job.
+This situation can also generate console messages of ```LSAM JOBID NOT FOUND <jobid>``` by the running job.
 
 This condition may be corrected by updating the ECL runstream to avoid prematurely releasing the LSAM monitoring file, or by modifying the LSAM configuration (using LSAMCFG/ECL) to supply an "Alternate Qualifier for LSAM Tracking Files" (option 14 on the Advanced Options display). 
 

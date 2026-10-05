@@ -1,8 +1,17 @@
+---
+title: Configuration Settings
+description: "Overview of the two pages of the OS 2200 LSAM configuration program and the settings on each."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
+---
+
 # Configuration Settings
 
 The configuration program includes two pages for configuring the LSAM and the LMAM.
 
-## [Configuration Settings (Page 1)](page-one-settings)
+## [Configuration Settings (Page 1)](page-one-settings.md)
 
 Page one covers the core identity and connectivity settings the LSAM uses to communicate with OpCon/xps and the host:
 
@@ -13,7 +22,7 @@ Page one covers the core identity and connectivity settings the LSAM uses to com
 - ECL location display and end-of-job ECL modifications
 - Advanced Options, MASS configuration, IPv6, and TLS network security
 
-## [Configuration Settings (Page 2)](page-two-settings)
+## [Configuration Settings (Page 2)](page-two-settings.md)
 
 Page two (reached via option 12 on page one) covers runtime behavior, debugging, and security options:
 

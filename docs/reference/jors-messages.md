@@ -1,3 +1,13 @@
+---
+title: JORS Messages
+description: "Console messages from the OS 2200 LSAM Job Output Retrieval System (SMAJOR) and what each one means."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # JORS Messages
 
 ### TIP FILE NUMBER EXPECTED	
@@ -7,7 +17,7 @@
 * The SMAJOR/ECL does not contain the TIPFILE statement after the @XQT SMAJOR statement.
 * Indicates a corrupted SMAJOR/ECL element.
 
-### INVALID REALTIME PRIORITY: ```<xx>```
+### * INVALID REALTIME PRIORITY: ```<xx>```
 
 and 
 
@@ -19,7 +29,7 @@ and
 * The ```<xx>``` field displays the invalid priority. Valid priority values range from 02 to 35.
 * The program's priority defaults to 35.
 
-### REALTIME OPTION SELECTED, BUT NON-NUMERIC LEVEL: ```<xx>```
+### * REALTIME OPTION SELECTED, BUT NON-NUMERIC LEVEL: ```<xx>```
 
 and 
 
@@ -75,13 +85,32 @@ and
 * The SMAJOR is unable to establish a lock on the JORS record in the TIP file.
 * A problem with the TIP file definition is the most likely cause.
 
-### *SMAJOR IS STOPPING*
+### ```*SMAJOR IS STOPPING*```
 
 **Description**
 
-SMAJOR is in the process of terminating.
+* SMAJOR is in the process of terminating.
+* SMAJOR sends this message as the reply to a STOP keyin.
 
-### **SMAJOR IS TERMINATING*
+### VERBOSE MESSAGES OPTION SELECTED;
+
+and
+
+### TO TURN OFF, USE: ```<keyin-word>``` MSG0
+
+**Description**
+
+* SMAJOR was started with the M option, so verbose messages are turned on.
+* To turn verbose messages off, enter the ```<keyin-word>``` keyin with MSG0.
+
+### CURRENT MSG LVL IS ```<n>```
+
+**Description**
+
+* The reply to the ```<keyin-word>``` MSG? keyin. The ```<n>``` field contains the current message level.
+* When the E option is also on, the message ends with ```WITH E OPTION```.
+
+### ```**SMAJOR IS TERMINATING*```
 
 **Description**
 

@@ -1,3 +1,13 @@
+---
+title: LMAM Messages
+description: "Console and print-file messages from the OS 2200 LMAM and what each one means."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
+---
+
 # LMAM Messages
 
 The table below presents OS 2200 LMAM status messages forwarded to the SAM. The messages are displayed in Operations of the Enterprise Manager following the job status.
@@ -7,15 +17,18 @@ The table below presents OS 2200 LMAM status messages forwarded to the SAM. The 
 | Message | Description |
 | ------- | ----------- |
 | Submitted to Mam-<```site-id>``` | The job has been submitted to BIS MAM |
-| MAM-```<site-id>```:```<BIS-run-name>``` | Last active BIS run name captured for job | 
+| MAM-```<site-id>```: ```<BIS-run-name>``` | Last active BIS run name captured for job | 
+| RETRYING JOB | The LMAM is resubmitting the job to MAM |
+| Data Depend NOT Met | The job's pre-run errored |
 
 ## LMAM Messages Displayed at System Console
 
-### ```**** LMAM **** LMAM/ <version>```
+### ```*** LMAM *** LMAM/<version>```
 
 **Description**
 
-The LMAM program version, displayed upon console at startup.
+* The LMAM program version, written to the LMAM print file at startup.
+* This message does not appear on the system console.
 
 ### MAM SITE ```<site-id>``` ACTIVATED
 
@@ -78,7 +91,7 @@ and
 * Parameters necessary to activate MAM have not been defined.
 * Use LSAMCFG/ECL to define MAM parameters.
 
-### NO BIS SITES ARE ACTIVE
+### NO MAPPER SITES ARE ACTIVE
 
 **Description**
 
@@ -108,11 +121,7 @@ and
 * The ```<keyin-data-received>``` field contains the keyin received.
 * The ```<source-of-keyin>``` field contains the terminal identification the keyin was received from.
 
-### JOBS EXIST FOR AN INACTIVE BIS SITE
-
-and 
-
-### Mam-```<site-id>``` is Down
+### JOBS EXIST FOR AN INACTIVE MAPPER SITE
 
 and 
 
@@ -136,7 +145,7 @@ and
 
 The OpCon/xps job has been submitted to MAM at time on date.
 
-### BIS SYSTEM NOT AVAILABLE FOR MAM-```<site-id>``` START UP	
+### MAPPER SYSTEM NOT AVAILABLE FOR MAM-```<site-id>``` START UP
 
 **Description**
 
@@ -193,6 +202,7 @@ and
 **Description**
 
 * The LMAM encountered an error while attempting to read job data from the TIP file.
+* This message is written to the LMAM print file only. It does not appear on the system console.
 * The TIP-FCSS-status-information field contains the TIP error code. Refer to Unisys documentation for the error code meaning.
 
 ### CANT ESTABLISH JOB REC LOCK
@@ -200,6 +210,19 @@ and
 **Description**
 
 The LMAM is unable to lock a job record in the TIP file for exclusive use.
+
+### CANT GET JOB REC
+
+**Description**
+
+* The LMAM is unable to read a job record from the TIP file after repeated attempts.
+* The LMAM continues trying to read the record.
+
+### XFR STATUS RECORD READ FAILURE  WAITING ENDED
+
+**Description**
+
+The LMAM stopped waiting to read the transfer status record from the TIP file after repeated attempts.
 
 ### WILL RETRY JOB ```<Opconxps-job-id>```	
 
@@ -234,7 +257,7 @@ The MAM has identified the job as terminated successfully.
 
 The MAM has identified the job as terminated in error.
 
-### JOB EXISTS FOR A BIS SITE THAT IS NOT RESPONDING
+### JOB EXISTS FOR A MAPPER SITE THAT IS NOT RESPONDING
 
 and 
 
@@ -250,6 +273,24 @@ and
 **Description**
 
 The MAM has been intentionally terminated with a console keyin.
+
+### MAM-```<site-id>``` MARKED DOWN
+
+and
+
+### MAM-```<site-id>``` NOW MARKED DOWN
+
+**Description**
+
+* The MAM is not responding and a DNMAM keyin has been entered for it.
+* The LMAM marks the MAM site as down.
+
+### MAM-```<site-id>``` IS DOWN
+
+**Description**
+
+* The MAM site is down.
+* The LMAM repeats this message about every five minutes while the site stays down.
 
 ### LMAM POST RUN JOBID NOT FOUND ```<Opconxps-job-id>```
 

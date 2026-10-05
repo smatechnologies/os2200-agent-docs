@@ -2,6 +2,11 @@
 sidebar_label: 'Components'
 title: LSAM/LMAM components
 description: "Complete list of all OS 2200 LSAM and LMAM modules, their functions, and the files they use."
+tags:
+  - Reference
+  - System Administrator
+  - Operations Staff
+  - Agents
 ---
 
 # LSAM/LMAM Components
@@ -14,7 +19,7 @@ The OS 2200 LSAM suite consists of multiple OS 2200 and BIS modules. The table b
 | --------- | ----------- | -------- |
 | DUMPCDB | OS 2200 module | Prints the contents of the non-configured common data bank used by LSAM modules for data exchange |
 | FTPAPI | OS 2200 module | Interfaces with Unisys CpFTP server for file transfers utilizing File Transfer Protocol (FTP) |
-| LOADCDB | OS 2200 module | Initializes the non-configured common data bank for use by LSAM modules. This program executes each time XFRTCP is started |
+| LOADCDB | OS 2200 module | Initializes the non-configured common data bank for use by LSAM modules. This program runs each time XFRTCP is started |
 | LMAM | OS 2200 module	| Starts and tracks BIS jobs when OpCon/xps uses MAM |
 | LPARMINI | OS 2200 module	| Initializes the LSAM Configuration Backup file - *USE WITH CAUTION* |
 | LPARMRES | OS 2200 module	| Restores LSAM Configuration parameters from a prior backup |

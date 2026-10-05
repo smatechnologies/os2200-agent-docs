@@ -2,6 +2,10 @@
 sidebar_label: 'Overview'
 title: Installation overview
 description: "Overview of the OS 2200 LSAM installation, including prerequisites, new installation, upgrade, and BIS/MAM options."
+tags:
+  - Conceptual
+  - System Administrator
+  - Agents
 ---
 
 # Installation Overview

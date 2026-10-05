@@ -2,6 +2,10 @@
 sidebar_label: 'Overview'
 title: Configuration overview
 description: "Overview of OS 2200 LSAM configuration, covering the configuration program, critical settings, and optional feature setup."
+tags:
+  - Conceptual
+  - System Administrator
+  - Agents
 ---
 
 # Configuration Overview
@@ -57,7 +61,7 @@ Run `LSAMCFG/ECL` any time a critical network or security parameter changes: the
 
 **Do configuration changes take effect immediately?**
 
-No. Configuration changes are written to the TIP file and take effect the next time the LSAM is started. The LSAM must be stopped and restarted for changes to apply.
+It depends on the parameter. Configuration changes are written to the TIP file. Parameters marked with an asterisk (*) on the [Page One Settings](page-one-settings.md) and [Page Two Settings](page-two-settings.md) pages take effect only after LSAM, LMAM, XFRTCP, and/or SMAJOR are restarted. All other parameters, such as **Host Machine Max Jobs**, take effect without a restart.
 
 **Can I back up and restore configuration parameters?**
 

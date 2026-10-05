@@ -2,11 +2,15 @@
 sidebar_label: 'Installation reference'
 title: Installation reference
 description: "Reference information for OS 2200 LSAM installation: system files, multiple LSAM support, non-common-banked collections, and INSTALL/SGS customization."
+tags:
+  - Reference
+  - System Administrator
+  - Agents
 ---
 
 # Installation Reference
 
-This page provides detailed reference information shared by both the [New Installation](new-installation) and [Upgrade](upgrade) procedures.
+This page provides detailed reference information shared by both the [New Installation](new-installation.md) and [Upgrade](upgrade.md) procedures.
 
 ## INSTALL/SGS Direct Customization
 
@@ -21,7 +25,7 @@ The `INSTALL/SGS` contains two categories of parameters:
 
 ### Non-Standard BIS Background Error RIDs
 
-Direct customization of the `INSTALL/SGS` is required when using a non-standard BIS Background Error Report location (other than 3B208/209). Modify the following SGS labels:
+Direct customization of the `INSTALL/SGS` is required when using a non-standard BIS Background Error Report location (other than the default, 3B209: Cabinet 209, Drawer B, RID 3). Modify the following SGS labels:
 
 | SGS Label | Parameter |
 | --------- | --------- |
@@ -61,7 +65,7 @@ Set with `LSAMCFG/ECL`, each LSAM must have unique values for:
 
 ## LSAM System Files
 
-The following files are created during the installation procedure. Each file's placement is specified during the [File Placement Parameters](new-installation#file-placement-parameters) step.
+The following files are created during the installation procedure. Each file's placement is specified during the [File Placement Parameters](new-installation.md#file-placement-parameters) step.
 
 ### Core LSAM Files
 
@@ -158,14 +162,14 @@ The following files are created only when LMAM and BIS MAM are installed.
 
 #### LMAM-LOCK
 
-- Prevents concurrent executions of the LMAM.
-- Required by the LMAM upon startup.
+- Cataloged during installation.
+- The LMAM-RUN/ECL runstream does not assign this file; it assigns SAM-MAM-LOCK exclusively instead (see below).
 - This file remains empty.
 
 #### SAM-MAM-LOCK
 
 - Used by both the LMAM and the MAM to detect when the LMAM is processing.
-- Required to be present when the LMAM is started.
+- Assigned exclusively (`@ASG,AX`) by the LMAM-RUN/ECL runstream when the LMAM is started.
 - This file remains empty.
 
 #### BKLMAM
@@ -188,7 +192,7 @@ The following files are created only when LMAM and BIS MAM are installed.
 
 #### MAM-x-BACKUP
 
-- Contains the MAM BIS RIDs when the run MAMBACKUP is executed.
+- Contains the MAM BIS RIDs when the run MAMBACKUP runs.
 - Also used to restore MAM BIS RIDs by MAMRESTORE.
 
 ## Installing without the Non-Configured Common Bank
@@ -217,11 +221,11 @@ For sites not using a program absolute starting address of `022000` for ACOB DML
 | ------ | ----------- |
 | `Enter file name containing COBOL run time relocatables` | Local file containing COBOL run time relocatable elements (default: `SYS$LIB$*ACOB-CB`) |
 | `Enter file name for COBOL run time program banks` | File for storing COBOL run time banks. The default `*SKDPRG` file is released with the required banks. |
-| `Enter file name containing PCIOS run time relocatables` | File containing PCIOS relocatables (default: `PCIOS*PCIOS-REL`) |
+| `Enter file name containing PCIOS run time relocatables` | File containing PCIOS relocatables (default: `SYS$LIB$*PCIOS`) |
 | `Is PCIOS (C)ommon-banked or (N)on-banked?` | **C** includes common-bank entry points for PCIOS. **N** collects PCIOS relocatables into the program absolute. |
 | `Create COBOL-BANKS elements?` | **N** to use banks supplied in `*SKDPRG`. **Y** to recreate from the local COBOL library. |
 | `Enter file name containing SORT run time relocatables` | File containing SORT relocatables (default: `SYS$LIB$*SORT`) |
 | `Enter file name containing UCSRTS run time relocatables` | File containing UCSRTS relocatables (default: `SYS$LIB$*UCSRTS`) |
-| `Enter the file name containing the System Library (SYSLIB) relocatables` | File containing system library routines (default: `SYS$LIB$*SYSLIB`) |
+| `Enter file name containing the System Library (SYSLIB) relocatables` | File containing system library routines (default: `SYS$LIB$*SYSLIB`) |
 
-After completing these prompts, continue with the remaining [Compile/Collection Parameters](new-installation#compilecollection-parameters).
+After completing these prompts, continue with the remaining [Compile/Collection Parameters](new-installation.md#compilecollection-parameters).

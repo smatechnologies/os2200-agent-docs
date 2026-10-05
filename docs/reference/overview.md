@@ -2,6 +2,11 @@
 sidebar_label: 'Overview'
 title: Reference overview
 description: "Overview of the OS 2200 LSAM reference section, including system console messages, job messages, and known issues."
+tags:
+  - Conceptual
+  - System Administrator
+  - Operations Staff
+  - Agents
 ---
 
 # Reference Overview
@@ -29,5 +34,5 @@ Each message page lists messages alphabetically or by category. For each message
 When troubleshooting an issue:
 
 1. Identify which component produced the message (LSAM, LMAM, XFRTCP, JORS, or a file transfer component).
-2. Navigate to the corresponding message page.
+2. Go to the corresponding message page.
 3. If the message is not listed, consult the [Known Issues](known-issues.md) page or contact SMA Support with the relevant log file.

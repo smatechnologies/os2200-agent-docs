@@ -2,6 +2,10 @@
 sidebar_label: 'OS2200 Agent'
 title: OS 2200 Agent overview
 description: "Overview of the OS 2200 LSAM and BIS LMAM OpCon agents for scheduling OS 2200 and BIS jobs within a Unisys environment."
+tags:
+  - Conceptual
+  - System Administrator
+  - Agents
 ---
 
 # OS 2200 Agent
@@ -41,11 +45,11 @@ The maximum number of concurrent jobs is configured via the LSAM configuration p
 
 **Can the LSAM transfer files to and from other systems?**
 
-Yes. The OS 2200 LSAM includes an SMA File Transfer feature (SMAJOR/SMAFTA) for both inbound and outbound file transfers in ASCII format. A separate FTP interface (FTPAPI) is also available for transfers using Unisys CpFTP. See [File Transfer](./file-transfer) and [FTPAPI](./ftpapi) for details.
+Yes. The OS 2200 LSAM includes an SMA File Transfer feature (SMAJOR/SMAFTA) for both inbound and outbound file transfers in ASCII format. A separate FTP interface (FTPAPI) is also available for transfers using Unisys CpFTP. See [File Transfer](./file-transfer.md) and [FTPAPI](./ftpapi.md) for details.
 
 **What happens to running jobs if the LSAM is stopped?**
 
-Jobs that are actively running continue to execute on the OS 2200 system. When the LSAM is restarted, it reports the final status of those jobs back to OpCon. SMA recommends holding or completing schedules before stopping the LSAM to avoid jobs being left in a "running" state in OpCon.
+Jobs that are actively running continue to run on the OS 2200 system. When the LSAM is restarted, it reports the final status of those jobs back to OpCon. SMA recommends holding or completing schedules before stopping the LSAM to avoid jobs being left in a "running" state in OpCon.
 
 **Where are the LSAM log files?**
 
